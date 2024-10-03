@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\NfcController;
 
-Route::post('/nfc/check', [NfcController::class, 'checkNfcTag']);
+Route::post('/members/checkin', [NfcController::class, 'checkin']);
+Route::post('/members/checkout', [NfcController::class, 'checkout']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
