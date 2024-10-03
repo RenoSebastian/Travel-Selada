@@ -94,15 +94,15 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        // Koneksi tambahan pgsql_biliton
-        'pgsql_biliton' => [
+        // Koneksi tambahan pgsql_mireta
+        'pgsql_mireta' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_BILITON', '192.168.1.200'),
+            'host' => env('DB_HOST', '192.168.1.102'),
             'port' => env('DB_PORT_BILITON', '5432'),
-            'database' => env('DB_DATABASE_BILITON', 'billiton_db'),
-            'username' => env('DB_USERNAME_BILITON', 'billiton_user'),
-            'password' => env('DB_PASSWORD_BILITON', 'billiton_password'),
+            'database' => env('DB_DATABASE', 'sld_id_mireta_pos'),
+            'username' => env('DB_USERNAME', 'supermieuser'),
+            'password' => env('DB_PASSWORD', 'p3n!1dU3dkungRseSj4ti'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
