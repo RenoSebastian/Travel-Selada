@@ -6,7 +6,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\LoginController;
 
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

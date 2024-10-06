@@ -58,8 +58,11 @@ class LoginController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        Log::info('Login attempt:', ['username' => $username]);
-
+        Log::info('Login attempt:', [
+            'username' => $username,
+            'password' => $password
+        ]);
+        
         $user = User::where('username', $username)->first();
 
         if ($user && Hash::check($password, $user->password)) {
@@ -71,7 +74,6 @@ class LoginController extends Controller
                 'user' => [
                     'id' => $user->id,
                     'username' => $user->username,
-                    'email' => $user->email,
                 ],
             ]);
         } else {
