@@ -50,6 +50,7 @@ class LoginController extends Controller
 
     public function loginApk(Request $request)
     {
+        // Validate incoming request
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -60,11 +61,9 @@ class LoginController extends Controller
 
         Log::info('Login attempt:', [
             'username' => $username,
-            'password' => $password
         ]);
-        
-        $user = User::where('username', $username)->first();
 
+        $user = User::where('username', $username)->first();
         if ($user && Hash::check($password, $user->password)) {
             Log::info('Login successful:', ['user_id' => $user->id]);
 
@@ -85,6 +84,7 @@ class LoginController extends Controller
             ], 401);
         }
     }
+
 
     public function logout()
     {
