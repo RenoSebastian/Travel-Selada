@@ -15,10 +15,8 @@ class NfcController extends Controller
             'tag_nfc' => 'required|string',
         ]);
 
-        // Cari data member berdasarkan TAG_NFC yang dikirim (disamakan dengan card_number)
         $member = Members::where('card_number', $request->tag_nfc)->first();
 
-        // Jika tidak ditemukan, kirimkan pesan error
         if (!$member) {
             return response()->json([
                 'message' => 'Member not found.',
