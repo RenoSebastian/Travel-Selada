@@ -8,7 +8,6 @@ use App\Entities\Absensi;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Log;
 
 class NfcController extends Controller
 {
@@ -32,8 +31,8 @@ class NfcController extends Controller
                 ], 404);
             }
 
-            // Pastikan kita meng-cast member_id dengan UUID parser
-            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
+            // Ambil UUID dari id member secara eksplisit tanpa modifikasi
+            $memberId = (string) $member->id;
 
             // Ubah status menjadi 1 (HADIR) dan simpan waktu checkin
             $member->status = 1;
@@ -43,8 +42,7 @@ class NfcController extends Controller
 
             // Buat entri baru di tabel absensi dengan clock_in
             Absensi::create([
-                'id' => Str::uuid(), // Generate UUID untuk ID
-                'member_id' => $member_id, // Gunakan member_id yang diparse
+                'member_id' => $memberId, // Gunakan id asli dari tabel members
                 'clock_in' => $currentTimestamp,
                 'created_by' => 'system',
             ]);
@@ -89,8 +87,8 @@ class NfcController extends Controller
                 ], 404);
             }
 
-            // Pastikan kita meng-cast member_id dengan UUID parser
-            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
+            // Ambil UUID dari id member secara eksplisit tanpa modifikasi
+            $memberId = (string) $member->id;
 
             // Ubah status menjadi 0 (CHECKOUT) dan simpan waktu checkout
             $member->status = 0;
@@ -100,8 +98,7 @@ class NfcController extends Controller
 
             // Buat entri baru di tabel absensi dengan clock_out
             Absensi::create([
-                'id' => Str::uuid(),
-                'member_id' => $member_id,
+                'member_id' => $memberId, // Gunakan id asli dari tabel members
                 'clock_out' => $currentTimestamp,
                 'created_by' => 'system',
             ]);
@@ -125,13 +122,5 @@ class NfcController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-    }
-
-    private function parseUUID($id)
-    {
-        if (strpos($id, '-') !== false) {
-            return $id;
-        }
-        return substr($id, 0, 8) . '-' . substr($id, 8, 4) . '-' . substr($id, 12, 4) . '-' . substr($id, 16, 4) . '-' . substr($id, 20);
     }
 }
