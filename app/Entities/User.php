@@ -25,7 +25,7 @@ class User extends Model implements AuthenticatableContract
         'is_active',
         'is_block',
         'is_pristine',
-        'change_pssword',
+        'change_password',
         'last_login',
         'remember_token',
         'created_by',
@@ -39,10 +39,9 @@ class User extends Model implements AuthenticatableContract
         'group_id'
     ];
 
-    public function hasFullAccess()
+    public function isAdmin()
     {
-        $fullAccessRoleId = 'kantin_rsij_1';
-        return $this->username === $fullAccessRoleId;
+        return $this->username === 'kantin_rsij_1' && Hash::check('123456', $this->password);
     }
 
     public static function attemptLogin($username, $password)
@@ -57,5 +56,4 @@ class User extends Model implements AuthenticatableContract
         
         return null;
     }
-    
 }

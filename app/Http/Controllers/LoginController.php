@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entities\User;
+use App\Entities\Members;
+use App\Entities\Absensi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -16,37 +19,39 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validasi input
         $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
+        // Ambil username dan password dari request
         $username = $request->input('username');
         $password = $request->input('password');
 
-        Log::info('Login attempt:', [
-            'username' => $username,
-            'password' => $password
-        ]);
+        // Coba autentikasi pengguna
+        $user = User::where('username', $username)->first();
 
-        $user = User::attemptLogin($username, $password);
-
-        if ($user) {
-            Log::info('User found:', ['user_id' => $user->id]);
-            
-            if ($user->hasFullAccess()) {
-                Log::info('User has full access:', ['user_id' => $user->id]);
-                return redirect()->route('landing')->with('status', 'Welcome, you have full access.');
+        if ($user && Hash::check($password, $user->password)) {
+            Auth::login($user);
+            // Cek jika user adalah admin
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard')->with('status', 'Welcome to the Admin Dashboard.');
             } else {
-                Log::info('User has limited access:', ['user_id' => $user->id]);
-                return redirect()->route('login')->with('status', 'Welcome, you have limited access.');
+                return redirect()->route('user.dashboard')->with('status', 'Welcome to the User Dashboard.');
             }
-        } else {
-            Log::warning('Login failed:', ['username' => $username]);
-            return redirect()->back()->withErrors(['login' => 'Invalid username or password']);
         }
+
+        return back()->withErrors([
+            'username' => 'The provided credentials do not match our records.',
+        ]);
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
 
     public function loginApk(Request $request)
     {
@@ -85,12 +90,5 @@ class LoginController extends Controller
                 'message' => 'Username atau password salah.',
             ], 401);
         }
-    }
-
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
     }
 }
