@@ -10,21 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class NfcController extends Controller
 {
-
-    private function parseUUID($id)
-    {
-        // Cek apakah ID yang diberikan sesuai dengan format UUID
-        if (strpos($id, '-') !== false) {
-            // Jika ada tanda '-', asumsikan sudah benar dan return apa adanya
-            return $id;
-        }
-    
-        // Jika tidak ada tanda '-', buat string UUID yang valid (ini hanya contoh)
-        // Pisahkan bagian-bagian UUID berdasarkan panjang karakter UUID (8-4-4-4-12)
-        return substr($id, 0, 8) . '-' . substr($id, 8, 4) . '-' . substr($id, 12, 4) . '-' . substr($id, 16, 4) . '-' . substr($id, 20);
-    }
-    
-
     public function checkin(Request $request)
     {
         // Validasi input
@@ -55,17 +40,12 @@ class NfcController extends Controller
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
-
-            // Buat entri baru di tabel absensi dengan clock_in
-            Absensi::create([
-            'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => $member_id, // Gunakan id UUID penuh dari tabel members
-            'clock_in' => $currentTimestamp,
-            'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
-            'updated_at' => $currentTimestamp,
-            'created_at' => $currentTimestamp,
-            ]);
+        // Simpan data ke tabel absensi
+        Absensi::create([
+            'member_id' => $member->id, // Ambil ID dari member
+            'clock_in' => $currentTimestamp, // Simpan waktu checkin
+            'created_by' => 'system', // Set created_by
+        ]);
 
         // Log the check-in event
         Log::info("Check-in successful for member ID: {$member->id} at {$currentTimestamp}");
@@ -112,17 +92,22 @@ class NfcController extends Controller
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
+        // Update absensi untuk member yang checkout
+        $absensi = Absensi::where('member_id', $member->id)
+            ->whereNull('clock_out') // Ambil data absensi yang belum checkout
+            ->first();
 
-            // Buat entri baru di tabel absensi dengan clock_out
-            Absensi::create([
-            'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => $member_id, // Gunakan id UUID penuh dari tabel members
-            'clock_in' => $currentTimestamp,
-            'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
-            'updated_at' => $currentTimestamp,
-            'created_at' => $currentTimestamp,
-            ]);
+        if ($absensi) {
+            $absensi->clock_out = $currentTimestamp; // Simpan waktu checkout
+            $absensi->save(); // Simpan perubahan
+
+            // Log the check-out event
+            Log::info("Check-out successful for member ID: {$member->id} at {$currentTimestamp}");
+        } else {
+            return response()->json([
+                'message' => 'No check-in record found for checkout.',
+            ], 404);
+        }
 
         // Kembalikan data member dan waktu logout
         return response()->json([
