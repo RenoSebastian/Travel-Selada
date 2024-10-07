@@ -46,7 +46,7 @@ class NfcController extends Controller
                 'id' => Str::uuid(), // Use UUID for the ID
                 'member_id' => $member->id, // Get member ID
                 'clock_in' => $currentTimestamp,
-                'created_by' => 'system',
+                'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
             ]);
 
             Log::info("Checkin successful for member: " . $member->fullname);
@@ -115,6 +115,7 @@ class NfcController extends Controller
 
             Log::info("Checkout successful for member: " . $member->fullname);
 
+            // Kembalikan data member dan waktu checkout
             return response()->json([
                 'fullname' => $member->fullname,
                 'email' => $member->email,
