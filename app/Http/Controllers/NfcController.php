@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Entities\Members;
 use App\Entities\Absensi;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class NfcController extends Controller
