@@ -1,19 +1,15 @@
 <?php
-
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Members extends Model
 {
-    // Koneksi database yang digunakan
-    protected $connection = 'pgsql_ardi'; // Sesuai dengan nama koneksi di .env
-    protected $table = 'public.members'; // Nama tabel yang benar
+    protected $connection = 'pgsql_ardi'; // Database connection name
+    protected $table = 'public.members'; // Correct table name
+    protected $primaryKey = 'id'; // Primary key
 
-    protected $primaryKey = 'id'; // Primary key tabel
-
-    // Jika kolom `created_at`, `updated_at`, atau `deleted_at` tidak diperlukan
-    public $timestamps = false;
+    public $timestamps = false; // Set to true if you want to manage timestamps automatically
 
     protected $fillable = [
         'id',
@@ -41,4 +37,10 @@ class Members extends Model
         'issuer_id',
         'issuer_partner_id'
     ];
+
+    // Define the relationship to Absensi
+    public function absensies()
+    {
+        return $this->hasMany(Absensi::class, 'member_id', 'id');
+    }
 }
