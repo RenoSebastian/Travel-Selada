@@ -112,5 +112,3 @@ class NfcController extends Controller
         ], 200);
     }
 }
-
-
