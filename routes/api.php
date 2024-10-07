@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\NfcController;
 
-Route::post('/auth/login', [LoginController::class, 'loginApk']);
+Route::post('auth/login', [LoginController::class, 'loginApk']);
 
 Route::post('/members/checkin', [NfcController::class, 'checkin']);
 Route::post('/members/checkout', [NfcController::class, 'checkout']);
