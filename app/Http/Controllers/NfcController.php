@@ -14,7 +14,7 @@ class NfcController extends Controller
     public function checkin(Request $request)
     {
         try {
-            // Validasi input
+            // Validate input
             $request->validate([
                 'tag_nfc' => 'required|string',
             ]);
@@ -30,7 +30,7 @@ class NfcController extends Controller
                 ], 404);
             }
 
-            // Jika status sudah 1, tidak perlu ubah lagi, kembalikan pesan
+            // Check if already checked in
             if ($member->status == 1) {
                 Log::info("Member already checked in with tag_nfc: " . $request->tag_nfc);
                 return response()->json([
@@ -38,13 +38,13 @@ class NfcController extends Controller
                 ], 200);
             }
 
-            // Ubah status menjadi 1 (HADIR) dan simpan waktu checkin
+            // Set status to checked-in
             $member->status = 1;
             $currentTimestamp = Carbon::now();
             $member->updated_at = $currentTimestamp;
             $member->save();
 
-            // Buat entri baru di tabel absensi dengan clock_in
+            // Create a new check-in entry
             Absensi::create([
                 'id' => Str::uuid(),
                 'member_id' => $member->id,
@@ -76,7 +76,7 @@ class NfcController extends Controller
     public function checkout(Request $request)
     {
         try {
-            // Validasi input
+            // Validate input
             $request->validate([
                 'tag_nfc' => 'required|string',
             ]);
@@ -92,7 +92,7 @@ class NfcController extends Controller
                 ], 404);
             }
 
-            // Jika status sudah 0, tidak perlu ubah lagi, kembalikan pesan
+            // Check if already checked out
             if ($member->status == 0) {
                 Log::info("Member already checked out with tag_nfc: " . $request->tag_nfc);
                 return response()->json([
@@ -100,23 +100,23 @@ class NfcController extends Controller
                 ], 200);
             }
 
-            // Ubah status menjadi 0 (CHECKOUT) dan simpan waktu checkout
+            // Set status to checked-out
             $member->status = 0;
             $currentTimestamp = Carbon::now();
             $member->updated_at = $currentTimestamp;
             $member->save();
 
-            // Cari entri absensi terakhir dan simpan clock_out
-            $absensi = Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
+            // Fetch last attendance record to set clock_out
+            $absensi = Absensi::where('member_id', $member->id)->orderBy('created_at', 'desc')->first();
+
             if ($absensi) {
                 $absensi->clock_out = $currentTimestamp;
                 $absensi->updated_by = 'system';
                 $absensi->save();
+                Log::info("Checkout clock_out updated for member: " . $member->fullname);
             } else {
                 Log::warning("Absensi entry not found for member: " . $member->fullname);
             }
-
-            Log::info("Checkout successful for member: " . $member->fullname);
 
             return response()->json([
                 'fullname' => $member->fullname,
