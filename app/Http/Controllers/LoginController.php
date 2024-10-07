@@ -61,10 +61,12 @@ class LoginController extends Controller
 
         Log::info('Login attempt:', [
             'username' => $username,
+            'password' => $password
         ]);
 
-        $user = User::where('username', $username)->first();
-        if ($user && Hash::check($password, $user->password)) {
+        $user = User::attemptLogin($username, $password);
+
+        if ($user) {
             Log::info('Login successful:', ['user_id' => $user->id]);
 
             return response()->json([
