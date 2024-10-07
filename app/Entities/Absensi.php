@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Absensi extends Model
 {
-    protected $connection = 'pgsql_ardi'; // Sesuai dengan nama koneksi di .env
-    protected $table = 'public.absensi'; // Nama tabel absensi
+    protected $connection = 'pgsql_ardi'; // Database connection name
+    protected $table = 'public.absensi'; // Attendance table name
+    protected $primaryKey = 'id'; // Primary key for attendance table
 
-    protected $primaryKey = 'id'; // Primary key tabel
-
-    public $timestamps = true; // Otomatis menangani created_at dan updated_at
+    public $timestamps = true; // Automatically manage created_at and updated_at timestamps
 
     protected $fillable = [
-        'member_id',
+        'member_id', // This should match the type of ID in the members table
         'clock_in',
         'clock_out',
         'created_by',
@@ -24,4 +23,11 @@ class Absensi extends Model
         'updated_at',
         'delete_at',
     ];
+
+    // Define the relationship to Members
+    public function member()
+    {
+        return $this->belongsTo(Members::class, 'member_id', 'id');
+    }
 }
+

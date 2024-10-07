@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -29,33 +28,28 @@ class NfcController extends Controller
     public function checkin(Request $request)
     {
         try {
-            // Log request untuk debugging
-            Log::info('Request checkin received for tag_nfc: ' . $request->tag_nfc);
-
-            // Validasi input
+            // Validate input
             $request->validate([
                 'tag_nfc' => 'required|string',
             ]);
 
-            // Cari member berdasarkan card_number yang cocok dengan tag_nfc
+            Log::info("Request checkin received for tag_nfc: " . $request->tag_nfc);
+
+            // Find the member by card_number
             $member = Members::where('card_number', $request->tag_nfc)->first();
 
             if (!$member) {
-                Log::warning('Member not found for tag_nfc: ' . $request->tag_nfc);
-                return response()->json([
-                    'message' => 'Member not found.',
-                ], 404);
+                Log::warning("Member not found for tag_nfc: " . $request->tag_nfc);
+                return response()->json(['message' => 'Member not found.'], 404);
             }
 
-            // Jika status sudah 1 (sudah checkin), return response
+            // Check if the member is already checked in
             if ($member->status == 1) {
-                Log::info('Member already checked in with tag_nfc: ' . $request->tag_nfc);
-                return response()->json([
-                    'message' => 'KAMU SUDAH HADIR GAUSAH CAPER',
-                ], 200);
+                Log::info("Member already checked in with tag_nfc: " . $request->tag_nfc);
+                return response()->json(['message' => 'KAMU SUDAH HADIR GAUSAH CAPER'], 200);
             }
 
-            // Ubah status menjadi 1 (HADIR) dan simpan waktu checkin
+            // Update member status and save checkin time
             $member->status = 1;
             $currentTimestamp = Carbon::now();
             $member->updated_at = $currentTimestamp;
@@ -97,33 +91,28 @@ class NfcController extends Controller
     public function checkout(Request $request)
     {
         try {
-            // Log request untuk debugging
-            Log::info('Request checkout received for tag_nfc: ' . $request->tag_nfc);
-
-            // Validasi input
+            // Validate input
             $request->validate([
                 'tag_nfc' => 'required|string',
             ]);
 
-            // Cari member berdasarkan card_number yang cocok dengan tag_nfc
+            Log::info("Request checkout received for tag_nfc: " . $request->tag_nfc);
+
+            // Find the member by card_number
             $member = Members::where('card_number', $request->tag_nfc)->first();
 
             if (!$member) {
-                Log::warning('Member not found for tag_nfc: ' . $request->tag_nfc);
-                return response()->json([
-                    'message' => 'Member not found.',
-                ], 404);
+                Log::warning("Member not found for tag_nfc: " . $request->tag_nfc);
+                return response()->json(['message' => 'Member not found.'], 404);
             }
 
-            // Jika status sudah 0 (sudah checkout), return response
+            // Check if the member is already checked out
             if ($member->status == 0) {
-                Log::info('Member already checked out with tag_nfc: ' . $request->tag_nfc);
-                return response()->json([
-                    'message' => 'KAMU SUDAH CHECKOUT GAUSAH CAPER',
-                ], 200);
+                Log::info("Member already checked out with tag_nfc: " . $request->tag_nfc);
+                return response()->json(['message' => 'KAMU SUDAH CHECKOUT GAUSAH CAPER'], 200);
             }
 
-            // Ubah status menjadi 0 (CHECKOUT) dan simpan waktu checkout
+            // Update member status and save checkout time
             $member->status = 0;
             $currentTimestamp = Carbon::now();
             $member->updated_at = $currentTimestamp;
@@ -143,7 +132,6 @@ class NfcController extends Controller
 
             Log::info("Checkout successful for member: " . $member->fullname);
 
-            // Kembalikan data member dan waktu checkout
             return response()->json([
                 'fullname' => $member->fullname,
                 'email' => $member->email,
