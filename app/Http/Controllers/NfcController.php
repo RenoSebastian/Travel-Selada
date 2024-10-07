@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,36 +15,36 @@ class NfcController extends Controller
         $request->validate([
             'tag_nfc' => 'required|string',
         ]);
-    
+
         $member = Members::where('card_number', $request->tag_nfc)->first();
-    
+
         if (!$member) {
             return response()->json([
                 'message' => 'Member not found.',
             ], 404);
         }
-    
+
         // Jika status sudah 1, tidak perlu ubah lagi, kembalikan pesan
         if ($member->status == 1) {
             return response()->json([
                 'message' => 'KAMU SUDAH HADIR GAUSAH CAPER',
             ], 200);
         }
-    
+
         // Jika status 0, ubah menjadi 1 (HADIR) dan simpan waktu checkin
         $member->status = 1;
         $currentTimestamp = Carbon::now();
         $member->updated_at = $currentTimestamp;
         $member->save();
-    
-        // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
-        $absensi = Absensi::create([
+
+        // Buat entri baru di tabel absensi dengan clock_in
+        Absensi::create([
             'id' => Str::uuid(), // Generate UUID untuk ID
             'member_id' => $member->id,
             'clock_in' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
         ]);
-    
+
         // Kembalikan data member dan waktu checkin
         return response()->json([
             'fullname' => $member->fullname,
@@ -57,7 +56,7 @@ class NfcController extends Controller
             'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
-    
+
     public function checkout(Request $request)
     {
         // Validasi input
@@ -86,14 +85,14 @@ class NfcController extends Controller
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-        // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
-        $absensi =Absensi:::create([
+        // Buat entri baru di tabel absensi dengan clock_out
+        Absensi::create([
             'id' => Str::uuid(), // Generate UUID untuk ID
             'member_id' => $member->id,
             'clock_out' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
         ]);
-    
+
         // Kembalikan data member dan waktu checkout
         return response()->json([
             'fullname' => $member->fullname,
