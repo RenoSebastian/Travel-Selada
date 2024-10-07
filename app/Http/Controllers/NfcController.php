@@ -11,6 +11,21 @@ use Illuminate\Support\Facades\Log;
 
 class NfcController extends Controller
 {
+
+    private function parseUUID($id)
+    {
+        // Cek apakah ID yang diberikan sesuai dengan format UUID
+        if (strpos($id, '-') !== false) {
+            // Jika ada tanda '-', asumsikan sudah benar dan return apa adanya
+            return $id;
+        }
+    
+        // Jika tidak ada tanda '-', buat string UUID yang valid (ini hanya contoh)
+        // Pisahkan bagian-bagian UUID berdasarkan panjang karakter UUID (8-4-4-4-12)
+        return substr($id, 0, 8) . '-' . substr($id, 8, 4) . '-' . substr($id, 12, 4) . '-' . substr($id, 16, 4) . '-' . substr($id, 20);
+    }
+    
+
     public function checkin(Request $request)
     {
         try {
@@ -46,10 +61,12 @@ class NfcController extends Controller
             $member->updated_at = $currentTimestamp;
             $member->save();
 
+            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
+
             // Buat entri baru di tabel absensi dengan clock_in
             Absensi::create([
             'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => (string) $member->id, // Gunakan id UUID penuh dari tabel members
+            'member_id' => $member_id, // Gunakan id UUID penuh dari tabel members
             'clock_in' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
             'updated_at' => $currentTimestamp,
@@ -112,10 +129,12 @@ class NfcController extends Controller
             $member->updated_at = $currentTimestamp;
             $member->save();
 
+            $member_id = $this->parseUUID($member->id); // Gunakan parseUUID
+
             // Buat entri baru di tabel absensi dengan clock_out
             Absensi::create([
             'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => (string) $member->id, // Gunakan id UUID penuh dari tabel members
+            'member_id' => $member_id, // Gunakan id UUID penuh dari tabel members
             'clock_in' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
             'updated_at' => $currentTimestamp,
