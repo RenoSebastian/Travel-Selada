@@ -99,7 +99,7 @@ return [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '192.168.1.102'),
-            'port' => env('DB_PORT_BILITON', '5432'),
+            'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'sld_id_mireta_pos'),
             'username' => env('DB_USERNAME', 'supermieuser'),
             'password' => env('DB_PASSWORD', 'p3n!1dU3dkungRseSj4ti'),

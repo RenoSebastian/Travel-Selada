@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entities\User;
+use App\Entities\UserLocation;
+use App\Entities\MLocation;
+use App\Entities\MBrand;
+use Illuminate\Support\Str;
 use App\Entities\Members;
 use App\Entities\Absensi;
 use Illuminate\Support\Facades\Auth;
@@ -32,11 +36,14 @@ class LoginController extends Controller
         // Coba autentikasi pengguna
         $user = User::where('username', $username)->first();
 
-        if ($user && Hash::check($password, $user->password)) {
-            Auth::login($user);
-            // Cek jika user adalah admin
-            if ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard')->with('status', 'Welcome to the Admin Dashboard.');
+        $user = User::attemptLogin($username, $password);
+
+        if ($user) {
+            Log::info('Login successful for user:', ['user_id' => $user->id]);
+
+            if ($user->hasFullAccess()) {
+                Log::info('User has full access:', ['user_id' => $user->id]);
+                return redirect()->route('landing')->with('status', 'Welcome, you have full access.');
             } else {
                 return redirect()->route('user.dashboard')->with('status', 'Welcome to the User Dashboard.');
             }
@@ -55,40 +62,50 @@ class LoginController extends Controller
 
     public function loginApk(Request $request)
     {
-        // Validate incoming request
+        Log::info('APK login attempt:', [
+            'username' => $request->username,
+        ]);
+    
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        $username = $request->input('username');
-        $password = $request->input('password');
-
-        Log::info('Login attempt:', [
-            'username' => $username,
-            'password' => $password
-        ]);
-
-        $user = User::attemptLogin($username, $password);
-
+    
+        $user = User::where('username', $request->username)->first();
+    
         if ($user) {
-            Log::info('Login successful:', ['user_id' => $user->id]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Login berhasil',
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                ],
-            ]);
+            Log::info('User found:', ['user_id' => $user->id, 'username' => $user->username]);
+    
+            if (Hash::check($request->password, $user->password)) {
+                Log::info('APK login successful:', ['user_id' => $user->id]);
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Login successful',
+                    'user' => [
+                        'id' => (string)$user->id,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                        'fullname' => $user->fullname,
+                    ],
+                ]);
+            } else {
+                Log::warning('Invalid password for user:', ['username' => $request->username]);
+            }
         } else {
-            Log::warning('Login failed for username: ' . $username);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Username atau password salah.',
-            ], 401);
+            Log::warning('User not found:', ['username' => $request->username]);
         }
+    
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid username or password.',
+        ], 401);
+    }
+
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
