@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Entities\Members;
 use Carbon\Carbon;
+use App\Entities\Absensi;
 
 class NfcController extends Controller
 {
-
     public function checkin(Request $request)
     {
         // Validasi input
@@ -37,21 +37,18 @@ class NfcController extends Controller
         $member->updated_at = $currentTimestamp;
         $member->save();
     
-        // Cari entri absensi terbaru berdasarkan member_id
-        $absensi = \App\Entities\Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
+        // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
+        $absensi = Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
     
-        // Jika entri absensi sudah ada dan clock_in masih kosong, perbarui clock_in
-        if ($absensi && is_null($absensi->clock_in)) {
+        // Jika absensi ditemukan, update clock_in
+        if ($absensi) {
             $absensi->clock_in = $currentTimestamp;
             $absensi->updated_by = 'system';
             $absensi->save();
         } else {
-            // Jika belum ada entri absensi, buat entri baru dengan clock_in
-            \App\Entities\Absensi::create([
-                'member_id' => $member->id,
-                'clock_in' => $currentTimestamp,
-                'created_by' => 'system',
-            ]);
+            return response()->json([
+                'message' => 'Absensi tidak ditemukan.',
+            ], 404);
         }
     
         // Kembalikan data member dan waktu checkin
@@ -62,7 +59,7 @@ class NfcController extends Controller
             'balance' => $member->balance,
             'status' => 'HADIR',
             'card_number' => $member->card_number,
-            'updated_at' => $currentTimestamp->toDateTimeString(), // Kembalikan waktu checkin
+            'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
     
@@ -88,22 +85,21 @@ class NfcController extends Controller
             ], 200);
         }
 
-        // Jika status 1, ubah menjadi 0 (LOGOUT) dan simpan waktu checkout
+        // Jika status 1, ubah menjadi 0 (CHECKOUT) dan simpan waktu checkout
         $member->status = 0;
         $currentTimestamp = Carbon::now();
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-        // Update data absensi dengan waktu checkout
-        $absensi = \App\Entities\Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
-        
+        // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
+        $absensi =Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
+
         // Jika absensi ditemukan, update clock_out
         if ($absensi && is_null($absensi->clock_out)) {
             $absensi->clock_out = $currentTimestamp;
             $absensi->updated_by = 'system';
             $absensi->save();
         } else {
-            // Jika tidak ada entri absensi yang cocok atau clock_out sudah diisi, kembalikan pesan error
             return response()->json([
                 'message' => 'Absensi tidak ditemukan atau sudah di-checkout.',
             ], 400);
@@ -117,7 +113,7 @@ class NfcController extends Controller
             'balance' => $member->balance,
             'status' => 'CHECKOUT',
             'card_number' => $member->card_number,
-            'updated_at' => $currentTimestamp->toDateTimeString(), // Kembalikan waktu checkout
+            'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
 
