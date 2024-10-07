@@ -26,14 +26,13 @@ class LoginController extends Controller
 
         Log::info('Login attempt:', [
             'username' => $username,
-            'password' => $password
         ]);
 
         $user = User::attemptLogin($username, $password);
 
         if ($user) {
-            Log::info('User found:', ['user_id' => $user->id]);
-            
+            Log::info('Login successful for user:', ['user_id' => $user->id]);
+
             if ($user->hasFullAccess()) {
                 Log::info('User has full access:', ['user_id' => $user->id]);
                 return redirect()->route('landing')->with('status', 'Welcome, you have full access.');
@@ -47,10 +46,8 @@ class LoginController extends Controller
         }
     }
 
-
     public function loginApk(Request $request)
     {
-        // Validate incoming request
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -59,34 +56,31 @@ class LoginController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        Log::info('Login attempt:', [
+        Log::info('APK login attempt:', [
             'username' => $username,
-            'password' => $password
         ]);
 
         $user = User::attemptLogin($username, $password);
 
         if ($user) {
-            Log::info('Login successful:', ['user_id' => $user->id]);
+            Log::info('APK login successful:', ['user_id' => $user->id]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Login berhasil',
+                'message' => 'Login successful',
                 'user' => [
                     'id' => $user->id,
                     'username' => $user->username,
                 ],
             ]);
         } else {
-            Log::warning('Login failed for username: ' . $username);
-
+            Log::warning('APK login failed:', ['username' => $username]);
             return response()->json([
                 'success' => false,
-                'message' => 'Username atau password salah.',
+                'message' => 'Invalid username or password.',
             ], 401);
         }
     }
-
 
     public function logout()
     {

@@ -25,7 +25,7 @@ class User extends Model implements AuthenticatableContract
         'is_active',
         'is_block',
         'is_pristine',
-        'change_pssword',
+        'change_password',
         'last_login',
         'remember_token',
         'created_by',
@@ -48,13 +48,20 @@ class User extends Model implements AuthenticatableContract
     public static function attemptLogin($username, $password)
     {
         $user = User::where('username', $username)->first();
-        \Log::info('User retrieved:', ['user' => $user]);
-    
-        if ($user && Hash::check($password, $user->password)) {
-            \Auth::login($user);
-            return $user;
+        \Log::info('User retrieval attempt:', ['username' => $username]);
+
+        if ($user) {
+            \Log::info('User found:', ['user_id' => $user->id]);
+            if (Hash::check($password, $user->password)) {
+                \Log::info('Password matched for user:', ['user_id' => $user->id]);
+                return $user;
+            } else {
+                \Log::warning('Password mismatch for user:', ['username' => $username]);
+            }
+        } else {
+            \Log::warning('User not found:', ['username' => $username]);
         }
-        
+
         return null;
     }
     
