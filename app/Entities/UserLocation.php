@@ -21,5 +21,8 @@ class UserLocation extends Model
         'created_at',
         'updated_at'
     ];
-    
+    public function location()
+    {
+        return $this->belongsTo(MLocation::class, 'location_id', 'id');
+    }
 }

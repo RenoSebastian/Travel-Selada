@@ -38,7 +38,11 @@ class User extends Model implements AuthenticatableContract
         'role_id',
         'group_id'
     ];
-
+    
+    protected $casts = [
+        'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
+    ];
+    
     public function hasFullAccess()
     {
         $fullAccessRoleId = 'kantin_rsij_1';
@@ -64,5 +68,8 @@ class User extends Model implements AuthenticatableContract
 
         return null;
     }
-    
+    public function locations()
+    {
+        return $this->hasMany(UserLocation::class, 'user_id', 'id');
+    }
 }

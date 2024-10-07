@@ -7,7 +7,7 @@ use App\Http\Controllers\LoginController;
 
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/login', [LoginController::class, 'loginApk'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/landing', [LandingPageController::class, 'index'])->name('landing');
