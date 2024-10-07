@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Entities\Members;
 use Carbon\Carbon;
 use App\Entities\Absensi;
+use Illuminate\Support\Str;
 
 class NfcController extends Controller
 {
@@ -39,6 +40,7 @@ class NfcController extends Controller
     
         // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
         $absensi = Absensi::create([
+            'id' => Str::uuid(), // Generate UUID untuk ID
             'member_id' => $member->id,
             'clock_in' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
@@ -86,6 +88,7 @@ class NfcController extends Controller
 
         // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
         $absensi =Absensi:::create([
+            'id' => Str::uuid(), // Generate UUID untuk ID
             'member_id' => $member->id,
             'clock_out' => $currentTimestamp,
             'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
