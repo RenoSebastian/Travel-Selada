@@ -47,6 +47,45 @@ class LoginController extends Controller
         }
     }
 
+
+    public function loginApk(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        Log::info('Login attempt:', [
+            'username' => $username,
+            'password' => $password
+        ]);
+        
+        $user = User::where('username', $username)->first();
+
+        if ($user && Hash::check($password, $user->password)) {
+            Log::info('Login successful:', ['user_id' => $user->id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Login berhasil',
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                ],
+            ]);
+        } else {
+            Log::warning('Login failed for username: ' . $username);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Username atau password salah.',
+            ], 401);
+        }
+    }
+
     public function logout()
     {
         Auth::logout();
