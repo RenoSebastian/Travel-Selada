@@ -49,7 +49,7 @@ class NfcController extends Controller
             // Buat entri baru di tabel absensi dengan clock_in
             Absensi::create([
                 'id' => Str::uuid(), // Generate UUID untuk ID
-                'member_id' => $member->id, // Gunakan id dari tabel members
+                'member_id' => (string) $member->id // Gunakan id dari tabel members
                 'clock_in' => $currentTimestamp,
                 'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
             ]);
@@ -113,7 +113,7 @@ class NfcController extends Controller
             // Buat entri baru di tabel absensi dengan clock_out
             Absensi::create([
                 'id' => Str::uuid(), // Generate UUID untuk ID
-                'member_id' => $member->id, // Gunakan id dari tabel members
+                'member_id' => (string) $member->id // Gunakan id dari tabel members
                 'clock_out' => $currentTimestamp,
                 'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
             ]);
