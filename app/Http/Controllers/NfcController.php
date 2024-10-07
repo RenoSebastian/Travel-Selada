@@ -38,18 +38,11 @@ class NfcController extends Controller
         $member->save();
     
         // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
-        $absensi = Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
-    
-        // Jika absensi ditemukan, update clock_in
-        if ($absensi) {
-            $absensi->clock_in = $currentTimestamp;
-            $absensi->updated_by = 'system';
-            $absensi->save();
-        } else {
-            return response()->json([
-                'message' => 'Absensi tidak ditemukan.',
-            ], 404);
-        }
+        $absensi = Absensi::create([
+            'member_id' => $member->id,
+            'clock_in' => $currentTimestamp,
+            'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
+        ]);
     
         // Kembalikan data member dan waktu checkin
         return response()->json([
@@ -92,19 +85,12 @@ class NfcController extends Controller
         $member->save();
 
         // Cari entri absensi berdasarkan member_id yang cocok dengan id di tabel members
-        $absensi =Absensi::where('member_id', $member->id)->orderBy('id', 'desc')->first();
-
-        // Jika absensi ditemukan, update clock_out
-        if ($absensi && is_null($absensi->clock_out)) {
-            $absensi->clock_out = $currentTimestamp;
-            $absensi->updated_by = 'system';
-            $absensi->save();
-        } else {
-            return response()->json([
-                'message' => 'Absensi tidak ditemukan atau sudah di-checkout.',
-            ], 400);
-        }
-
+        $absensi =Absensi:::create([
+            'member_id' => $member->id,
+            'clock_out' => $currentTimestamp,
+            'created_by' => 'system', // Atur siapa yang membuat (bisa diubah sesuai kebutuhan)
+        ]);
+    
         // Kembalikan data member dan waktu checkout
         return response()->json([
             'fullname' => $member->fullname,
@@ -116,5 +102,4 @@ class NfcController extends Controller
             'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
-
 }
