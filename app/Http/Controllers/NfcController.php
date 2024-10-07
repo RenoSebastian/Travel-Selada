@@ -6,119 +6,111 @@ use Illuminate\Http\Request;
 use App\Entities\Members;
 use App\Entities\Absensi;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 class NfcController extends Controller
 {
     public function checkin(Request $request)
     {
-        // Validasi input
+        // Validate input
         $request->validate([
             'tag_nfc' => 'required|string',
         ]);
 
-        // Cari data member berdasarkan TAG_NFC yang dikirim (disamakan dengan card_number)
+        // Find member data based on TAG_NFC which is the card_number
         $member = Members::where('card_number', $request->tag_nfc)->first();
 
-        // Jika tidak ditemukan, kirimkan pesan error
+        // If not found, return an error message
         if (!$member) {
-            return response()->json([
-                'message' => 'Member not found.',
-            ], 404);
+            Log::error("Member not found for tag: {$request->tag_nfc}");
+            return response()->json(['message' => 'Member not found.'], 404);
         }
 
-        // Jika status sudah 1, tidak perlu ubah lagi, kembalikan pesan
+        // If status is already 1 (present), return a message
         if ($member->status == 1) {
-            return response()->json([
-                'message' => 'KAMU SUDAH HADIR GAUSAH CAPER',
-            ], 200);
+            return response()->json(['message' => 'KAMU SUDAH HADIR GAUSAH CAPER'], 200);
         }
 
-        // Jika status 0, ubah menjadi 1 (HADIR) dan simpan waktu checkin
+        // Update member status to present (1) and save check-in time
         $member->status = 1;
         $currentTimestamp = Carbon::now();
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-        // Simpan data ke tabel absensi
+        // Create a new attendance record
         Absensi::create([
-            'member_id' => $member->id, // Ambil ID dari member
-            'clock_in' => $currentTimestamp, // Simpan waktu checkin
-            'created_by' => 'system', // Set created_by
+            'member_id' => $member->id, // This should be a UUID
+            'clock_in' => $currentTimestamp,
+            'created_by' => 'system', // Or however you determine the creator
+            'updated_at' => $currentTimestamp,
+            'created_at' => $currentTimestamp,
         ]);
 
-        // Log the check-in event
-        Log::info("Check-in successful for member ID: {$member->id} at {$currentTimestamp}");
-
-        // Kembalikan data member dan waktu checkin
+        // Return member data and check-in time
         return response()->json([
             'fullname' => $member->fullname,
             'email' => $member->email,
             'phone' => $member->phone,
             'balance' => $member->balance,
-            'status' => 'HADIR', // Status diubah menjadi HADIR
+            'status' => 'HADIR', // Status changed to HADIR
             'card_number' => $member->card_number,
-            'updated_at' => $currentTimestamp->toDateTimeString(), // Kembalikan waktu checkin
+            'updated_at' => $currentTimestamp->toDateTimeString(), // Return check-in time
         ], 200);
     }
 
     public function checkout(Request $request)
     {
-        // Validasi input
+        // Validate input
         $request->validate([
             'tag_nfc' => 'required|string',
         ]);
 
-        // Cari data member berdasarkan TAG_NFC yang dikirim (disamakan dengan card_number)
+        // Find member data based on TAG_NFC which is the card_number
         $member = Members::where('card_number', $request->tag_nfc)->first();
 
-        // Jika tidak ditemukan, kirimkan pesan error
+        // If not found, return an error message
         if (!$member) {
-            return response()->json([
-                'message' => 'Member not found.',
-            ], 404);
+            Log::error("Member not found for tag: {$request->tag_nfc}");
+            return response()->json(['message' => 'Member not found.'], 404);
         }
 
-        // Jika status sudah 0, tidak perlu ubah lagi, kembalikan pesan
+        // Find the attendance record for this member that is not checked out
+        $absensi = Absensi::where('member_id', $member->id)
+            ->whereNull('clock_out')
+            ->first();
+
+        // If no active attendance record, return an error message
+        if (!$absensi) {
+            return response()->json(['message' => 'No active check-in found for this member.'], 404);
+        }
+
+        // If status is already 0 (not present), return a message
         if ($member->status == 0) {
-            return response()->json([
-                'message' => 'KAMU SUDAH CHECKOUT GAUSAH CAPER',
-            ], 200);
+            return response()->json(['message' => 'KAMU SUDAH CHECKOUT GAUSAH CAPER'], 200);
         }
 
-        // Jika status 1, ubah menjadi 0 (LOGOUT) dan simpan waktu logout
+        // Update member status to not present (0) and save check-out time
         $member->status = 0;
         $currentTimestamp = Carbon::now();
         $member->updated_at = $currentTimestamp;
         $member->save();
 
-        // Update absensi untuk member yang checkout
-        $absensi = Absensi::where('member_id', $member->id)
-            ->whereNull('clock_out') // Ambil data absensi yang belum checkout
-            ->first();
+        // Update the attendance record with clock out time
+        $absensi->clock_out = $currentTimestamp;
+        $absensi->updated_at = $currentTimestamp;
+        $absensi->save();
 
-        if ($absensi) {
-            $absensi->clock_out = $currentTimestamp; // Simpan waktu checkout
-            $absensi->save(); // Simpan perubahan
-
-            // Log the check-out event
-            Log::info("Check-out successful for member ID: {$member->id} at {$currentTimestamp}");
-        } else {
-            return response()->json([
-                'message' => 'No check-in record found for checkout.',
-            ], 404);
-        }
-
-        // Kembalikan data member dan waktu logout
+        // Return member data and check-out time
         return response()->json([
             'fullname' => $member->fullname,
             'email' => $member->email,
             'phone' => $member->phone,
             'balance' => $member->balance,
-            'status' => 'CHECKOUT', // Status diubah menjadi LOGOUT
+            'status' => 'CHECKOUT', // Status changed to CHECKOUT
             'card_number' => $member->card_number,
-            'updated_at' => $currentTimestamp->toDateTimeString(), // Kembalikan waktu logout
+            'updated_at' => $currentTimestamp->toDateTimeString(), // Return check-out time
         ], 200);
     }
 }
+
 

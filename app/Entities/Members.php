@@ -2,14 +2,14 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Members extends Model
 {
-    protected $connection = 'pgsql_ardi'; // Database connection name
-    protected $table = 'public.members'; // Correct table name
-    protected $primaryKey = 'id'; // Primary key
-
-    public $timestamps = false; // Set to true if you want to manage timestamps automatically
+    protected $connection = 'pgsql_ardi';
+    protected $table = 'public.members';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
@@ -35,12 +35,23 @@ class Members extends Model
         'pin_state',
         'failed_pin_trial',
         'issuer_id',
-        'issuer_partner_id'
+        'issuer_partner_id',
     ];
 
-    // Define the relationship to Absensi
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
+
     public function absensies()
     {
         return $this->hasMany(Absensi::class, 'member_id', 'id');
     }
 }
+

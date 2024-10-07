@@ -13,6 +13,7 @@ class Absensi extends Model
     public $timestamps = true; // Automatically manage created_at and updated_at timestamps
 
     protected $fillable = [
+        'id',
         'member_id', // This should match the type of ID in the members table
         'clock_in',
         'clock_out',
