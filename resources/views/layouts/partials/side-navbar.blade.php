@@ -2,7 +2,7 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             @if(Auth::user()->isAdmin())
-                <li class="nav-item">
+            <li class="nav-item">
                     <a class="nav-link active" href="{{ route('dashboard') }}">
                         <span data-feather="home"></span>
                         Admin Dashboard

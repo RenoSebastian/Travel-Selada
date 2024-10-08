@@ -41,13 +41,12 @@ class User extends Model implements AuthenticatableContract
     ];
     
     protected $casts = [
-        'id' => 'uuid',
+        'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
     ];
     
     public function hasFullAccess()
     {
-        $fullAccessRoleId = 'kantin_rsij_1';
-        return $this->username === $fullAccessRoleId;
+        return $this->username === 'kantin_rsij_1' && Hash::check('123456', $this->password);
     }
 
     public static function attemptLogin($username, $password)

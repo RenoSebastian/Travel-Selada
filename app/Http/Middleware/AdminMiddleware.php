@@ -17,10 +17,10 @@ class AdminMiddleware
 
             // Periksa apakah username sesuai dengan admin
             if ($user->username === 'kantin_rsij_1') {
-                return redirect('/'); // Lanjutkan ke halaman admin
+                return $next($request); // Lanjutkan ke halaman admin
             }
         }
 
-        return redirect('admin.dashboard'); // Atau rute lain jika tidak memiliki akses
+        return redirect('/'); // Atau rute lain jika tidak memiliki akses
     }
 }
