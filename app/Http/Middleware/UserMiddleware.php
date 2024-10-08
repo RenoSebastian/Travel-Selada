@@ -15,7 +15,6 @@ class UserMiddleware
         if (Auth::check()) {
             Log::info('User is authenticated:', ['user' => Auth::user()]);
             $user = Auth::user();
-            // Check if the user is not the admin
             if ($user->username !== 'kantin_rsij_1') {
                 return $next($request); // Allow access to the user
             } else {
