@@ -9,11 +9,18 @@ class AdminMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
-            return $next($request); // Lanjutkan ke halaman admin
+        if (Auth::check()) {
+            $user = Auth::user(); // Ambil pengguna yang terautentikasi
+
+            // Log ID pengguna untuk debugging
+            \Log::info('User ID before query in AdminMiddleware:', ['user_id' => $user->id]);
+
+            // Periksa apakah username sesuai dengan admin
+            if ($user->username === 'kantin_rsij_1') {
+                return $next($request); // Lanjutkan ke halaman admin
+            }
         }
 
-        // Redirect ke dashboard user jika bukan admin
-        return redirect()->route('user.dashboard')->with('error', 'Access denied. Admins only.');
+        return redirect('/'); // Atau rute lain jika tidak memiliki akses
     }
 }

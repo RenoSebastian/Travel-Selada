@@ -9,22 +9,20 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\LoginController;
 
-
+// Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'loginApk'])->name('login.post');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/landing', [LandingPageController::class, 'index'])->name('landing');
+// Rute untuk admin
+Route::middleware([AdminMiddleware::class])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+});
 
-Route::get('/limited-dashboard', function () {
-    return view('limited_dashboard');
-})->name('limited_dashboard');
-
-Route::get('/members', [MembersController::class, 'index']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Rute untuk user
+Route::middleware([UserMiddleware::class])->group(function () {
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+});
 
 
 

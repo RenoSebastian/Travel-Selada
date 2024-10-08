@@ -35,7 +35,7 @@ class LoginController extends Controller
 
         // Coba autentikasi pengguna
         $user = User::where('username', $username)->first();
-
+        \Log::info('User ID before query in AdminController:', ['user_id' => $user->id]);
         $user = User::attemptLogin($username, $password);
 
         if ($user) {
@@ -43,21 +43,16 @@ class LoginController extends Controller
 
             if ($user->hasFullAccess()) {
                 Log::info('User has full access:', ['user_id' => $user->id]);
-                return redirect()->route('landing')->with('status', 'Welcome, you have full access.');
+                 return redirect()->route('admin.dashboard')->with('status', 'Welcome to Admin Dashboard.');
             } else {
-                return redirect()->route('user.dashboard')->with('status', 'Welcome to the User Dashboard.');
+                  return redirect()->route('user.dashboard')->with('status', 'Welcome to User Dashboard.');
+
             }
         }
 
         return back()->withErrors([
             'username' => 'The provided credentials do not match our records.',
         ]);
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
     }
 
     public function loginApk(Request $request)
