@@ -46,9 +46,10 @@ class User extends Model implements AuthenticatableContract
     
     public function hasFullAccess()
     {
-        return $this->username === 'kantin_rsij_1' && Hash::check('123456', $this->password);
+        $fullAccessUsername = 'kantin_rsij_1';
+        return $this->username === $fullAccessUsername;
     }
-
+    
     public static function attemptLogin($username, $password)
     {
         $user = User::where('username', $username)->first();
