@@ -17,7 +17,7 @@
     @else
         <ul>
             @foreach($matchingMembers as $member)
-                <li>{{ $member->fullname }} (ID: {{ $member->id }})</li>
+                <li>{{ $member->fullname }} (ID: {{ $member->id }})  Nomor Telepon: {{ $member->phone }} Seat : {{ $member->code }} </li>
             @endforeach
         </ul>
     @endif
