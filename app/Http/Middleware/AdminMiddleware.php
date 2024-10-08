@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Entities\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log; // Tambahkan ini
+use Illuminate\Support\Facades\Log;
 
 class AdminMiddleware
 {
