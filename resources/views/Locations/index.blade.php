@@ -15,8 +15,7 @@
     @if($matchingMembers->isEmpty())
         <p>No matching locations found.</p>
     @else
-        <ul>
-            @foreach($matchingMembers as $member)
+                              @foreach($matchingMembers as $member)
                 <li>{{ $member->fullname }} (ID: {{ $member->id }})  Nomor Telepon: {{ $member->phone }} Seat : {{ $member->code }} </li>
             @endforeach
         </ul>
