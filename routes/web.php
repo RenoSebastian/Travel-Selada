@@ -19,6 +19,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 
+
 // Rute untuk user
 Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');

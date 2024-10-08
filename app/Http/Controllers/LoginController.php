@@ -38,11 +38,12 @@ class LoginController extends Controller
         if ($user) {
             Log::info('Login successful for user:', ['user_id' => $user->id]);
 
-            if ($user->hasFullAccess()) {
-                Log::info('User has full access:', ['user_id' => $user->id]);
+            // Login user untuk menyimpan sesi
+            Auth::login($user);
+
+            if ($user->username === 'kantin_rsij_1') {
                 return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have full access.');
             } else {
-                Log::info('User has limited access:', ['user_id' => $user->id]);
                 return redirect()->route('user.dashboard')->with('status', 'Welcome, you have limited access.');
             }
         } else {
@@ -50,6 +51,7 @@ class LoginController extends Controller
             return redirect()->back()->withErrors(['login' => 'Invalid username or password']);
         }
     }
+
 
     public function loginApk(Request $request)
     {
