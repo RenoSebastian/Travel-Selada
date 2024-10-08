@@ -15,7 +15,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'default' => env('DB_CONNECTION', 'pgsql_ardi'),
+=======
+    'default' => env('DB_CONNECTION_PGSQL_ARDI', 'pgsql_ardi'),
+>>>>>>> c4d283c4de1196630f832c814d0ad7ef29410708
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +30,7 @@ return [
     | Of course, examples of configuring each database platform that is
     | supported by Laravel is shown below to make development simple.
     |
-    |
+    | 
     | All database work in Laravel is done through the PHP PDO facilities
     | so make sure you have the driver for your particular database of
     | choice installed on your machine before you begin development.
