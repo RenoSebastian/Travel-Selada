@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entities\UserLocation;
+use App\Entities\MLocation;
 use App\Entities\MemberData;
 
 class LocationController extends Controller
