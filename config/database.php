@@ -4,7 +4,7 @@ use Illuminate\Support\Str;
 
 return [
 
-    'default' => 'pgsql',
+    'default' => 'pgsql_mireta',
 
     'connections' => [
 
