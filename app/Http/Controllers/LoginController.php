@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entities\User;
+use App\Entities\UserLocation;
+use App\Entities\MLocation;
+use App\Entities\MBrand;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -52,20 +57,20 @@ class LoginController extends Controller
         Log::info('APK login attempt:', [
             'username' => $request->username,
         ]);
-
+    
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
+    
         $user = User::where('username', $request->username)->first();
-
+    
         if ($user) {
             Log::info('User found:', ['user_id' => $user->id, 'username' => $user->username]);
-
+    
             if (Hash::check($request->password, $user->password)) {
                 Log::info('APK login successful:', ['user_id' => $user->id]);
-
+    
                 return response()->json([
                     'success' => true,
                     'message' => 'Login successful',
@@ -82,7 +87,7 @@ class LoginController extends Controller
         } else {
             Log::warning('User not found:', ['username' => $request->username]);
         }
-
+    
         return response()->json([
             'success' => false,
             'message' => 'Invalid username or password.',

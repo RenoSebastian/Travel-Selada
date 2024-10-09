@@ -12,7 +12,7 @@ use App\Http\Controllers\LocationController;
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/login', [LoginController::class, 'loginApk'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
