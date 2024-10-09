@@ -31,14 +31,14 @@ class LocationController extends Controller
             // Ambil semua member data yang memiliki location_id yang sama
             $matchingMembers = MemberData::where('location_id', $locationId)->get();
 
-            return view('locations.index', [
+            return view('Locations.index', [
                 'userId' => $userId,
                 'locationId' => $locationId,
                 'matchingMembers' => $matchingMembers,
             ]);
         }
 
-        return view('locations.index', [
+        return view('Locations.index', [
             'userId' => $userId,
             'locationId' => null,
             'matchingMembers' => collect(), // Kembalikan koleksi kosong
