@@ -20,25 +20,24 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-    
+
         $username = $request->input('username');
         $password = $request->input('password');
-    
-        Log::info('Login attempt:', ['username' => $username]);
-    
+
+        Log::info('Login attempt:', [
+            'username' => $username,
+        ]);
+
         $user = User::attemptLogin($username, $password);
-    
+
         if ($user) {
-            Log::info('User found:', ['username' => $user->username]);
-    
-            Auth::login($user);
-            $request->session()->regenerate();
-    
-            Log::info('User logged in:', ['username' => $user->username]);
-    
+            Log::info('Login successful for user:', ['user_id' => $user->id]);
+
             if ($user->hasFullAccess()) {
+                Log::info('User has full access:', ['user_id' => $user->id]);
                 return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have full access.');
             } else {
+                Log::info('User has limited access:', ['user_id' => $user->id]);
                 return redirect()->route('user.dashboard')->with('status', 'Welcome, you have limited access.');
             }
         } else {

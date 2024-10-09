@@ -16,15 +16,10 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::group(['middleware' => ['admin']], function () {
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    // Tambahkan rute admin lainnya di sini
-});
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
-// Rute untuk user
-Route::middleware([UserMiddleware::class])->group(function () {
-    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-});
+Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
