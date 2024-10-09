@@ -27,3 +27,4 @@ class UserMiddleware
         return redirect()->route('login')->withErrors('Access denied.');
     }
 }
+
