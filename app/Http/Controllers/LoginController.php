@@ -29,18 +29,17 @@ class LoginController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        Log::info('Login attempt:', [
-            'username' => $username,
-        ]);
+        Log::info('Login attempt:', ['username' => $username]);
 
         $user = User::attemptLogin($username, $password);
 
         if ($user) {
             Log::info('Login successful for user:', ['user_id' => $user->id]);
-
-            // Login user untuk menyimpan sesi
             Auth::login($user);
+            Log::info('User session saved for:', ['user_id' => $user->id]);
 
+
+            // Mengarahkan berdasarkan status pengguna
             if ($user->username === 'kantin_rsij_1') {
                 return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have full access.');
             } else {
