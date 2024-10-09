@@ -16,49 +16,32 @@ class LocationController extends Controller
 
     public function getLocations(Request $request)
     {
-        // Validasi input
         $validatedData = $request->validate([
             'user_id' => 'required|string',
         ]);
-    
+
         $userId = $validatedData['user_id'];
-    
-        // Ambil lokasi pengguna
-        $userLocationRecord = UserLocation::where('user_id', $userId)->first();
-    
-        // Jika lokasi ditemukan
-        if ($userLocationRecord) {
-            $locationId = $userLocationRecord->location_id;
-    
-            // Ambil data anggota berdasarkan location_id
-            $members = MemberData::where('location_id', $locationId)->get();
-    
-            // Siapkan data anggota yang cocok
-            $matchingMembers = [];
-            foreach ($members as $member) {
-                $matchingMembers[] = [
-                    'name' => $member->fullname,
-                    'phone' => $member->phone,
-                    'code' => $member->code,
-                    'seat' => $member->name,
-                ];
-            }
-    
-            // Kembalikan respons JSON dengan data
-            return response()->json([
-                'status' => 'success',
+
+        // Ambil location_id berdasarkan user_id
+        $userLocation = UserLocation::where('user_id', $userId)->first();
+
+        if ($userLocation) {
+            $locationId = $userLocation->location_id;
+
+            // Ambil semua member data yang memiliki location_id yang sama
+            $matchingMembers = MemberData::where('location_id', $locationId)->get();
+
+            return view('locations.index', [
                 'userId' => $userId,
                 'locationId' => $locationId,
                 'matchingMembers' => $matchingMembers,
             ]);
         }
-    
-        // Jika tidak ada lokasi ditemukan, kembalikan respons dengan status yang sesuai
-        return response()->json([
-            'status' => 'success',
+
+        return view('locations.index', [
             'userId' => $userId,
             'locationId' => null,
-            'matchingMembers' => [],
+            'matchingMembers' => collect(), // Kembalikan koleksi kosong
         ]);
     }
     
