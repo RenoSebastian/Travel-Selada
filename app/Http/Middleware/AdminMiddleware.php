@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Entities\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -14,17 +13,19 @@ class AdminMiddleware
         Log::info('Checking authentication status.');
 
         if (Auth::check()) {
-            Log::info('User is authenticated:', ['user' => Auth::user()]);
             $user = Auth::user();
-            if ($user->username === 'kantin_rsij_1') {
+            Log::info('User is authenticated:', ['username' => $user->username]);
+
+            // Tentukan akses berdasarkan username
+            if ($user->hasFullAccess()) {
                 return $next($request); // Lanjutkan ke halaman admin
-            }else {
-                Log::warning('Access denied for user:', ['username' => Auth::user()->username]);
+            } else {
+                Log::warning('Access denied for user:', ['username' => $user->username]);
+                return redirect()->route('user.dashboard')->withErrors('Access denied.');
             }
         } else {
             Log::warning('User is not authenticated.');
+            return redirect()->route('login')->withErrors('Access denied.');
         }
-
-        return redirect()->route('login')->withErrors('Access denied.');
     }
 }

@@ -15,9 +15,10 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rute untuk admin
-Route::middleware([AdminMiddleware::class])->group(function () {
+
+Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // Tambahkan rute admin lainnya di sini
 });
 
 

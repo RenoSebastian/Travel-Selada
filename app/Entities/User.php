@@ -43,32 +43,28 @@ class User extends Model implements AuthenticatableContract
     protected $casts = [
         'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
     ];
-    
+
     public function hasFullAccess()
     {
-        $fullAccessUsername = 'kantin_rsij_1';
-        return $this->username === $fullAccessUsername;
+        // Define the usernames that have full access
+        $fullAccessUsernames = ['kantin_rsij_1', 'admin2']; // Adjust this list as necessary
+
+        return in_array($this->username, $fullAccessUsernames);
     }
     
-    public static function attemptLogin($username, $password)
+     public static function attemptLogin($username, $password)
     {
-        $user = User::where('username', $username)->first();
-        \Log::info('User retrieval attempt:', ['username' => $username]);
+        // Retrieve the user based on username
+        $user = static::where('username', $username)->first();
 
-        if ($user) {
-            \Log::info('User found:', ['user_id' => $user->id]);
-            if (Hash::check($password, $user->password)) {
-                \Log::info('Password matched for user:', ['user_id' => $user->id]);
-                return $user;
-            } else {
-                \Log::warning('Password mismatch for user:', ['username' => $username]);
-            }
-        } else {
-            \Log::warning('User not found:', ['username' => $username]);
+        // Check if user exists and if the password matches
+        if ($user && Hash::check($password, $user->password)) {
+            return $user; // Return the user object if credentials are correct
         }
 
-        return null;
+        return null; // Return null if authentication fails
     }
+
     public function locations()
     {
         return $this->hasMany(UserLocation::class, 'user_id', 'id');
