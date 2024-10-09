@@ -42,5 +42,5 @@ class LocationController extends Controller
             'locationId' => null,
             'matchingMembers' => [], // Kembalikan koleksi kosong
         ]);
-    }
+    }  
 }
