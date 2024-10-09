@@ -18,29 +18,29 @@ class LocationController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|string',
         ]);
-
+    
         $userId = $validatedData['user_id'];
-
-        // Ambil location_id berdasarkan user_id
+    
+        // Fetch location_id based on user_id
         $userLocation = UserLocation::where('user_id', $userId)->first();
-
+    
         if ($userLocation) {
             $locationId = $userLocation->location_id;
-
-            // Ambil semua member data yang memiliki location_id yang sama
+    
+            // Fetch all member data that have the same location_id
             $matchingMembers = MemberData::where('location_id', $locationId)->get();
-
-            return view('locations.index', [
-                'userId' => $userId,
-                'locationId' => $locationId,
-                'matchingMembers' => $matchingMembers,
+    
+            return response()->json([
+                'user_id' => $userId,
+                'location_id' => $locationId,
+                'data' => $matchingMembers, // Return the member data
             ]);
         }
-
-        return view('locations.index', [
-            'userId' => $userId,
-            'locationId' => null,
-            'matchingMembers' => collect(), // Kembalikan koleksi kosong
+    
+        return response()->json([
+            'user_id' => $userId,
+            'location_id' => null,
+            'data' => [], // Return an empty array if no members found
         ]);
-    }
+    }    
 }
