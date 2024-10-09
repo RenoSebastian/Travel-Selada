@@ -92,6 +92,8 @@ class LocationController extends Controller
             'address' => $request->address,
             'email' => $request->email,
             'phone' => $request->phone,
+            'add_stock_allowed' => $request->add_stock_allowed,
+            'point_of_sale_allowed' => $request->point_of_sale_allowed,
             'created_by' => $request->created_by,
             'updated_by' => $request->updated_by,
             'created_at' => now(),
