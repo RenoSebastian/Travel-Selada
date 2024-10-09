@@ -40,7 +40,7 @@ class LocationController extends Controller
         return view('locations.index', [
             'userId' => $userId,
             'locationId' => null,
-            'matchingMembers' => collect(), // Kembalikan koleksi kosong
+            'matchingMembers' => [], // Kembalikan koleksi kosong
         ]);
     }
 }
