@@ -59,49 +59,6 @@ class LocationController extends Controller
             'locationId' => null,
             'matchingMembers' => [],
         ]);
-<<<<<<< HEAD
     }    
     
-=======
-    }
-
-    public function create()
-    {
-        return view('layouts.admin.location_input');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-           'business_id' => 'required|uuid', 
-            'brand_id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'address' => 'required|string|max:500',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'add_stock_allowed' => 'required|boolean',
-            'point_of_sale_allowed' => 'required|boolean',
-            'created_by' => 'required|string|max:255',
-            'updated_by' => 'required|string|max:255',
-        ]);
-
-        // Simpan data lokasi ke database
-        MLocation::create([
-            'business_id' => $request->business_id,
-            'brand_id' => $request->brand_id, // Pastikan ini diubah
-            'name' => $request->name,
-            'address' => $request->address,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'add_stock_allowed' => $request->add_stock_allowed,
-            'point_of_sale_allowed' => $request->point_of_sale_allowed,
-            'created_by' => $request->created_by,
-            'updated_by' => $request->updated_by,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
-    }
->>>>>>> 02a858e05dac388add70f99c47279e4f598f6d66
 }
