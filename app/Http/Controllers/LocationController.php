@@ -15,32 +15,49 @@ class LocationController extends Controller
 
     public function getLocations(Request $request)
     {
+        // Validate incoming request data
         $validatedData = $request->validate([
             'user_id' => 'required|string',
         ]);
 
         $userId = $validatedData['user_id'];
 
-        // Ambil location_id berdasarkan user_id
+        // Retrieve location_id based on user_id
         $userLocation = UserLocation::where('user_id', $userId)->first();
 
         if ($userLocation) {
             $locationId = $userLocation->location_id;
 
-            // Ambil semua member data yang memiliki location_id yang sama
-            $matchingMembers = MemberData::where('location_id', $locationId)->get();
+            // Retrieve all member data with the same location_id
+            $matchingMembers = MemberData::where('location_id', $locationId)->get()->map(function ($member) {
+                return [
+                    'name' => $member->fullname,
+                    'phone' => $member->phone,
+                    'code' => $member->code,
+                    'seat' => $member->name,
+                ];
+            });
 
-            return view('locations.index', [
-                'userId' => $userId,
-                'locationId' => $locationId,
-                'matchingMembers' => $matchingMembers,
+            // Return JSON response with detailed data
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'userId' => $userId,
+                    'locationId' => $locationId,
+                    'matchingMembers' => $matchingMembers,
+                ],
             ]);
         }
 
-        return view('locations.index', [
-            'userId' => $userId,
-            'locationId' => null,
-            'matchingMembers' => [], // Kembalikan koleksi kosong
+        // Return JSON response for no matching members
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'userId' => $userId,
+                'locationId' => null,
+                'matchingMembers' => [],
+            ],
         ]);
-    }  
+    }
+
 }
