@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NfcController;
 
 Route::post('auth/login', [LoginController::class, 'loginApk']);
