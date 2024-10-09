@@ -9,12 +9,12 @@
         @csrf
         <div class="form-group">
             <label for="business_id">Business ID:</label>
-            <input type="text" class="form-control" id="business_id" name="business_id" required>
+            <input type="text" class="form-control" id="business_id" name="business_id" required placeholder="Masukkan UUID untuk Business id">
         </div>
         
         <div class="form-group">
             <label for="brand_id">Brand ID (UUID):</label>
-            <input type="text" class="form-control" id="brand_id" name="brand_id" required placeholder="Masukkan UUID untuk Brand">
+            <input type="text" class="form-control" id="brand_id" name="brand_id" required>
         </div>
 
         <div class="form-group">
@@ -35,23 +35,7 @@
         <div class="form-group">
             <label for="phone">Telepon:</label>
             <input type="text" class="form-control" id="phone" name="phone">
-        </div>
-
-        <div class="form-group">
-            <label for="add_stock_allowed">Izinkan Penambahan Stok:</label>
-            <select class="form-control" id="add_stock_allowed" name="add_stock_allowed" required>
-                <option value="1">Ya</option>
-                <option value="0">Tidak</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="point_of_sale_allowed">Izinkan Titik Penjualan:</label>
-            <select class="form-control" id="point_of_sale_allowed" name="point_of_sale_allowed" required>
-                <option value="1">Ya</option>
-                <option value="0">Tidak</option>
-            </select>
-        </div>
+        </div>>
 
         <div class="form-group">
             <label for="created_by">Dibuat Oleh:</label>
