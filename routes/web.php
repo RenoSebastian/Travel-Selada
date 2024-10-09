@@ -10,6 +10,7 @@ use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\UserController;
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -33,5 +34,9 @@ Route::get('/admin/location/input', [LocationController::class, 'create'])->name
 
 // Rute untuk menyimpan data lokasi
 Route::post('/admin/location', [LocationController::class, 'store'])->name('location.store');
+
+// Route untuk halaman input user baru
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 
