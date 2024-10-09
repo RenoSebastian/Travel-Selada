@@ -39,14 +39,13 @@ class LoginController extends Controller
             Log::info('User session saved for:', ['user_id' => $user->id]);
 
 
-            // Mengarahkan berdasarkan status pengguna
-            if ($user->username === 'kantin_rsij_1') {
+            if ($user->id === 'acfae652-55c3-4eab-9da8-7c2195e662a8') {
                 return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have full access.');
             } else {
                 return redirect()->route('user.dashboard')->with('status', 'Welcome, you have limited access.');
             }
         } else {
-            Log::warning('Login failed:', ['username' => $username]);
+            Log::warning('Login failed:', ['username' => $id]);
             return redirect()->back()->withErrors(['login' => 'Invalid username or password']);
         }
     }
