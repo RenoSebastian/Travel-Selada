@@ -35,7 +35,23 @@
         <div class="form-group">
             <label for="phone">Telepon:</label>
             <input type="text" class="form-control" id="phone" name="phone">
-        </div>>
+        </div>
+
+        <div class="form-group">
+            <label for="add_stock_allowed">Izinkan Penambahan Stok:</label>
+            <select class="form-control" id="add_stock_allowed" name="add_stock_allowed" required>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="point_of_sale_allowed">Izinkan Titik Penjualan:</label>
+            <select class="form-control" id="point_of_sale_allowed" name="point_of_sale_allowed" required>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label for="created_by">Dibuat Oleh:</label>
