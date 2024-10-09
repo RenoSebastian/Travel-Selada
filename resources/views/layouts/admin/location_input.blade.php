@@ -1,26 +1,41 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Input Data Brand')
+@section('title', 'Input Data Lokasi')
 
 @section('content')
-    <h1>Input Data Brand</h1>
+    <h1>Input Data Lokasi</h1>
 
-    <form action="{{ route('brand.store') }}" method="POST">
+    <form action="{{ route('location.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="business_id">Business ID:</label>
-            <input type="text" class="form-control" id="business_id" name="business_id" required>
+            <input type="text" class="form-control" id="business_id" name="business_id" required placeholder="Masukkan UUID untuk Business id">
         </div>
         
         <div class="form-group">
-            <label for="name">Nama Brand:</label>
+            <label for="brand_id">Brand ID (UUID):</label>
+            <input type="text" class="form-control" id="brand_id" name="brand_id" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Nama Lokasi:</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
 
         <div class="form-group">
-            <label for="description">Deskripsi:</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            <label for="address">Alamat:</label>
+            <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
         </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Telepon:</label>
+            <input type="text" class="form-control" id="phone" name="phone">
+        </div>>
 
         <div class="form-group">
             <label for="created_by">Dibuat Oleh:</label>

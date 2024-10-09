@@ -28,8 +28,10 @@ Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
 
-// Rute untuk Input Data Brand
-Route::get('/admin/brand/input', [BrandController::class, 'create'])->name('brand.create');
-// Rute untuk menyimpan data brand
-Route::post('/admin/brand', [BrandController::class, 'store'])->name('brand.store');
+// Rute untuk Input Data Lokasi
+Route::get('/admin/location/input', [LocationController::class, 'create'])->name('location.create');
+
+// Rute untuk menyimpan data lokasi
+Route::post('/admin/location', [LocationController::class, 'store'])->name('location.store');
+
 
