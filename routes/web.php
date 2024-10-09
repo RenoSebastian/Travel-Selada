@@ -12,13 +12,15 @@ use App\Http\Controllers\LocationController;
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/login', [LoginController::class, 'loginApk'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+// Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 Route::group(['middleware' => ['check.username']], function () {
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', 'AdminDashboardController@index')->name('admin.dashboard');
 });
+
 
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
