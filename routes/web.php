@@ -26,3 +26,7 @@ Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('
 
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
+
+// Rute untuk Input Data Brand
+Route::get('/admin/brand/input', [BrandController::class, 'create'])->name('brand.create');
+
