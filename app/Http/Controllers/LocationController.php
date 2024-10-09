@@ -14,55 +14,51 @@ class LocationController extends Controller
     }
 
     public function getLocations(Request $request)
-{
-    // Validate incoming request data
-    $validatedData = $request->validate([
-        'user_id' => 'required|string',
-    ]);
-
-    $userId = $validatedData['user_id'];
-
-    // Retrieve location_id based on user_id
-    $userLocation = UserLocation::where('user_id', $userId)->first();
-
-    if ($userLocation) {
-        $locationId = $userLocation->location_id;
-
-        // Retrieve all member data with the same location_id
-        $members = MemberData::where('location_id', $locationId)->get();
-
-        // Format member data into an array
-        $matchingMembers = [];
-        foreach ($members as $member) {
-            $matchingMembers[] = [
-                'name' => $member->fullname,
-                'phone' => $member->phone,
-                'code' => $member->code,
-                'seat' => $member->name,
-            ];
-        }
-
-        // Return JSON response with detailed data
-        return response()->json([
-            'status' => 'success',
-            'data' => [
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'user_id' => 'required|string',
+        ]);
+    
+        $userId = $validatedData['user_id'];
+    
+        // Ambil lokasi pengguna
+        $userLocationRecord = UserLocation::where('user_id', $userId)->first();
+    
+        // Jika lokasi ditemukan
+        if ($userLocationRecord) {
+            $locationId = $userLocationRecord->location_id;
+    
+            // Ambil data anggota berdasarkan location_id
+            $members = MemberData::where('location_id', $locationId)->get();
+    
+            // Siapkan data anggota yang cocok
+            $matchingMembers = [];
+            foreach ($members as $member) {
+                $matchingMembers[] = [
+                    'name' => $member->fullname,
+                    'phone' => $member->phone,
+                    'code' => $member->code,
+                    'seat' => $member->name,
+                ];
+            }
+    
+            // Kembalikan respons JSON dengan data
+            return response()->json([
+                'status' => 'success',
                 'userId' => $userId,
                 'locationId' => $locationId,
                 'matchingMembers' => $matchingMembers,
-            ],
-        ]);
-    }
-
-    // Return JSON response for no matching members
-    return response()->json([
-        'status' => 'success',
-        'data' => [
+            ]);
+        }
+    
+        // Jika tidak ada lokasi ditemukan, kembalikan respons dengan status yang sesuai
+        return response()->json([
+            'status' => 'success',
             'userId' => $userId,
             'locationId' => null,
             'matchingMembers' => [],
-        ],
-    ]);
-}
-
-
+        ]);
+    }
+    
 }
