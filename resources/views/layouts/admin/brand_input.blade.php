@@ -4,6 +4,7 @@
 
 @section('content')
     <h1>Input Data Brand</h1>
+
     <form action="{{ route('brand.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -12,4 +13,16 @@
         </div>
         <button type="submit" class="btn btn-success">Simpan</button>
     </form>
+
+    @if(session('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger mt-3">
+            {{ session('error') }}
+        </div>
+    @endif
 @endsection

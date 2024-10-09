@@ -9,6 +9,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\BrandController;
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -29,4 +30,6 @@ Route::post('/locations', [LocationController::class, 'getLocations'])->name('lo
 
 // Rute untuk Input Data Brand
 Route::get('/admin/brand/input', [BrandController::class, 'create'])->name('brand.create');
+// Rute untuk menyimpan data brand
+Route::post('/admin/brand', [BrandController::class, 'store'])->name('brand.store');
 
