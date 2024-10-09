@@ -12,7 +12,7 @@ class LocationController extends Controller
     {
         return view('locations.form');
     }
-
+   
     public function getLocations(Request $request)
     {
         $validatedData = $request->validate([
