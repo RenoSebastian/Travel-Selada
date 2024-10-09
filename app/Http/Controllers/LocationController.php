@@ -59,6 +59,7 @@ class LocationController extends Controller
             'locationId' => null,
             'matchingMembers' => [],
         ]);
-    }    
+    }
+    
     
 }
