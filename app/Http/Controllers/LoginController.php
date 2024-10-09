@@ -25,31 +25,33 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-
+    
         $username = $request->input('username');
         $password = $request->input('password');
-
+    
         Log::info('Login attempt:', [
             'username' => $username,
         ]);
-
-        $user = User::attemptLogin($username, $password);
-
-        if ($user) {
+    
+        $user = User::where('username', $username)->first();
+    
+        if ($user && Hash::check($password, $user->password)) {
             Log::info('Login successful for user:', ['user_id' => $user->id]);
-
-            if ($user->hasFullAccess()) {
-                Log::info('User has full access:', ['user_id' => $user->id]);
-                return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have full access.');
+        
+            session([
+                'user_id' => $user->id,
+                'username' => $user->username,
+                'role' => $user->role,
+            ]);
+        
+            if ($username === 'kantin_rsij_1') {
+                return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have access to the admin dashboard.');
             } else {
-                Log::info('User has limited access:', ['user_id' => $user->id]);
                 return redirect()->route('user.dashboard')->with('status', 'Welcome, you have limited access.');
             }
-        } else {
-            Log::warning('Login failed:', ['username' => $username]);
-            return redirect()->back()->withErrors(['login' => 'Invalid username or password']);
         }
-    }
+        
+    }    
     
 
     public function loginApk(Request $request)
@@ -97,6 +99,8 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
+        session()->flush();
         return redirect()->route('login');
     }
+
 }
