@@ -11,7 +11,7 @@ class LocationController extends Controller
 {
     public function showForm()
     {
-        return view('locations.form');
+        return view('Locations.form');
     }
 
     public function getLocations(Request $request)
