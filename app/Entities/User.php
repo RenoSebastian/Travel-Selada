@@ -12,7 +12,7 @@ class User extends Model implements AuthenticatableContract
     use Authenticatable; // Gunakan trait Authenticatable
 
     protected $connection = 'pgsql_mireta';
-    protected $table = 'users';
+    protected $table = 'public.users';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
