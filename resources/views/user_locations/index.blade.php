@@ -28,6 +28,9 @@
             });
         </script>
     @endif
+     <!-- Tombol untuk menambah user location -->
+     <a href="{{ route('user_locations.create') }}" class="btn btn-primary mb-3">Tambah User Location</a>
+
 
     <table class="table table-bordered">
         <thead>
