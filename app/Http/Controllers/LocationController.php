@@ -7,6 +7,7 @@ use App\Entities\UserLocation;
 use App\Entities\MLocation;
 use App\Entities\MemberData;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 
 class LocationController extends Controller
