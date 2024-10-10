@@ -9,11 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Custom styles for the navbar */
+        .navbar {
+            background-color: #efaf32;
+        }
+
         .navbar-brand {
             font-weight: bold;
             font-size: 1.5rem;
-            color: #efaf32; /* Warna kuning favorit */
+            color: white;
         }
 
         .nav-link {
@@ -22,10 +25,9 @@
         }
 
         .nav-link:hover {
-            color: #efaf32; /* Warna kuning saat hover */
+            color: #efaf32;
         }
 
-        /* Button styling */
         .navbar-toggler {
             border: none;
         }
@@ -34,12 +36,10 @@
             background-color: #333;
         }
 
-        /* Adjust spacing on mobile */
         .navbar-nav {
             margin-left: auto;
         }
 
-        /* Hover effects for Profile and Logout */
         .navbar-nav .nav-item .nav-link {
             position: relative;
         }
@@ -56,7 +56,6 @@
     </style>
 </head>
 <body>
-  <!-- resources/views/layouts/partials/top-navbar.blade.php -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <button id="toggleSidebar" class="btn btn-light me-2">☰</button>
@@ -83,15 +82,13 @@
     </div>
 </nav>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        // Activate Feather icons
-        feather.replace();
-    </script>
+<!-- Feather Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
+</script>
 </body>
 </html>

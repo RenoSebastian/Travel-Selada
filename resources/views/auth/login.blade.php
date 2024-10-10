@@ -11,30 +11,31 @@
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #d1c4e9, #b39ddb);
         }
 
         h1 {
-            font-size: 2em;
+            font-size: 2.5em;
             margin-bottom: 1em;
             color: #333;
         }
 
         form {
-            background-color: #fff;
-            padding: 2em;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5em;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
+            backdrop-filter: blur(10px);
         }
 
         label {
@@ -42,39 +43,62 @@
             display: block;
             margin-top: 1em;
             text-align: left;
-            color: #555;
+            color: #333;
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             margin-top: 0.5em;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border: 1px solid #6a1b9a;
+            outline: none;
         }
 
         button {
             margin-top: 1.5em;
-            padding: 10px 20px;
+            padding: 12px;
             width: 100%;
             border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
+            border-radius: 8px;
+            background-color: #6a1b9a;
             color: white;
-            font-size: 1em;
+            font-size: 1.1em;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #4a148c;
+            transform: translateY(-2px);
         }
 
         div {
             color: red;
             margin-bottom: 1em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            form {
+                padding: 2em;
+            }
+
+            button {
+                font-size: 1em;
+            }
         }
     </style>
 </head>

@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Side Navbar with Top Navbar</title>
+    <title>Side Navbar</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
-        /* Sidebar style */
         #sidebarMenu {
-            transition: all 0.3s ease;
-            background-color: #D8C9A3; /* Warna pastel coklat/cream */
+            background-color: #D8C9A3;
             height: 100vh;
+            transition: all 0.3s ease;
         }
 
         .nav-item {
@@ -24,11 +23,11 @@
             color: #333;
             padding: 10px;
             display: block;
-            text-align: center; /* Rata tengah untuk tombol */
+            text-align: center;
         }
 
         .nav-link.active {
-            background-color: #efaf32; /* Warna kuning favorit */
+            background-color: #efaf32;
             color: white;
             font-weight: bold;
         }
@@ -38,48 +37,30 @@
             color: black;
         }
 
-        /* Button style */
         .btn-custom {
-            background-color: #A68A6D; /* Warna tombol lebih tua */
-            color: white; /* Warna teks tombol */
-            width: 100%; /* Buat tombol memenuhi lebar */
-            margin-bottom: 10px; /* Spasi antar tombol */
+            background-color: #A68A6D;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
         .btn-custom:hover {
-            background-color: #8A6D58; /* Warna tombol saat hover */
+            background-color: #8A6D58;
         }
 
-        /* Sidebar toggle transition */
         .collapsed-sidebar {
             width: 0;
             overflow: hidden;
             transition: width 0.3s ease;
         }
 
-        /* Sidebar hidden when collapsed */
         #sidebarMenu.collapsed-sidebar {
             display: none;
         }
-
-        /* Top Navbar style */
-        .navbar {
-            background-color: #efaf32; /* Warna kuning favorit */
-            padding: 10px;
-        }
-
-        .navbar-brand {
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Move toggle to the top-navbar */
-        #toggleSidebar {
-            margin-right: 10px;
-        }
     </style>
 </head>
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+<body>
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar">
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -98,24 +79,18 @@
     </div>
 </nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        // Activate feather icons
-        feather.replace();
+<!-- Feather Icons -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+    feather.replace();
 
-        // Toggle sidebar visibility
-        document.getElementById("toggleSidebar").addEventListener("click", function() {
-            let sidebar = document.getElementById("sidebarMenu");
-            if (sidebar.classList.contains("collapsed-sidebar")) {
-                sidebar.classList.remove("collapsed-sidebar");
-            } else {
-                sidebar.classList.add("collapsed-sidebar");
-            }
-        });
-    </script>
+    document.getElementById("toggleSidebar").addEventListener("click", function() {
+        let sidebar = document.getElementById("sidebarMenu");
+        sidebar.classList.toggle("collapsed-sidebar");
+    });
+</script>
 </body>
 </html>
