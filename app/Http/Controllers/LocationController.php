@@ -33,20 +33,29 @@ class LocationController extends Controller
             // Ambil semua member data yang memiliki location_id yang sama
             $matchingMembers = MemberData::where('location_id', $locationId)->get();
 
-            return view('Locations.index', [
-                'userId' => $userId,
-                'locationId' => $locationId,
-                'matchingMembers' => $matchingMembers,
+            // Ubah ke format JSON
+            $membersData = $matchingMembers->map(function ($member) {
+                return [
+                    'fullname' => $member->fullname,
+                    'phone' => $member->phone,
+                    'seat' => $member->name,
+                ];
+            });
+
+            return response()->json([
+                'user_id' => $userId,
+                'location_id' => $locationId,
+                'members' => $membersData,
             ]);
         }
 
-        return view('Locations.index', [
-            'userId' => $userId,
-            'locationId' => null,
-            'matchingMembers' => collect(), // Kembalikan koleksi kosong
+        return response()->json([
+            'user_id' => $userId,
+            'location_id' => null,
+            'members' => [], // Kembalikan koleksi kosong
         ]);
     }
-    
+
     public function create()
     {
         return view('Locations.location_input'); // Pastikan nama view sesuai
