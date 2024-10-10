@@ -101,12 +101,6 @@
                     </ul>
                 </div>
             </nav>
-
-            <!-- Main Content Area -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <h1>Welcome to the Dashboard</h1>
-                <p>This is the main content area.</p>
-            </main>
         </div>
     </div>
 
