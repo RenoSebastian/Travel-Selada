@@ -117,4 +117,48 @@ class LocationController extends Controller
         return view('Locations.list_location', compact('locations'));
     }
 
+    public function edit($id)
+    {
+        // Ambil pengguna berdasarkan ID
+        $user = User::findOrFail($id);
+        
+        return view('Locations.user_edit', compact('user'));
+    }
+
+    // Memperbarui data pengguna
+    public function update(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'is_active' => 'required|boolean',
+        ]);
+
+        // Cari pengguna berdasarkan ID
+        $user = User::findOrFail($id);
+
+        // Perbarui data pengguna
+        $user->update([
+            'fullname' => $request->fullname,
+            'username' => $request->username,
+            'email' => $request->email,
+            'is_active' => $request->is_active,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui!');
+    }
+
+    // Menghapus pengguna
+    public function destroy($id)
+    {
+        // Cari pengguna berdasarkan ID dan hapus
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus!');
+    }
+
 }
