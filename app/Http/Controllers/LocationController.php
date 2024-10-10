@@ -7,6 +7,7 @@ use App\Entities\UserLocation;
 use App\Entities\MLocation;
 use App\Entities\MemberData;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 
 class LocationController extends Controller
@@ -102,6 +103,17 @@ class LocationController extends Controller
     
         // Redirect setelah berhasil menyimpan data
         return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
+    }    
+
+    public function index(Request $request)
+    {
+        // Ambil jumlah item per halaman dari query parameter, default 10
+        $perPage = $request->get('per_page', 5);
+
+        // Ambil data lokasi dengan pagination
+        $locations = MLocation::paginate($perPage);
+
+        // Tampilkan view dengan data lokasi
+        return view('Locations.list_location', compact('locations'));
     }
-    
 }

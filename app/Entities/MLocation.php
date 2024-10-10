@@ -28,6 +28,7 @@ class MLocation extends Model
         'updated_at',
         'deleted_at'
     ];
+    
     public function brand()
     {
         return $this->belongsTo(MBrand::class, 'brand_id', 'id');

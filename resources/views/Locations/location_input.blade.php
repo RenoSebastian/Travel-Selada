@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Data Lokasi</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 <div class="container mt-4">
@@ -76,9 +78,16 @@
     </form>
 
     @if(session('success'))
-        <div class="alert alert-success mt-3 text-center">
-            {{ session('success') }}
-        </div>
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
     @endif
 
     @if(session('error'))
