@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Entities\UserLocation;
 use App\Entities\User;
 use App\Entities\MLocation;
+use Illuminate\Support\Str;
 
 class UserLocationController extends Controller
 {
