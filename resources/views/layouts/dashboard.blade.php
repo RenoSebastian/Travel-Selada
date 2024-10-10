@@ -1,3 +1,4 @@
+<!-- resources/views/layouts/dashboard.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,4 +27,3 @@
     </div>
 </body>
 </html>
-    

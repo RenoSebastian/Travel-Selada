@@ -79,30 +79,24 @@
         }
     </style>
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-custom" aria-current="page">
-                                <span data-feather="home"></span>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('location.create') }}" class="btn btn-custom">Input Data Brand</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-custom" aria-current="page">
+                    <span data-feather="home"></span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('location.create') }}" class="btn btn-custom">Input Data Brand</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
+            </li>
+        </ul>
     </div>
+</nav>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
