@@ -74,6 +74,12 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link active" aria-current="page">
+                                <span data-feather="home"></span>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('location.create') }}" class="btn btn-primary w-100 mb-2">Input Data Brand</a>
                         </li>
                         <li class="nav-item">
