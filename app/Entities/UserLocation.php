@@ -9,7 +9,7 @@ class UserLocation extends Model
 {
 
     protected $connection = 'pgsql_mireta';
-    protected $table = 'public.user_locations';
+    protected $table = 'user_locations';
     protected $primaryKey = 'id';
     public $timestamps = false;
 

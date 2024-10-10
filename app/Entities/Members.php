@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Members extends Model
 {
     protected $connection = 'pgsql_ardi'; // Sesuai dengan nama koneksi di .env
-    protected $table = 'public.members'; // Nama tabel yang benar
+    protected $table = 'members'; // Nama tabel yang benar
 
     protected $primaryKey = 'id'; // Primary key tabel
 

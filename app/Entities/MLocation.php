@@ -8,7 +8,7 @@ class MLocation extends Model
 {
 
     protected $connection = 'pgsql_mireta';
-    protected $table = 'public.m_locations';
+    protected $table = 'm_locations';
     protected $primaryKey = 'id';
     public $timestamps = false;
 

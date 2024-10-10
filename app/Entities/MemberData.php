@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MemberData extends Model
 {
     protected $connection = 'pgsql_ardi'; // Koneksi ke database yang sesuai
-    protected $table = 'public.member_data'; // Nama view di PostgreSQL
+    protected $table = 'member_data'; // Nama view di PostgreSQL
     protected $primaryKey = 'id';
     public $timestamps = false; // View tidak memiliki kolom timestamps
 
