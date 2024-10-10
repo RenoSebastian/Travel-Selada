@@ -29,7 +29,7 @@ Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
 
-Route::get('/locations/list/Bus', [LocationController::class, 'index'])->name('location.index');
+Route::get('/locations/list/Bus', [LocationController::class, 'index'])->name('location.list_bus');
 Route::get('/locations/create', [LocationController::class, 'create'])->name('location.create');
 Route::post('/locations/store', [LocationController::class, 'store'])->name('location.store');
 

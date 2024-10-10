@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Lokasi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Daftar Lokasi')
+
+@section('content')
 <div class="container mt-4">
     <h1 class="text-center">Daftar Lokasi</h1>
 
@@ -49,11 +45,23 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            <div class="col-md-6">
+                <form method="GET" action="{{ route('location.index') }}" class="form-inline">
+                    <label for="per_page" class="mr-2">Tampilkan:</label>
+                    <select name="per_page" id="per_page" class="form-control mr-2" onchange="this.form.submit()">
+                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+                    <label for="per_page" class="mr-2">data</label>
+                </form>
+            </div>
+            <div class="col-md-6 text-right">
+                {{ $locations->links() }} <!-- Pagination links -->
+            </div>
+        </div>
     @endif
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+@endsection

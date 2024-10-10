@@ -104,10 +104,13 @@ class LocationController extends Controller
         return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
     }    
 
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua lokasi dari database
-        $locations = MLocation::all();
+        // Ambil jumlah item per halaman dari query parameter, default 10
+        $perPage = $request->get('per_page', 10);
+
+        // Ambil data lokasi dengan pagination
+        $locations = MLocation::paginate($perPage);
 
         // Tampilkan view dengan data lokasi
         return view('Locations.list_location', compact('locations'));

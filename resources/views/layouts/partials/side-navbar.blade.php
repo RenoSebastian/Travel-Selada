@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('location.create') }}" class="btn btn-custom">Input Data Brand</a>
+                <a href="{{ route('location.list_bus') }}" class="btn btn-custom">Input Data Brand</a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
