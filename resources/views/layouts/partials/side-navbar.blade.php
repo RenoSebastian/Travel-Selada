@@ -73,7 +73,7 @@
                 <a href="{{ route('location.index') }}" class="btn btn-custom">Input Data Brand</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
+                <a href="{{ route('users.index') }}" class="btn btn-custom">Input User</a>
             </li>
         </ul>
     </div>
