@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function create()
     {
-        return view('layouts.admin.user_input');
+        return view('Locations.user_input');
     }
 
     public function store(Request $request)
