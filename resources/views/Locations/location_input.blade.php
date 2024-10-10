@@ -1,18 +1,22 @@
-@extends('layouts.dashboard')
-
-@section('title', 'Input Data Lokasi')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Lokasi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
 <div class="container mt-4">
     <h1 class="text-center">Input Data Lokasi</h1>
 
     <form action="{{ route('location.store') }}" method="POST" class="mt-4">
         @csrf
         <div class="row">
-            <div class="col-md-8 offset-md-2"> <!-- Ubah menjadi 8 dan offset 2 -->
+            <div class="col-md-8 offset-md-2">
                 <div class="form-group">
                     <label for="business_id">Business ID:</label>
-                    <input type="text" class="form-control" id="business_id" name="business_id" required placeholder="Masukkan UUID untuk Business id">
+                    <input type="text" class="form-control" id="business_id" name="business_id" required placeholder="Masukkan UUID untuk Business ID">
                 </div>
 
                 <div class="form-group">
@@ -82,5 +86,13 @@
             {{ session('error') }}
         </div>
     @endif
+
+    <div class="text-center mt-4">
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
+    </div>
 </div>
-@endsection
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
