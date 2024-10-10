@@ -47,7 +47,7 @@ class LocationController extends Controller
     
     public function create()
     {
-        return view('Locations.create'); // Pastikan nama view sesuai
+        return view('locations.create'); // Pastikan nama view sesuai
     }
 
     public function store(Request $request)
