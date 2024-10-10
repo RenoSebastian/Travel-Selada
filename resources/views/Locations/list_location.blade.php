@@ -51,10 +51,8 @@
                 <form method="GET" action="{{ route('location.index') }}" class="form-inline">
                     <label for="per_page" class="mr-2">Tampilkan:</label>
                     <select name="per_page" id="per_page" class="form-control mr-2" onchange="this.form.submit()">
-                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
-                        <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20</option>
-                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
-                    </select>
+                        <option value="5" {{ request('per_page') == 10 ? 'selected' : '' }}>5</option>
+                        <option value="10" {{ request('per_page') == 20 ? 'selected' : '' }}>10</option>
                     <label for="per_page" class="mr-2">data</label>
                 </form>
             </div>

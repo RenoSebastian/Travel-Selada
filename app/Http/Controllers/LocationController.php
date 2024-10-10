@@ -107,7 +107,7 @@ class LocationController extends Controller
     public function index(Request $request)
     {
         // Ambil jumlah item per halaman dari query parameter, default 10
-        $perPage = $request->get('per_page', 10);
+        $perPage = $request->get('per_page', 5);
 
         // Ambil data lokasi dengan pagination
         $locations = MLocation::paginate($perPage);
