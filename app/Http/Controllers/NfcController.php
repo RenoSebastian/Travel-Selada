@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Entities\Members;
 use App\Entities\Absensi;
+use App\Entities\UserLocation;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,21 @@ class NfcController extends Controller
             return response()->json([
                 'message' => 'Member not found.',
             ], 404);
+        }
+
+        // Validasi lokasi
+        $userLocation = UserLocation::where('location_id', $member->opt1)->first(); // Ambil user location berdasarkan opt1
+        if (!$userLocation) {
+            return response()->json([
+                'message' => 'Location not found.',
+            ], 404);
+        }
+
+        // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
+        if ($userLocation->location_id != $member->opt1) {
+            return response()->json([
+                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt1,
+            ], 403); // HTTP 403 Forbidden
         }
 
         // Jika status sudah 1 (sudah checkin), return response
@@ -86,6 +102,22 @@ class NfcController extends Controller
                 'message' => 'Member not found.',
             ], 404);
         }
+        
+        // Validasi lokasi
+        $userLocation = UserLocation::where('location_id', $member->opt1)->first(); // Ambil user location berdasarkan opt1
+        if (!$userLocation) {
+            return response()->json([
+                'message' => 'Location not found.',
+            ], 404);
+        }
+
+        // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
+        if ($userLocation->location_id != $member->opt1) {
+            return response()->json([
+                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt1,
+            ], 403); // HTTP 403 Forbidden
+        }
+
 
         // Jika status sudah 0 (sudah checkout), return response
         if ($member->status == 0) {
