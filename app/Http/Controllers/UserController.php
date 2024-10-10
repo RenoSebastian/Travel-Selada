@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entities\User;
-use Illuminate\Support\Str; // Import Str untuk generate UUID
+use Illuminate\Support\Str; // Import Str untuk generate UUID\
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
