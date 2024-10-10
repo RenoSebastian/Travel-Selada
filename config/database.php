@@ -54,7 +54,7 @@ return [
         'pgsql_ardi' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_PGSQL_ARDI', '192.168.1.102'),
+            'host' => env('DB_HOST_PGSQL_ARDI', '103.156.164.171'),
             'port' => env('DB_PORT_PGSQL_ARDI', '5432'),
             'database' => env('DB_DATABASE_PGSQL_ARDI', 'sld_id_mireta_ardi'),
             'username' => env('DB_USERNAME_PGSQL_ARDI', 'supermieuser'),
@@ -70,7 +70,7 @@ return [
         'pgsql_mireta' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_PGSQL_MIRETA', '192.168.1.102'),
+            'host' => env('DB_HOST_PGSQL_MIRETA', '103.156.164.171'),
             'port' => env('DB_PORT_PGSQL_MIRETA', '5432'),
             'database' => env('DB_DATABASE_PGSQL_MIRETA', 'sld_id_mireta_pos'),
             'username' => env('DB_USERNAME_PGSQL_MIRETA', 'supermieuser'),

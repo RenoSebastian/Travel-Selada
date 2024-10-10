@@ -5,21 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Data Bus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container mt-4">
         <h2>Tambah Data Bus</h2>
 
-        <!-- Tampilkan pesan sukses jika ada -->
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Form input data bus -->
         <form action="{{ route('bus.store') }}" method="POST">
-            @csrf
+        @csrf
             <div class="mb-3">
                 <label for="nama_bus" class="form-label">Nama Bus</label>
                 <input type="text" class="form-control" id="nama_bus" name="nama_bus" value="{{ old('nama_bus') }}" required>
@@ -52,5 +46,26 @@
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
+
+    <!-- Script untuk SweetAlert -->
+    <script>
+        @if(session('success'))
+            Swal.fire({
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                title: 'Gagal!',
+                text: "{{ session('error') }}",
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
 </body>
 </html>

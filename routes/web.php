@@ -12,11 +12,24 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\UserLocationController;
 use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\BusController;
 
+use App\Http\Controllers\MBusController;
+
+// Route untuk m_bus
+Route::prefix('m_bus')->group(function () {
+    Route::get('create', [MBusController::class, 'create'])->name('m_bus.create');
+    Route::post('store', [MBusController::class, 'store'])->name('m_bus.store');
+    Route::get('/', [MBusController::class, 'index'])->name('m_bus.index');
+    
+    // Route untuk edit
+    Route::get('{id}/edit', [MBusController::class, 'edit'])->name('m_bus.edit');
+    Route::put('{id}', [MBusController::class, 'update'])->name('m_bus.update');
+    Route::delete('{id}', [MBusController::class, 'destroy'])->name('m_bus.destroy');
+});
+
 Route::get('/bus/create', [BusController::class, 'create'])->name('bus.create'); // Menampilkan form
-Route::post('/bus/store', [BusController::class, 'store'])->name('bus.store');   // Menyimpan data baru
+Route::post('/bus/store', [BusController::class, 'store'])->name('bus.store');
 
 Route::get('/bus', [BusController::class, 'index'])->name('bus.index');
 
