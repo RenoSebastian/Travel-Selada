@@ -18,8 +18,8 @@ class UserController extends Controller
         // Validasi input
         $request->validate([
             'fullname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:public.users', // Pastikan username unik
-            'email' => 'required|string|email|max:255|unique:public.users',
+            'username' => 'required|string|max:255|unique:users', // Pastikan username unik
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
