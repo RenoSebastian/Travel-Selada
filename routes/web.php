@@ -10,6 +10,7 @@ use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\UserLocationController;
 use App\Http\Controllers\UserController;
 
 // Rute untuk halaman login
@@ -42,3 +43,7 @@ Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edi
 Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
+
+// Route untuk halaman input user location baru
+Route::get('/user-locations/create', [UserLocationController::class, 'create'])->name('user_locations.create');
+Route::post('/user-locations', [UserLocationController::class, 'store'])->name('user_locations.store');
