@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Entities\UserLocation;
 use App\Entities\MLocation;
 use App\Entities\MemberData;
+use Illuminate\Support\Facades\Log;
+
 
 class LocationController extends Controller
 {
@@ -83,6 +85,8 @@ class LocationController extends Controller
                 'updated_at' => now(),
             ]);
     
+            Log::info('Menyimpan lokasi: ', $validatedData);
+
             // Redirect setelah berhasil menyimpan data
             return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
         } catch (\Exception $e) {
