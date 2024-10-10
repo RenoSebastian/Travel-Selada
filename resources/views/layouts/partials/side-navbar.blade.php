@@ -87,7 +87,7 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="{{ route('admin.dashboard') }}" class="nav-link active" aria-current="page">
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-custom" aria-current="page">
                                 <span data-feather="home"></span>
                                 Dashboard
                             </a>
@@ -97,24 +97,6 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="btn btn-custom">
-                                <span data-feather="file"></span>
-                                Transactions
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="btn btn-custom">
-                                <span data-feather="credit-card"></span>
-                                Terminals
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="btn btn-custom">
-                                <span data-feather="users"></span>
-                                Agents
-                            </a>
                         </li>
                     </ul>
                 </div>
