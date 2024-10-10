@@ -12,7 +12,7 @@
         /* Sidebar style */
         #sidebarMenu {
             transition: all 0.3s ease;
-            background-color: #B2EBF2; /* Warna pastel biru muda */
+            background-color: #D8C9A3; /* Warna pastel coklat/cream */
             height: 100vh;
         }
 
@@ -40,8 +40,14 @@
 
         /* Button style */
         .btn-custom {
+            background-color: #A68A6D; /* Warna tombol lebih tua */
+            color: white; /* Warna teks tombol */
             width: 100%; /* Buat tombol memenuhi lebar */
             margin-bottom: 10px; /* Spasi antar tombol */
+        }
+
+        .btn-custom:hover {
+            background-color: #8A6D58; /* Warna tombol saat hover */
         }
 
         /* Sidebar toggle transition */
@@ -87,25 +93,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('location.create') }}" class="btn btn-primary btn-custom">Input Data Brand</a>
+                            <a href="{{ route('location.create') }}" class="btn btn-custom">Input Data Brand</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="btn btn-primary btn-custom">Input User</a>
+                            <a href="{{ route('users.create') }}" class="btn btn-custom">Input User</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="btn btn-primary btn-custom">
+                            <a href="#" class="btn btn-custom">
                                 <span data-feather="file"></span>
                                 Transactions
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="btn btn-primary btn-custom">
+                            <a href="#" class="btn btn-custom">
                                 <span data-feather="credit-card"></span>
                                 Terminals
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="btn btn-primary btn-custom">
+                            <a href="#" class="btn btn-custom">
                                 <span data-feather="users"></span>
                                 Agents
                             </a>
