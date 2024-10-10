@@ -107,7 +107,7 @@ class LocationController extends Controller
     public function index()
     {
         // Ambil semua lokasi dari database
-        $locations = Location::all();
+        $locations = MLocation::all();
 
         // Tampilkan view dengan data lokasi
         return view('location.list_location', compact('locations'));
