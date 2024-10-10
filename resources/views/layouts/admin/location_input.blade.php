@@ -9,7 +9,7 @@
     <form action="{{ route('location.store') }}" method="POST" class="mt-4">
         @csrf
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-8 offset-md-2"> <!-- Ubah menjadi 8 dan offset 2 -->
                 <div class="form-group">
                     <label for="business_id">Business ID:</label>
                     <input type="text" class="form-control" id="business_id" name="business_id" required placeholder="Masukkan UUID untuk Business id">

@@ -47,14 +47,15 @@ class LocationController extends Controller
     
     public function create()
     {
-        return view('layouts.admin.location_input');
+        return view('locations.input'); // Perbarui dengan nama view yang benar
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Validasi input
+        $validatedData = $request->validate([
             'business_id' => 'required|string|max:255',
-            'brand_id' => 'required|uuid', // Ubah validasi di sini
+            'brand_id' => 'required|uuid', // Pastikan brand_id adalah UUID
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
             'email' => 'nullable|email|max:255',
@@ -67,20 +68,21 @@ class LocationController extends Controller
 
         // Simpan data lokasi ke database
         MLocation::create([
-            'business_id' => $request->business_id,
-            'brand_id' => $request->brand_id, // Pastikan ini diubah
-            'name' => $request->name,
-            'address' => $request->address,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'add_stock_allowed' => $request->add_stock_allowed,
-            'point_of_sale_allowed' => $request->point_of_sale_allowed,
-            'created_by' => $request->created_by,
-            'updated_by' => $request->updated_by,
+            'business_id' => $validatedData['business_id'],
+            'brand_id' => $validatedData['brand_id'], // Pastikan ini diubah
+            'name' => $validatedData['name'],
+            'address' => $validatedData['address'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'add_stock_allowed' => $validatedData['add_stock_allowed'],
+            'point_of_sale_allowed' => $validatedData['point_of_sale_allowed'],
+            'created_by' => $validatedData['created_by'],
+            'updated_by' => $validatedData['updated_by'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
+        // Redirect setelah berhasil menyimpan data
         return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
     }
 }

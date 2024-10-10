@@ -29,11 +29,8 @@ Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
 
-// Rute untuk Input Data Lokasi
-Route::get('/admin/location/input', [LocationController::class, 'create'])->name('location.create');
-
-// Rute untuk menyimpan data lokasi
-Route::post('/admin/location', [LocationController::class, 'store'])->name('location.store');
+Route::get('/locations/create', [LocationController::class, 'create'])->name('location.create');
+Route::post('/locations/store', [LocationController::class, 'store'])->name('location.store');
 
 // Route untuk halaman input user baru
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
