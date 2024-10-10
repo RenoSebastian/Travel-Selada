@@ -102,6 +102,5 @@ class LocationController extends Controller
     
         // Redirect setelah berhasil menyimpan data
         return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
-    }
-    
+    }    
 }
