@@ -75,6 +75,9 @@
             <li class="nav-item">
                 <a href="{{ route('users.index') }}" class="btn btn-custom">Input User</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('user_location.index') }}" class="btn btn-custom">Input tour guide</a>
+            </li>
         </ul>
     </div>
 </nav>
