@@ -25,17 +25,33 @@ class UserLocationController extends Controller
     {
         // Validasi input
         $request->validate([
-            'user_id' => 'required|exists:users,id', // Memastikan user_id ada di tabel users
-            'location_id' => 'required|exists:m_locations,id', // Memastikan location_id ada di tabel m_locations
+            'user_id' => 'required|exists:users,id',
+            'location_id' => 'required|exists:m_locations,id',
         ]);
 
-        // Buat UserLocation baru
-        UserLocation::create([
-            'user_id' => $request->user_id, // Menyimpan user_id
-            'brand_id' => 65, // Set brand_id menjadi 65
-            'location_id' => $request->location_id, // Menyimpan location_id
-        ]);
+        try {
+            // Buat UserLocation baru
+            UserLocation::create([
+                'id' => Str::uuid(),
+                'user_id' => $request->user_id,
+                'brand_id' => 65, // Set brand_id menjadi 65
+                'location_id' => $request->location_id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        return redirect()->route('user_locations.create')->with('success', 'User location berhasil ditambahkan!');
+            return redirect()->route('user_locations.create')->with('success', 'User location berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return redirect()->route('user_locations.create')->with('error', 'Terjadi kesalahan saat menambahkan user location: ' . $e->getMessage());
+        }
     }
+
+     // Metode untuk menampilkan daftar user locations
+     public function index(Request $request)
+     {
+         // Mengambil semua user locations dengan pagination
+         $userLocations = UserLocation::with(['location'])->paginate(10); // Menampilkan 10 entri per halaman
+ 
+         return view('user_locations.index', compact('userLocations'));
+     }
 }

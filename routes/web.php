@@ -47,3 +47,4 @@ Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.de
 // Route untuk halaman input user location baru
 Route::get('/user-locations/create', [UserLocationController::class, 'create'])->name('user_locations.create');
 Route::post('/user-locations', [UserLocationController::class, 'store'])->name('user_locations.store');
+Route::get('/user-locations/list_user-locations', [UserLocationController::class, 'index'])->name('user_locations.index');
