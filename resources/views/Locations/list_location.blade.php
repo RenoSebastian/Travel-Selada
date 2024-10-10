@@ -53,6 +53,7 @@
                     <select name="per_page" id="per_page" class="form-control mr-2" onchange="this.form.submit()">
                         <option value="5" {{ request('per_page') == 10 ? 'selected' : '' }}>5</option>
                         <option value="10" {{ request('per_page') == 20 ? 'selected' : '' }}>10</option>
+                    <select>
                     <label for="per_page" class="mr-2">data</label>
                 </form>
             </div>
