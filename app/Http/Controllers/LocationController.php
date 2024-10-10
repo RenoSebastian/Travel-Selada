@@ -47,7 +47,7 @@ class LocationController extends Controller
     
     public function create()
     {
-        return view('layouts.admin.location_input'); // Perbarui dengan nama view yang benar
+        return view('Locations.create'); // Pastikan nama view sesuai
     }
 
     public function store(Request $request)
