@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Pengguna</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-4">
+@extends('layouts.dashboard')
+
+@section('content')
+<div class="container">
     <h1>Daftar Pengguna</h1>
 
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <script>
+            swal({
+                title: "Sukses!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                button: "OK",
+            });
+        </script>
     @endif
 
-    <table class="table table-bordered">
+    <table class="table">
         <thead>
             <tr>
                 <th>Nama Lengkap</th>
@@ -38,23 +37,37 @@
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus pengguna ini?');">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Hapus</button>
                         </form>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
-    <!-- Pagination Links -->
-    {{ $users->links() }}
-
-    <div class="text-center mt-4">
-        <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah Pengguna Baru</a>
-    </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+<script>
+    function confirmDelete() {
+        return confirm("Yakin ingin menghapus pengguna ini?");
+    }
+</script>
+
+@endsection
+
+<script>
+    function confirmDelete() {
+        swal({
+            title: "Apakah Anda Yakin?",
+            text: "Anda tidak akan dapat memulihkan data ini!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                // Jika pengguna mengklik OK, kita submit form
+                event.target.closest("form").submit();
+            }
+        });
+        return false; // Mencegah submit form default
+    }
+</script>

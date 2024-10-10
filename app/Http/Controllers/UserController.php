@@ -47,15 +47,7 @@ class UserController extends Controller
         return view('Locations.user_list', compact('users'));
     }
 
-    public function edit($id)
-    {
-        // Ambil pengguna berdasarkan ID
-        $user = User::findOrFail($id);
-        
-        return view('Locations.user_edit', compact('user'));
-    }
-
-    // Memperbarui data pengguna
+        // Memperbarui data pengguna
     public function update(Request $request, $id)
     {
         // Validasi input
@@ -90,4 +82,5 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus!');
     }
+
 }
