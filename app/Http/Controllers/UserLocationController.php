@@ -25,18 +25,15 @@ class UserLocationController extends Controller
     {
         // Validasi input
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'location_id' => 'required|exists:m_locations,id',
+            'user_id' => 'required|exists:users,id', // Memastikan user_id ada di tabel users
+            'location_id' => 'required|exists:m_locations,id', // Memastikan location_id ada di tabel m_locations
         ]);
 
         // Buat UserLocation baru
         UserLocation::create([
-            'id' => Str::uuid(),
-            'user_id' => $request->user_id,
+            'user_id' => $request->user_id, // Menyimpan user_id
             'brand_id' => 65, // Set brand_id menjadi 65
-            'location_id' => $request->location_id,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'location_id' => $request->location_id, // Menyimpan location_id
         ]);
 
         return redirect()->route('user_locations.create')->with('success', 'User location berhasil ditambahkan!');

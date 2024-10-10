@@ -17,27 +17,28 @@
     @endif
 
     <form action="{{ route('user_locations.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="user_id">Tourguide:</label>
-            <select name="user_id" class="form-control" required>
-                <option value="">Pilih Tourguide</option>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->fullname }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="location_id">Lokasi:</label>
-            <select name="location_id" class="form-control" required>
-                <option value="">Pilih Lokasi</option>
-                @foreach($locations as $location)
-                    <option value="{{ $location->id }}">{{ $location->id }} | {{ $location->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    @csrf
+    <div class="form-group">
+        <label for="user_id">Tour Guide</label>
+        <select name="user_id" id="user_id" class="form-control" required>
+            @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="location_id">Bus Location</label>
+        <select name="location_id" id="location_id" class="form-control" required>
+            @foreach($locations as $location)
+                <option value="{{ $location->id }}">{{ $location->id }} | {{ $location->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
 
     <div class="text-center mt-4">
         <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
