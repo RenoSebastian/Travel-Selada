@@ -36,5 +36,7 @@ Route::post('/locations/store', [LocationController::class, 'store'])->name('loc
 // Route untuk halaman input user baru
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/users/list_user', [UserController::class, 'index'])->name('users.index');
+
 
 

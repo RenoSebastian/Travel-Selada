@@ -38,4 +38,13 @@ class UserController extends Controller
 
         return redirect()->route('users.create')->with('success', 'User berhasil ditambahkan!');
     }
+
+    public function index(Request $request)
+    {
+        // Ambil daftar pengguna dengan pagination
+        $users = User::paginate(5); // 10 pengguna per halaman
+
+        return view('Locations.user_list', compact('users'));
+    }
+
 }

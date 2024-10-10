@@ -38,8 +38,10 @@
     </form>
 
     <div class="text-center mt-4">
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
-    </div>
+    <a href="{{ route('users.index') }}" class="btn btn-secondary">Lihat Daftar Pengguna</a>
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
+</div>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
