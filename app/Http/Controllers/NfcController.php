@@ -33,7 +33,7 @@ class NfcController extends Controller
         }
 
         // Validasi lokasi
-        $userLocation = UserLocation::where('location_id', $member->opt1)->first(); // Ambil user location berdasarkan opt1
+    $userLocation = UserLocation::where('location_id', $member->opt_1)->first(); // Ambil user location berdasarkan opt_1
         if (!$userLocation) {
             return response()->json([
                 'message' => 'Location not found.',
@@ -41,9 +41,9 @@ class NfcController extends Controller
         }
 
         // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
-        if ($userLocation->location_id != $member->opt1) {
+        if ($userLocation->location_id != $member->opt_1) {
             return response()->json([
-                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt1,
+                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt_1,
             ], 403); // HTTP 403 Forbidden
         }
 
@@ -104,7 +104,7 @@ class NfcController extends Controller
         }
         
         // Validasi lokasi
-        $userLocation = UserLocation::where('location_id', $member->opt1)->first(); // Ambil user location berdasarkan opt1
+        $userLocation = UserLocation::where('location_id', $member->opt_1)->first(); // Ambil user location berdasarkan opt_1
         if (!$userLocation) {
             return response()->json([
                 'message' => 'Location not found.',
@@ -112,9 +112,9 @@ class NfcController extends Controller
         }
 
         // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
-        if ($userLocation->location_id != $member->opt1) {
+        if ($userLocation->location_id != $member->opt_1) {
             return response()->json([
-                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt1,
+                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt_1,
             ], 403); // HTTP 403 Forbidden
         }
 
