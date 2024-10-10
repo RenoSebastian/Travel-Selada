@@ -103,4 +103,14 @@ class LocationController extends Controller
         // Redirect setelah berhasil menyimpan data
         return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
     }    
+
+    public function index()
+    {
+        // Ambil semua lokasi dari database
+        $locations = Location::all();
+
+        // Tampilkan view dengan data lokasi
+        return view('location.list_location', compact('locations'));
+    }
+
 }
