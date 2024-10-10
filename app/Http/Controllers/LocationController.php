@@ -65,8 +65,8 @@ class LocationController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'business_id' => 'required|string|max:255',
-            'brand_id' => 'required|uuid', // Pastikan brand_id adalah UUID
+            'business_id' => 'required|uuid', // Memastikan business_id adalah UUID yang valid
+            'brand_id' => 'required|integer', // Memastikan brand_id adalah integer
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
             'email' => 'nullable|email|max:255',
@@ -77,30 +77,23 @@ class LocationController extends Controller
             'updated_by' => 'required|string|max:255',
         ]);
 
-        try {
-            // Simpan data lokasi ke database
-            MLocation::create([
-                'business_id' => $validatedData['business_id'],
-                'brand_id' => $validatedData['brand_id'], // Pastikan ini diubah
-                'name' => $validatedData['name'],
-                'address' => $validatedData['address'],
-                'email' => $validatedData['email'],
-                'phone' => $validatedData['phone'],
-                'add_stock_allowed' => $validatedData['add_stock_allowed'],
-                'point_of_sale_allowed' => $validatedData['point_of_sale_allowed'],
-                'created_by' => $validatedData['created_by'],
-                'updated_by' => $validatedData['updated_by'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-    
-            Log::info('Menyimpan lokasi: ', $validatedData);
+        // Simpan data lokasi ke database
+        MLocation::create([
+            'business_id' => $validatedData['business_id'], // UUID yang valid
+            'brand_id' => $validatedData['brand_id'], // Pastikan ini adalah integer
+            'name' => $validatedData['name'],
+            'address' => $validatedData['address'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'add_stock_allowed' => $validatedData['add_stock_allowed'],
+            'point_of_sale_allowed' => $validatedData['point_of_sale_allowed'],
+            'created_by' => $validatedData['created_by'],
+            'updated_by' => $validatedData['updated_by'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-            // Redirect setelah berhasil menyimpan data
-            return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
-        } catch (\Exception $e) {
-            // Menangani kesalahan saat menyimpan
-            return redirect()->back()->withErrors(['error' => 'Gagal menyimpan lokasi: ' . $e->getMessage()])->withInput();
-        }
+        // Redirect setelah berhasil menyimpan data
+        return redirect()->route('location.create')->with('success', 'Lokasi berhasil disimpan!');
     }
 }
