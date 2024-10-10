@@ -110,7 +110,7 @@ class LocationController extends Controller
         $locations = MLocation::all();
 
         // Tampilkan view dengan data lokasi
-        return view('Location.list_location', compact('locations'));
+        return view('Locations.list_location', compact('locations'));
     }
 
 }
