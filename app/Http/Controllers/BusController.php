@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Entities\Bus;
+use App\Entities\MBus;
+use Illuminate\Http\Request;
+
+class BusController extends Controller
+{
+     // Menampilkan form input data bus
+     public function create()
+     {
+         // Log saat menampilkan form
+         Log::info('Menampilkan form input data bus.');
+         
+         // Ambil data dari tabel m_bus untuk pilihan tipe bus
+         $mbuses = MBus::all();
+         return view('bus.create', compact('mbuses'));
+     }
+ 
+     // Menyimpan data bus baru
+     public function store(Request $request)
+     {
+         // Log request data yang diterima
+         Log::info('Menerima data request untuk menyimpan bus.', ['request' => $request->all()]);
+ 
+         // Validasi data yang diinput
+         $request->validate([
+             'nama_bus' => 'required|string|max:255',
+             'alamat' => 'required|string|max:255',
+             'tipe_bus' => 'required|exists:m_bus,id',
+         ]);
+ 
+         try {
+             // Log data sebelum disimpan
+             Log::info('Menyimpan data bus ke database.', [
+                 'nama_bus' => $request->nama_bus,
+                 'alamat' => $request->alamat,
+                 'tipe_bus' => $request->tipe_bus
+             ]);
+ 
+             // Simpan data ke tabel bus
+             Bus::create([
+                 'nama_bus' => $request->nama_bus,
+                 'alamat' => $request->alamat,
+                 'tipe_bus' => $request->tipe_bus,
+             ]);
+ 
+             // Log setelah data berhasil disimpan
+             Log::info('Data bus berhasil disimpan.');
+ 
+             return redirect()->route('bus.index')->with('success', 'Data bus berhasil ditambahkan');
+         } catch (\Exception $e) {
+             // Log jika terjadi error
+             Log::error('Error saat menyimpan data bus.', ['error' => $e->getMessage()]);
+             return back()->withErrors('Terjadi kesalahan saat menyimpan data.');
+         }
+     }
+
+    public function index()
+    {
+        // Mengambil data dari tabel bus
+        $buses = Bus::all();
+
+        // Mengambil data dari tabel m_bus
+        $mbuses = MBus::all();
+
+        // Mengirim data ke view
+        return view('bus.index', compact('buses', 'mbuses'));
+    }
+}

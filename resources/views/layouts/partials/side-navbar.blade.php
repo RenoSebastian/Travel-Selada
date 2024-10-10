@@ -70,13 +70,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('location.index') }}" class="btn btn-custom">Input Data Brand</a>
+                <a href="{{ route('location.index') }}" class="btn btn-custom">Input Data BUS</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('users.index') }}" class="btn btn-custom">Input User</a>
+                <a href="{{ route('users.index') }}" class="btn btn-custom">Input Tour guide</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('user_locations.index') }}" class="btn btn-custom">Input tour guide</a>
+                <a href="{{ route('user_locations.index') }}" class="btn btn-custom">Input Lokasi Tour guide</a>
             </li>
         </ul>
     </div>

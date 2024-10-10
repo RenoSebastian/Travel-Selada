@@ -13,6 +13,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\UserLocationController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\BusController;
+
+Route::get('/bus/create', [BusController::class, 'create'])->name('bus.create'); // Menampilkan form
+Route::post('/bus/store', [BusController::class, 'store'])->name('bus.store');   // Menyimpan data baru
+
+Route::get('/bus', [BusController::class, 'index'])->name('bus.index');
+
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
