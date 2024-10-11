@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Tipe Bus</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body>
+@extends('layouts.dashboard')
+
+@section('title', 'Data Tipe Bus')
+
+@section('content')
     <div class="container mt-4">
         <h2>Data Tipe Bus</h2>
 
@@ -24,7 +19,6 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Tipe Bus</th>
                     <th>Kapasitas Bus</th>
                     <th>Aksi</th>
                 </tr>
@@ -33,7 +27,6 @@
                 @foreach($mbuses as $mbus)
                     <tr>
                         <td>{{ $mbus->id }}</td>
-                        <td>{{ $mbus->tipe_bus }}</td>
                         <td>{{ $mbus->kapasitas_bus }}</td>
                         <td>
                             <a href="{{ route('m_bus.edit', $mbus->id) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -49,7 +42,6 @@
         </table>
     </div>
 
-    <!-- Script untuk SweetAlert -->
     <script>
         @if(session('success'))
             Swal.fire({
@@ -69,5 +61,4 @@
             });
         @endif
     </script>
-</body>
-</html>
+@endsection

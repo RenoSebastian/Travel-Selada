@@ -14,7 +14,8 @@ class Bus extends Model{
 
     protected $fillable = [
         'nama_bus',
-        'alamat',
+        'alamat_penjemputan',
+        'tl_id',
         'tipe_bus',
         'created_at',
         'updated_at',
@@ -25,4 +26,8 @@ class Bus extends Model{
     {
         return $this->belongsTo(MBus::class, 'tipe_bus', 'id'); // tipe_bus di Bus mengacu pada id di MBus
     }
+
+    protected $casts = [
+        'tl_id' => 'uuid',  // Pastikan id dicasting sebagai UUID
+    ];
 }

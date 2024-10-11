@@ -11,7 +11,20 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [
+    protected $except = 
+    [ 
+        "/bus/store", 
+        '/login', 
+        'm_bus/store',
+        'user_travel/store',
+        'user_travel/{id}/edit',
+        'user_travel/{id}',
+        'user_travel/store',
+        'user_travel/create',
+        'middleware/admin/dashboard',
+        '/peserta-tour/store',
+        '/locations',
+        '/peserta-tour/update/e61cf71c-2e97-46ad-a1db-51e7c27d6b09',
         //
     ];
 }
