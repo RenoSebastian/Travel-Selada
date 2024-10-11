@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Entities\User;
 use App\Entities\UserLocation;
+use App\Entities\PesertaTour;
 use App\Entities\MLocation;
 use App\Entities\MBrand;
 use Illuminate\Support\Str;

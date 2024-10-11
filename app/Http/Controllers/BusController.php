@@ -106,9 +106,8 @@ class BusController extends Controller
         $user_travel = UserTravel::all();
         
         // Kirim data bus dan peserta tour ke view
-        return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel',));
+        return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -131,4 +130,3 @@ class BusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
     }
 }
-
