@@ -75,9 +75,11 @@ class BusController extends Controller
             $count++;
         }
     
-        // Kirim pesan sukses ke session
-        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
-    
+         // Log setelah data berhasil disimpan
+         Log::info('Data bus berhasil disimpan.');
+
+         // Flash message sukses
+            return redirect()->route('bus.index')->with('success', 'Data bus berhasil disimpan.');
         } catch (\Exception $e) {
             // Log kesalahan
             Log::error('Terjadi kesalahan saat menyimpan data bus: ' . $e->getMessage());
