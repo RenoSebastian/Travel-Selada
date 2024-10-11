@@ -16,6 +16,7 @@
                     <th>Alamat</th>
                     <th>Tipe Bus</th>
                     <th>Tour Leader</th>
+                    <th>Action</th> <!-- Kolom untuk Action -->
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,15 @@
                                 <td>{{ $bus->alamat_penjemputan }}</td>
                                 <td>{{ $mbus->kapasitas_bus }}</td>
                                 <td>{{ $tourlead->fullname }}</td>
+                                <td>
+                                    <a href="{{ route('bus.edit', $bus->id) }}" class="btn btn-warning">Edit</a>
+                                    <form action="{{ route('bus.destroy', $bus->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                    </form>
+                                    <a href="{{ route('peserta_tour.create', $bus->id) }}" class="btn btn-info">Registrasi</a>
+                                </td>
                             </tr>
                         @endif
                     @endforeach

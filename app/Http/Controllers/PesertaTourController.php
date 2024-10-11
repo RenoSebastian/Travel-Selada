@@ -15,11 +15,12 @@ class PesertaTourController extends Controller
         return view('peserta_tour.index', compact('pesertaTours'));
     }
 
-    public function create()
+    public function create($bus_id)
     {
-        // Ambil data bus dari database pgsql_mireta
-        $buses = Bus::all();
-        return view('peserta_tour.create', compact('buses'));
+        // Cari data bus berdasarkan ID
+        $bus = Bus::findOrFail($bus_id);
+    
+        return view('peserta_tour.create', compact('bus'));
     }
 
     public function store(Request $request)

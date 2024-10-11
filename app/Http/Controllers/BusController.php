@@ -82,4 +82,24 @@ class BusController extends Controller
         // Mengirim data ke view
         return view('bus.index', compact('buses', 'mbuses', 'user_travel'));
     }
+
+    public function edit($id)
+    {
+        $bus = Bus::findOrFail($id);
+        return view('bus.edit', compact('bus'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $bus = Bus::findOrFail($id);
+        $bus->update($request->all());
+        return redirect()->route('bus.index')->with('success', 'Data bus berhasil diperbarui');
+    }
+
+    public function destroy($id)
+    {
+        $bus = Bus::findOrFail($id);
+        $bus->delete();
+        return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
+    }
 }

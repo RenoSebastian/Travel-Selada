@@ -1,58 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Peserta Tour</title>
-</head>
-<body>
+@extends('layouts.dashboard')
+
+@section('title', 'Registrasi Peserta Tour')
+
+@section('content')
     <div class="container mt-4">
-        <h2>Tambah Peserta Tour</h2>
+        <h2>Registrasi Peserta Tour untuk Bus {{ $bus->nama_bus }}</h2>
 
         <form action="{{ route('peserta_tour.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
-                <label for="fullname" class="form-label">Nama Lengkap</label>
-                <input type="text" class="form-control" id="fullname" name="fullname" required>
+            <input type="hidden" name="bus_location" value="{{ $bus->id }}">
+
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" name="fullname" class="form-control" value="{{ old('fullname') }}" required>
             </div>
-            <div class="mb-3">
-                <label for="phone_number" class="form-label">Nomor Telepon</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number') }}" required>
             </div>
-            <div class="mb-3">
-                <label for="card_number" class="form-label">Nomor Kartu</label>
-                <input type="text" class="form-control" id="card_number" name="card_number" required>
+
+            <div class="form-group">
+                <label for="card_number">Card Number:</label>
+                <input type="text" name="card_number" class="form-control" value="{{ old('card_number') }}" required>
             </div>
-            <div class="mb-3">
-                <label for="bis_location" class="form-label">Lokasi Bus</label>
-                <select class="form-control" id="bus_location" name="bus_location" required>
-                    @foreach($buses as $bus)
-                        <option value="{{ $bus->id }}">{{ $bus->nama_bus }}</option>
-                    @endforeach
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" class="form-control" required>
+                    <option value="1">Aktif</option>
+                    <option value="0">Non-Aktif</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <input type="number" class="form-control" id="status" name="status" required>
+
+            <div class="form-group">
+                <label for="seat">Seat:</label>
+                <input type="text" name="seat" class="form-control" value="{{ old('seat') }}" required>
             </div>
 
-            <div class="mb-3">
-                <label for="seat" class="form-label">Tempat Duduk</label>
-                <input type="text" class="form-control" id="seat" name="seat" required>
-            </div>
-            
-            <div class="mb-3">
-                <label for="clock_in" class="form-label">Waktu Check-In</label>
-                <input type="datetime-local" class="form-control" id="clock_in" name="clock_in">
-            </div>
-            
-            <div class="mb-3">
-                <label for="clock_out" class="form-label">Waktu Check-Out</label>
-                <input type="datetime-local" class="form-control" id="clock_out" name="clock_out">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary">Tambah Peserta</button>
         </form>
     </div>
-</body>
-</html>
+@endsection

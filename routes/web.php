@@ -24,7 +24,7 @@ use App\Http\Controllers\PesertaTourController;
 
 Route::prefix('peserta-tour')->group(function () {
     Route::get('/', [PesertaTourController::class, 'index'])->name('peserta_tour.index');
-    Route::get('/create', [PesertaTourController::class, 'create'])->name('peserta_tour.create');
+    Route::get('/create/{bus_id}', [PesertaTourController::class, 'create'])->name('peserta_tour.create');
     Route::post('/store', [PesertaTourController::class, 'store'])->name('peserta_tour.store');
     Route::get('/edit/{id}', [PesertaTourController::class, 'edit'])->name('peserta_tour.edit');
     Route::put('/update/{id}', [PesertaTourController::class, 'update'])->name('peserta_tour.update');
@@ -61,11 +61,15 @@ Route::prefix('m_bus')->group(function () {
     Route::put('{id}', [MBusController::class, 'update'])->name('m_bus.update');
     Route::delete('{id}', [MBusController::class, 'destroy'])->name('m_bus.destroy');
 });
-
-Route::get('/bus/create', [BusController::class, 'create'])->name('bus.create'); // Menampilkan form
-Route::post('/bus/store', [BusController::class, 'store'])->name('bus.store');
-
-Route::get('/bus', [BusController::class, 'index'])->name('bus.index');
+// Route untuk Bus
+Route::prefix('bus')->group(function () {
+    Route::get('/', [BusController::class, 'index'])->name('bus.index');
+    Route::get('/create', [BusController::class, 'create'])->name('bus.create');
+    Route::post('/store', [BusController::class, 'store'])->name('bus.store');
+    Route::get('/edit/{id}', [BusController::class, 'edit'])->name('bus.edit');
+    Route::put('/update/{id}', [BusController::class, 'update'])->name('bus.update');
+    Route::delete('/destroy/{id}', [BusController::class, 'destroy'])->name('bus.destroy');
+});
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
