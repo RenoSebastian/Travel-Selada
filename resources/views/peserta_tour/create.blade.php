@@ -9,7 +9,7 @@
 
         <div id="peserta-container">
             <div class="peserta-form">
-            <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Use $busId -->
+                <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Menggunakan $busId -->
 
                 <div class="form-group">
                     <label for="fullname">Nama Lengkap:</label>
@@ -58,6 +58,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
+    // Fungsi untuk menambah form peserta baru
     document.getElementById('add-peserta').addEventListener('click', function() {
         const container = document.getElementById('peserta-container');
         const pesertaForm = document.createElement('div');
@@ -82,6 +83,7 @@
         container.appendChild(pesertaForm);
     });
 
+    // Fungsi untuk menghapus form peserta
     document.getElementById('peserta-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-peserta')) {
             const pesertaForms = document.querySelectorAll('.peserta-form');
@@ -93,12 +95,14 @@
         }
     });
 
+    // Fungsi submit form peserta
     document.getElementById('peserta-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // Mencegah pengiriman form default
-        console.log("Form submitted"); // Tambahkan log ini
+        e.preventDefault(); // Mencegah pengiriman form secara default
+        console.log("Form submitted"); // Tambahkan log ini untuk cek
 
-        const formData = new FormData(this);
+        const formData = new FormData(this); // Ambil data form
 
+        // Kirim data menggunakan fetch dengan metode POST
         fetch("{{ route('peserta_tour.store') }}", {
             method: 'POST',
             body: formData,
