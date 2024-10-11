@@ -19,6 +19,7 @@
 
         <div id="peserta-container">
             <div class="peserta-form">
+            <input type="hidden" name="bus_id" value="{{ $bus_id }}">
                 <div class="form-group">
                     <label for="fullname">Nama Lengkap:</label>
                     <input type="text" name="fullname[]" class="form-control" required>
@@ -31,7 +32,6 @@
                     <label for="seat">Seat:</label>
                     <input type="text" name="seat[]" class="form-control" required>
                 </div>
-                <input type="hidden" name="bus_id" value="{{ $bus_id }}">
             </div>
         </div>
 
