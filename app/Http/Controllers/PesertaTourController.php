@@ -56,7 +56,7 @@ class PesertaTourController extends Controller
     }
 
     // Kirim pesan sukses dengan jumlah peserta yang ditambahkan
-    return redirect()->route('peserta_tour.create', ['bus_id' => $busId])->with('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
+    return redirect()->route('bus.index', ['bus_id' => $busId])->with('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
 }
 
     public function edit($id)
