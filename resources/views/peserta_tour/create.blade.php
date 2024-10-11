@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <label for="card_number">Card Number:</label>
-                <input type="text" name="card_number" class="form-control" value="{{ old('card_number') }}" required>
+                <input type="text" name="card_number" class="form-control" value="{{ old('card_number') }}">
             </div>
 
             <div class="form-group">
