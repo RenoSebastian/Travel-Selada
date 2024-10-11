@@ -31,10 +31,11 @@ class UserTravelController extends Controller
             'role_id' => 'required|integer',
             'password' => 'required|string|min:8',
         ]);
-
+    
         try {
             // Buat user baru
             $userTravel = new UserTravel();
+            $userTravel->id = (string) Str::uuid(); // Menetapkan UUID sebagai ID
             $userTravel->fullname = $validatedData['fullname'];
             $userTravel->username = $validatedData['username'];
             $userTravel->email = $validatedData['email'];
@@ -42,7 +43,7 @@ class UserTravelController extends Controller
             $userTravel->role_id = $validatedData['role_id'];
             $userTravel->password = bcrypt($validatedData['password']);
             $userTravel->save();
-
+    
             return redirect()->route('user_travel.index')->with('success', 'User travel created successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create user travel: ' . $e->getMessage());
