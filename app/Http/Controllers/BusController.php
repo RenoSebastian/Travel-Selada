@@ -109,7 +109,6 @@ class BusController extends Controller
         return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel',));
     }
 
-
     public function update(Request $request, $id)
     {
         $bus = Bus::findOrFail($id);

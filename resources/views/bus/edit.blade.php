@@ -92,7 +92,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addPesertaForm" action="{{ route('peserta_tour.store') }}" method="POST">
+                    <form id="addPesertaForm">
                         @csrf
                         <div class="mb-3">
                             <label for="fullname" class="form-label">Nama Lengkap</label>
@@ -118,5 +118,48 @@
     </div>
 
 </div>
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#addPesertaForm').on('submit', function(e) {
+            e.preventDefault(); // Mencegah pengiriman form default
+            const formData = $(this).serialize(); // Mengambil data form
+
+            $.ajax({
+                url: "{{ route('peserta_tour.store') }}",
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Menutup modal
+                    $('#addPesertaModal').modal('hide');
+
+                    // Menambahkan baris baru ke tabel peserta
+                    $('tbody').append(`
+                        <tr>
+                            <td>${response.id}</td>
+                            <td>${response.fullname}</td>
+                            <td>${response.phone_number}</td>
+                            <td>${response.seat}</td>
+                            <td>
+                                <form action="/peserta_tour/${response.id}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus peserta ini?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    `);
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert('Gagal menambahkan peserta. Silakan coba lagi.');
+                }
+            });
+        });
+    });
+</script>
+@endsection
 
 @endsection
