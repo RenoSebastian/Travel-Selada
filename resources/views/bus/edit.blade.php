@@ -37,7 +37,7 @@
             <label for="tour_leader" class="form-label">Tour Leader</label>
             <select class="form-control" id="tour_leader" name="tour_leader" required>
                 <option value="">Pilih Tour Leader</option>
-                @foreach($pesertaTours as $tourlead)
+                @foreach($user_travel as $tourlead)
                     <option value="{{ $tourlead->id }}" {{ $bus->tl_id == $tourlead->id ? 'selected' : '' }}>
                         {{ $tourlead->fullname }}
                     </option>
