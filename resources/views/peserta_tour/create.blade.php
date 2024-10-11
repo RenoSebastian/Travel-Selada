@@ -64,5 +64,14 @@
             }
         }
     });
+
+    function toggleRemoveButtons() {
+        const pesertaForms = document.querySelectorAll('.peserta-form');
+        const removeButtons = document.querySelectorAll('.remove-peserta');
+        removeButtons.forEach((button, index) => {
+            // Tampilkan tombol hapus hanya untuk peserta yang bukan yang pertama
+            button.style.display = pesertaForms.length > 1 && index > 0 ? 'inline-block' : 'none';
+        });
+    }
 </script>
 @endsection
