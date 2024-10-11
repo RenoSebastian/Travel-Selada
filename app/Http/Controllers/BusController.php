@@ -100,27 +100,28 @@ class BusController extends Controller
     public function edit($id)
     {
         $bus = Bus::findOrFail($id);
-         // Ambil data peserta tour yang terdaftar di bus ini
-        $pesertaTours = PesertaTour::where('bus_location', $id)->get();
+        // Ambil data peserta tour yang terdaftar di bus ini dengan pagination
+        $pesertaTours = PesertaTour::where('bus_location', $id)->paginate(5);
         $mbuses = MBus::all();
         $user_travel = UserTravel::all();
-    
-         // Kirim data bus dan peserta tour ke view
-         return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel',));
+        
+        // Kirim data bus dan peserta tour ke view
+        return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel'));
     }
 
     public function update(Request $request, $id)
-{
-    $bus = Bus::findOrFail($id);
-    // Update data, termasuk tour leader
-    $bus->update([
-        'nama_bus' => $request->input('nama_bus'),
-        'alamat_penjemputan' => $request->input('alamat_penjemputan'),
-        'tipe_bus' => $request->input('tipe_bus'),
-        'tl_id' => $request->input('tour_leader') // Pastikan ini
-    ]);
-    return redirect()->route('bus.index')->with('success', 'Data bus berhasil diperbarui');
-}
+    {
+        $bus = Bus::findOrFail($id);
+        // Update data, termasuk tour leader
+        $bus->update([
+            'nama_bus' => $request->input('nama_bus'),
+            'alamat_penjemputan' => $request->input('alamat_penjemputan'),
+            'tipe_bus' => $request->input('tipe_bus'),
+            'tl_id' => $request->input('tour_leader') // Pastikan ini
+        ]);
+        return redirect()->route('bus.index')->with('success', 'Data bus berhasil diperbarui');
+    }
+
 
     public function destroy($id)
     {
@@ -129,4 +130,3 @@ class BusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
     }
 }
-
