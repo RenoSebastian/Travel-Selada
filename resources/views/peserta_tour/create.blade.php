@@ -9,7 +9,7 @@
 
         <div id="peserta-container">
             <div class="peserta-form">
-            <input type="hidden" name="bus_id" value="{{ $id }}">
+            <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Use $busId -->
 
                 <div class="form-group">
                     <label for="fullname">Nama Lengkap:</label>
