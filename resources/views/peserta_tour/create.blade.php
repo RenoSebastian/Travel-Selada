@@ -28,6 +28,7 @@
 
         <button type="button" class="btn btn-primary" id="add-peserta">Tambah Peserta</button>
         <button type="submit" class="btn btn-success">Simpan</button>
+        <a href="{{ route('bus.index') }}" class="btn btn-secondary">Kembali</a> <!-- Tombol Kembali ditambahkan di sini -->
     </form>
 </div>
 
@@ -45,9 +46,8 @@
                 <p>Bus telah penuh. Sisa kapasitas adalah <span id="remaining-capacity"></span> peserta.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="back-button">Kembali</button>
+                <button type="button" class="btn btn-secondary" id="back-button">Kembali</button>
                 <button type="button" class="btn btn-primary" id="continue-button">Lanjutkan</button>
-                <a href="{{ route('bus.index') }}" class="btn btn-info" id="modal-back-to-index">Kembali ke Index</a>
             </div>
         </div>
     </div>
