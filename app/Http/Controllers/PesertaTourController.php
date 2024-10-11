@@ -25,27 +25,37 @@ class PesertaTourController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi
+        // Validasi input
         $request->validate([
-            'fullname' => 'required',
-            'phone_number' => 'required',
-            'bus_location' => 'required',
-            'seat' => 'required|string',
-            'clock_in' => 'nullable|date',
-            'clock_out' => 'nullable|date',
+            'fullname.*' => 'required|string|max:255',
+            'phone_number.*' => 'required|string|max:15',
+            'seat.*' => 'required|string|max:5',
         ]);
 
-        // Siapkan data peserta tour
-        $data = $request->all();
+        // Ambil data peserta dari request
+        $fullnames = $request->input('fullname');
+        $phoneNumbers = $request->input('phone_number');
+        $seats = $request->input('seat');
 
-        // Set card_number dan status default
-        $data['card_number'] = null; // Set card_number menjadi null
-        $data['status'] = 0; // Set status menjadi 0
+        // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
+        $count = 0;
 
-        // Simpan data peserta tour
-        PesertaTour::create($data);
+        // Loop untuk menyimpan maksimal 5 peserta
+        for ($i = 0; $i < count($fullnames); $i++) {
+            if ($i < 5) { // Batasi sampai 5 peserta
+                PesertaTour::create([
+                    'fullname' => $fullnames[$i],
+                    'phone_number' => $phoneNumbers[$i],
+                    'seat' => $seats[$i],
+                    'card_number' => null, // Set card_number menjadi null
+                    'status' => 0 // Status default 0
+                ]);
+                $count++; // Increment counter
+            }
+        }
 
-        return redirect()->route('peserta_tour.index')->with('success', 'Peserta tour berhasil ditambahkan.');
+        // Kirim pesan sukses dengan jumlah peserta yang ditambahkan
+        return redirect()->route('peserta_tour.create')->with('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
     }
 
 

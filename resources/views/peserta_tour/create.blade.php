@@ -1,31 +1,64 @@
-@extends('layouts.dashboard')
-
-@section('title', 'Registrasi Peserta Tour')
+@extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
-        <h2>Registrasi Peserta Tour untuk Bus {{ $bus->nama_bus }}</h2>
+<div class="container">
+    <h1>Tambah Peserta Tour</h1>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 
-        <form action="{{ route('peserta_tour.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="bus_location" value="{{ $bus->id }}">
+    <form action="{{ route('peserta_tour.store') }}" method="POST">
+        @csrf
 
-            <div class="form-group">
-                <label for="fullname">Full Name:</label>
-                <input type="text" name="fullname" class="form-control" value="{{ old('fullname') }}" required>
+        <div id="peserta-container">
+            <div class="peserta-form">
+                <div class="form-group">
+                    <label for="fullname">Nama Lengkap:</label>
+                    <input type="text" name="fullname[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Nomor Telepon:</label>
+                    <input type="text" name="phone_number[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="seat">Kursi:</label>
+                    <input type="text" name="seat[]" class="form-control" required>
+                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="phone_number">Phone Number:</label>
-                <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number') }}" required>
+        <button type="button" class="btn btn-primary" id="add-peserta">Tambah Peserta</button>
+        <button type="submit" class="btn btn-success">Simpan</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-peserta').addEventListener('click', function() {
+        const container = document.getElementById('peserta-container');
+        const pesertaForm = `
+            <div class="peserta-form">
+                <div class="form-group">
+                    <label for="fullname">Nama Lengkap:</label>
+                    <input type="text" name="fullname[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Nomor Telepon:</label>
+                    <input type="text" name="phone_number[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="seat">Kursi:</label>
+                    <input type="text" name="seat[]" class="form-control" required>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="seat">Seat:</label>
-                <input type="text" name="seat" class="form-control" value="{{ old('seat') }}" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Tambah Peserta</button>
-        </form>
-    </div>
+        `;
+        container.insertAdjacentHTML('beforeend', pesertaForm);
+    });
+</script>
 @endsection

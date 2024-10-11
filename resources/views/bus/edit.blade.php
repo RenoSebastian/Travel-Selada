@@ -34,42 +34,93 @@
         <button type="submit" class="btn btn-primary">Update Data Bus</button>
     </form>
 
-    <h3 class="mt-4">Peserta Tour Terdaftar</h3>
-        @if($pesertaTours->isEmpty())
-            <p>Tidak ada peserta tour yang terdaftar di bus ini.</p>
-        @else
-            <table class="table table-bordered mt-3">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fullname</th>
-                        <th>Phone Number</th>
-                        <th>Status</th>
-                        <th>Seat</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pesertaTours as $peserta)
-                        <tr>
-                            <td>{{ $peserta->id }}</td>
-                            <td>{{ $peserta->fullname }}</td>
-                            <td>{{ $peserta->phone_number }}</td>
-                            <td>{{ $peserta->status }}</td>
-                            <td>{{ $peserta->seat }}</td>
-                            <td>
-                                <a href="{{ route('peserta_tour.edit', $peserta->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('peserta_tour.destroy', $peserta->id) }}" method="POST" style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-        <a href="{{ route('peserta_tour.create', ['bus_id' => $bus->id]) }}" class="btn btn-primary">Tambah Data Peserta</a>
-    </div>
+    <h3 class="mt-4">Peserta Tour yang Terdaftar</h3>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Lengkap</th>
+                <th>No. Telepon</th>
+                <th>Tempat Duduk</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($pesertaTours as $pesertaTour)
+                <tr>
+                    <td>{{ $pesertaTour->id }}</td>
+                    <td>{{ $pesertaTour->fullname }}</td>
+                    <td>{{ $pesertaTour->phone_number }}</td>
+                    <td>{{ $pesertaTour->seat }}</td>
+                    <td>
+                        <form action="{{ route('peserta_tour.destroy', $pesertaTour->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <h3 class="mt-4">Tambah Peserta Tour Baru</h3>
+    <form id="addPesertaForm">
+        @csrf
+        <table class="table table-bordered" id="pesertaTable">
+            <thead>
+                <tr>
+                    <th>Nama Lengkap</th>
+                    <th>No. Telepon</th>
+                    <th>Tempat Duduk</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="fullname[]" class="form-control" required></td>
+                    <td><input type="text" name="phone_number[]" class="form-control" required></td>
+                    <td><input type="text" name="seat[]" class="form-control" required></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
+                        <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success mt-2">Simpan Peserta</button>
+    </form>
+</div>
+
+<script>
+    function addPesertaRow(button) {
+        const row = button.closest('tr');
+        const inputs = row.querySelectorAll('input');
+
+        // Cek apakah semua input pada baris yang aktif sudah terisi
+        const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+
+        if (allFilled) {
+            const tableBody = document.querySelector('#pesertaTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" name="fullname[]" class="form-control" required></td>
+                <td><input type="text" name="phone_number[]" class="form-control" required></td>
+                <td><input type="text" name="seat[]" class="form-control" required></td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
+                    <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+        } else {
+            alert('Harap lengkapi semua input sebelum menambahkan peserta baru.');
+        }
+    }
+
+    function removeRow(button) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+    }
+</script>
 @endsection
