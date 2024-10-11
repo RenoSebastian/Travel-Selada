@@ -10,9 +10,10 @@ class PesertaTourController extends Controller
 {
     public function index()
     {
-        // Ambil semua peserta tour dan relasi ke bus
-        $pesertaTours = PesertaTour::with('bus')->get();
-        return view('peserta_tour.index', compact('pesertaTours'));
+        $buses = Bus::all(); // Ambil semua bus
+        $pesertaTours = PesertaTour::with('bus')->get(); // Ambil peserta dengan relasi bus
+
+        return view('peserta_tour.index', compact('buses', 'pesertaTours')); // Kirim $buses ke view
     }
 
     public function create($bus_id)

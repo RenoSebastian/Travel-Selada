@@ -26,6 +26,7 @@ class PesertaTour extends Model
 
     public function bus()
     {
-        return $this->belongsTo(Bus::class, 'bus_location', 'id');
+        return $this->belongsTo(Bus::class);
     }
+    
 }
