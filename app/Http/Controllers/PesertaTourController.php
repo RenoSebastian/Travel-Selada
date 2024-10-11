@@ -35,13 +35,13 @@ class PesertaTourController extends Controller
 
         $busId = $request->input('bus_id');
         $bus = Bus::with('mbus')->findOrFail($busId);
-        $kapasitasBus = $bus->mbus->kapasitas;
+        $kapasitasBus = $bus->mbus->kapasitas_bus; // Pastikan mbus memiliki kapasitas
         $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
         $jumlahPesertaBaru = count($request->input('fullname'));
-
+        
         if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
             return back()->withErrors(['error' => 'Jumlah peserta melebihi kapasitas bus.'])->withInput();
-        }
+        }        
 
         $count = 0;
         $fullnames = $request->input('fullname');
