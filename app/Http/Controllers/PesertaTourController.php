@@ -46,9 +46,10 @@ class PesertaTourController extends Controller
     public function edit($id)
     {
         // Cari peserta tour dan bus
-        $pesertaTour = PesertaTour::findOrFail($id);
+        $pesertaTours = PesertaTour::findOrFail($id);
         $buses = Bus::all();
-        return view('peserta_tour.edit', compact('pesertaTour', 'buses'));
+        
+        return view('peserta_tour.edit', compact('pesertaTours', 'buses'));
     }
 
     public function update(Request $request, $id)
