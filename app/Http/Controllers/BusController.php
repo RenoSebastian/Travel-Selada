@@ -111,8 +111,23 @@ class BusController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_bus' => 'required|string|max:255',
+            'alamat_penjemputan' => 'required|string|max:255',
+            'tipe_bus' => 'required|exists:m_bus,id',
+            'tour_leader' => 'required|exists:user_travel,id',
+        ]);
+
         $bus = Bus::findOrFail($id);
+        
+        // Debugging untuk melihat data yang diterima
+        Log::info('Data yang akan diperbarui: ', $request->all());
+
         $bus->update($request->all());
+
+        // Pastikan data berhasil diperbarui
+        Log::info('Data setelah diperbarui: ', $bus->fresh()->toArray());
+
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil diperbarui');
     }
 
