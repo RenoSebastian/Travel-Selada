@@ -25,44 +25,50 @@ class PesertaTourController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'fullname.*' => 'required|string|max:255',
-            'phone_number.*' => 'required|string|max:15',
-            'seat.*' => 'required|string|max:5',
-            'bus_id' => 'required|exists:bus,id'
-        ]);
+{
+    $request->validate([
+        'fullname.*' => 'required|string|max:255',
+        'phone_number.*' => 'required|string|max:15',
+        'seat.*' => 'required|string|max:5',
+        'bus' => 'required|exists:bus,id' // Pastikan ini valid
+    ]);
 
-        $busId = $request->input('bus_id');
-        $bus = Bus::with('mbus')->findOrFail($busId);
-        $kapasitasBus = $bus->mbus->kapasitas_bus; // Pastikan mbus memiliki kapasitas
-        $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
-        $jumlahPesertaBaru = count($request->input('fullname'));
-        
-        if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
-            return back()->withErrors(['error' => 'Jumlah peserta melebihi kapasitas bus.'])->withInput();
-        }        
+    $busId = $request->input('bus');
+    $bus = Bus::with('mbus')->findOrFail($busId);
+    $kapasitasBus = $bus->mbus->kapasitas_bus; // Ubah ini jika kolomnya berbeda
+    $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
+    $jumlahPesertaBaru = count($request->input('fullname'));
 
-        $count = 0;
-        $fullnames = $request->input('fullname');
-        $phoneNumbers = $request->input('phone_number');
-        $seats = $request->input('seat');
-
-        foreach ($fullnames as $i => $fullname) {
-            PesertaTour::create([
-                'fullname' => $fullname,
-                'phone_number' => $phoneNumbers[$i],
-                'seat' => $seats[$i],
-                'bus_location' => $busId,
-                'card_number' => null,
-                'status' => 0
-            ]);
-            $count++;
-        }
-
-        session()->flash('success', "Anda berhasil menambah {$count} peserta baru!");
-        return redirect()->route('bus.index');
+    // Cek apakah jumlah peserta melebihi kapasitas
+    if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
+        $sisaKapasitas = $kapasitasBus - $jumlahPesertaSekarang; // Hitung sisa kapasitas
+        return response()->json([
+            'status' => 'full',
+            'sisaKapasitas' => $sisaKapasitas
+        ]); // Respons JSON jika bus sudah penuh
     }
+
+    $count = 0;
+    $fullnames = $request->input('fullname');
+    $phoneNumbers = $request->input('phone_number');
+    $seats = $request->input('seat');
+
+    foreach ($fullnames as $i => $fullname) {
+        PesertaTour::create([
+            'fullname' => $fullname,
+            'phone_number' => $phoneNumbers[$i],
+            'seat' => $seats[$i],
+            'bus_location' => $busId,
+            'card_number' => null,
+            'status' => 0
+        ]);
+        $count++;
+    }
+
+    session()->flash('success', "Anda berhasil menambah {$count} peserta baru!");
+    return redirect()->route('bus.index');
+}
+
     
 
     public function edit($id)
