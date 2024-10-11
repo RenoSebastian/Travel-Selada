@@ -44,10 +44,13 @@
                 @endforeach
             </select>
         </div>
+        
         <button type="submit" class="btn btn-primary">Update Data Bus</button>
     </form>
 
     <h3 class="mt-4">Peserta Tour yang Terdaftar</h3>
+    <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#addPesertaModal">Tambah Peserta Tour</button>
+
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
@@ -77,68 +80,43 @@
         </tbody>
     </table>
 
-    <h3 class="mt-4">Tambah Peserta Tour Baru</h3>
-    <form id="addPesertaForm">
-        @csrf
-        <table class="table table-bordered" id="pesertaTable">
-            <thead>
-                <tr>
-                    <th>Nama Lengkap</th>
-                    <th>No. Telepon</th>
-                    <th>Tempat Duduk</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" name="fullname[]" class="form-control" required></td>
-                    <td><input type="text" name="phone_number[]" class="form-control" required></td>
-                    <td><input type="text" name="seat[]" class="form-control" required></td>
-                    <td>
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
-                        <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-success mt-2">Simpan Peserta</button>
-    </form>
+    <!-- Pagination -->
+    {{ $pesertaTours->links() }}
+
+    <!-- Modal Tambah Peserta -->
+    <div class="modal fade" id="addPesertaModal" tabindex="-1" aria-labelledby="addPesertaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPesertaModalLabel">Tambah Peserta Tour Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPesertaForm" action="{{ route('peserta_tour.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" name="fullname" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone_number" class="form-label">No. Telepon</label>
+                            <input type="text" class="form-control" name="phone_number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="seat" class="form-label">Tempat Duduk</label>
+                            <input type="text" class="form-control" name="seat" required>
+                        </div>
+                        <input type="hidden" name="bus_id" value="{{ $bus->id }}">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan Peserta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<script>
-    function addPesertaRow(button) {
-        const row = button.closest('tr');
-        const inputs = row.querySelectorAll('input');
-
-        // Cek apakah semua input pada baris yang aktif sudah terisi
-        const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
-
-        if (allFilled) {
-            const tableBody = document.querySelector('#pesertaTable tbody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td><input type="text" name="fullname[]" class="form-control" required></td>
-                <td><input type="text" name="phone_number[]" class="form-control" required></td>
-                <td><input type="text" name="seat[]" class="form-control" required></td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
-                    <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
-                </td>
-            `;
-            tableBody.appendChild(newRow);
-        } else {
-            alert('Harap lengkapi semua input sebelum menambahkan peserta baru.');
-        }
-    }
-
-    function removeRow(button) {
-        const row = button.parentElement.parentElement;
-        const rows = document.querySelectorAll('#pesertaTable tbody tr');
-        if (rows.length > 1) { // Pastikan lebih dari satu peserta
-            row.remove();
-        } else {
-            alert('Minimal satu peserta harus ada!');
-        }
-    }
-</script>
 @endsection
