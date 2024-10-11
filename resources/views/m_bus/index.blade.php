@@ -43,10 +43,17 @@
     </div>
 
     <script>
-        @if(session('success'))
+        @if(session('action') == 'create')
             Swal.fire({
                 title: 'Berhasil!',
                 text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @elseif(session('action') == 'edit')
+            Swal.fire({
+                title: 'Berhasil!',
+                text: "Berhasil mengedit data tipe bus!",
                 icon: 'success',
                 confirmButtonText: 'OK'
             });

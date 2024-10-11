@@ -45,7 +45,7 @@ class MBusController extends Controller
             Log::info('Data m_bus berhasil disimpan.');
 
             // Flash message sukses
-            return redirect()->route('m_bus.index')->with('success', 'Data m_bus berhasil ditambahkan');
+            return redirect()->route('m_bus.index')->with('success', 'Berhasil menambahkan jenis bus dengan kapasitas'. $request->kapasitas_bus );
         } catch (\Exception $e) {
             // Log error
             Log::error('Terjadi kesalahan saat menyimpan data m_bus: ' . $e->getMessage());
@@ -92,14 +92,12 @@ class MBusController extends Controller
           try {
               // Log data sebelum diperbarui
               Log::info('Mengupdate data m_bus dengan ID: ' . $id, [
-                  'tipe_bus' => $request->tipe_bus,
                   'kapasitas_bus' => $request->kapasitas_bus,
               ]);
   
               // Mencari data m_bus berdasarkan ID
               $mbus = MBus::findOrFail($id);
               $mbus->update([
-                  'tipe_bus' => $request->tipe_bus,
                   'kapasitas_bus' => $request->kapasitas_bus,
               ]);
   
@@ -107,7 +105,7 @@ class MBusController extends Controller
               Log::info('Data m_bus dengan ID ' . $id . ' berhasil diperbarui.');
   
               // Flash message sukses
-              return redirect()->route('m_bus.index')->with('success', 'Data m_bus berhasil diperbarui');
+              return redirect()->route('m_bus.index')->with('success', 'Berhasil memperbarui data bus');
           } catch (\Exception $e) {
               // Log error
               Log::error('Terjadi kesalahan saat mengupdate data m_bus: ' . $e->getMessage());
