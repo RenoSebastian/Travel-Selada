@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-4">
     <h2>Daftar Peserta Tour</h2>
-    <a href="{{ route('peserta_tour.create') }}" class="btn btn-primary mb-3">Tambah Peserta</a>
+    <a href="{{ route('peserta_tour.create', ['bus_id' => $bus->id]) }}" class="btn btn-primary">Tambah Peserta</a>
 
     <table class="table table-bordered">
         <thead>
