@@ -36,7 +36,7 @@
 
     <!-- Tabel untuk menampilkan peserta tour yang sudah terdaftar di bus ini -->
     <h4 class="mt-5">Peserta Tour Terdaftar</h4>
-    @if($pesertaTours->isEmpty())
+    @if($pesertaTour->isEmpty())
         <p>Tidak ada peserta tour yang terdaftar di bus ini.</p>
     @else
         <table class="table table-bordered mt-3">
@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($pesertaTours as $peserta)
+                @foreach($pesertaTour as $peserta)
                     <tr>
                         <td>{{ $peserta->id }}</td>
                         <td>{{ $peserta->fullname }}</td>
