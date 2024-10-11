@@ -47,6 +47,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="back-button">Kembali</button>
                 <button type="button" class="btn btn-primary" id="continue-button">Lanjutkan</button>
+                <a href="{{ route('bus.index') }}" class="btn btn-info" id="modal-back-to-index">Kembali ke Index</a>
             </div>
         </div>
     </div>
