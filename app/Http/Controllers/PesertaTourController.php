@@ -20,7 +20,7 @@ class PesertaTourController extends Controller
         // Cari data bus berdasarkan ID
         $bus = Bus::findOrFail($bus_id);
     
-        return view('peserta_tour.create', compact('bus'));
+        return view('peserta_tour.create', compact('bus_id'));
     }
 
     public function store(Request $request)
