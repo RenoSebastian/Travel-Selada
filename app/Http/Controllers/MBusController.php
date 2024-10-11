@@ -45,7 +45,7 @@ class MBusController extends Controller
             Log::info('Data m_bus berhasil disimpan.');
 
             // Flash message sukses
-            return redirect()->route('m_bus.index')->with('success', 'Berhasil menambahkan jenis bus dengan kapasitas'. $request->kapasitas_bus );
+            return redirect()->route('m_bus.index')->with('success', 'Berhasil menambahkan jenis bus dengan kapasitas '. $request->kapasitas_bus );
         } catch (\Exception $e) {
             // Log error
             Log::error('Terjadi kesalahan saat menyimpan data m_bus: ' . $e->getMessage());
