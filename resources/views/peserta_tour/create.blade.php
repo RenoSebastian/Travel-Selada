@@ -52,6 +52,9 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
     document.getElementById('add-peserta').addEventListener('click', function() {
         const container = document.getElementById('peserta-container');
@@ -90,6 +93,7 @@
 
     document.getElementById('peserta-form').addEventListener('submit', function(e) {
         e.preventDefault(); // Mencegah pengiriman form default
+        console.log("Form submitted"); // Tambahkan log ini
 
         const formData = new FormData(this);
 
@@ -102,13 +106,12 @@
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data); // Tambahkan log ini untuk melihat respons
             if (data.status === 'full') {
-                // Tampilkan modal dengan sisa kapasitas
                 document.getElementById('remaining-capacity').innerText = data.sisaKapasitas;
                 $('#capacityModal').modal('show');
             } else {
-                // Tindakan jika berhasil
-                window.location.href = "{{ route('bus.index') }}"; // Ganti ke URL yang sesuai
+                window.location.href = "{{ route('bus.index') }}";
             }
         })
         .catch(error => {
