@@ -66,12 +66,13 @@ Route::prefix('m_bus')->group(function () {
 // Route untuk Bus
 Route::prefix('bus')->group(function () {
     Route::get('/', [BusController::class, 'index'])->name('bus.index');
-    Route::get('/create', [BusController::class, 'create'])->name('bus.create');
+    Route::get('/{bus_id}/create', [BusController::class, 'create'])->name('bus.create');
     Route::post('/store', [BusController::class, 'store'])->name('bus.store');
     Route::get('/edit/{id}', [BusController::class, 'edit'])->name('bus.edit');
     Route::put('/update/{id}', [BusController::class, 'update'])->name('bus.update');
     Route::delete('/destroy/{id}', [BusController::class, 'destroy'])->name('bus.destroy');
 });
+
 
 // Rute untuk halaman login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
