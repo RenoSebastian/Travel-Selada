@@ -34,42 +34,41 @@
         <button type="submit" class="btn btn-primary">Update Data Bus</button>
     </form>
 
-    <!-- Tabel untuk menampilkan peserta tour yang sudah terdaftar di bus ini -->
-    <h4 class="mt-5">Peserta Tour Terdaftar</h4>
-    @if($pesertaTour->isEmpty())
-        <p>Tidak ada peserta tour yang terdaftar di bus ini.</p>
-    @else
-        <table class="table table-bordered mt-3">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fullname</th>
-                    <th>Phone Number</th>
-                    <th>Status</th>
-                    <th>Seat</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($pesertaTour as $peserta)
+    <h3 class="mt-4">Peserta Tour Terdaftar</h3>
+        @if($pesertaTours->isEmpty())
+            <p>Tidak ada peserta tour yang terdaftar di bus ini.</p>
+        @else
+            <table class="table table-bordered mt-3">
+                <thead>
                     <tr>
-                        <td>{{ $peserta->id }}</td>
-                        <td>{{ $peserta->fullname }}</td>
-                        <td>{{ $peserta->phone_number }}</td>
-                        <td>{{ $peserta->status }}</td>
-                        <td>{{ $peserta->seat }}</td>
-                        <td>
-                            <a href="{{ route('peserta_tour.edit', $peserta->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('peserta_tour.destroy', $peserta->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Fullname</th>
+                        <th>Phone Number</th>
+                        <th>Status</th>
+                        <th>Seat</th>
+                        <th>Action</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-</div>
+                </thead>
+                <tbody>
+                    @foreach($pesertaTours as $peserta)
+                        <tr>
+                            <td>{{ $peserta->id }}</td>
+                            <td>{{ $peserta->fullname }}</td>
+                            <td>{{ $peserta->phone_number }}</td>
+                            <td>{{ $peserta->status }}</td>
+                            <td>{{ $peserta->seat }}</td>
+                            <td>
+                                <a href="{{ route('peserta_tour.edit', $peserta->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('peserta_tour.destroy', $peserta->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
 @endsection
