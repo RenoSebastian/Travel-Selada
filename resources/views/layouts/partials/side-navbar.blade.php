@@ -10,7 +10,7 @@
     
     <style>
         #sidebarMenu {
-            background-color: #D8C9A3;
+            background-color: #64B5F6; /* Lighter blue color */
             height: 100vh;
             transition: all 0.3s ease;
         }
@@ -27,7 +27,7 @@
         }
 
         .nav-link.active {
-            background-color: #efaf32;
+            background-color: #64B5F6;
             color: white;
             font-weight: bold;
         }
@@ -38,8 +38,8 @@
         }
 
         .btn-custom {
-            background-color: #A68A6D;
-            color: white;
+            background-color: #BBDEFB;
+            color: black;
             width: 100%;
             margin-bottom: 10px;
         }

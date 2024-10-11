@@ -18,20 +18,21 @@
             align-items: center;
             height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to right, #d1c4e9, #b39ddb);
+            background: linear-gradient(to right, #2196F3, #64B5F6);
+            color: #333;
         }
 
         h1 {
             font-size: 2.5em;
             margin-bottom: 1em;
-            color: #333;
+            color: #1A237E;
         }
 
         form {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2.5em;
             border-radius: 10px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
             width: 100%;
             max-width: 400px;
             text-align: center;
@@ -43,7 +44,7 @@
             display: block;
             margin-top: 1em;
             text-align: left;
-            color: #333;
+            color: #1A237E;
         }
 
         input[type="text"],
@@ -51,16 +52,18 @@
             width: 100%;
             padding: 12px 15px;
             margin-top: 0.5em;
-            border: 1px solid #ddd;
+            border: 1px solid #BBDEFB;
             border-radius: 8px;
             font-size: 1em;
             transition: border 0.3s;
+            background-color: #E3F2FD;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border: 1px solid #6a1b9a;
+            border: 1px solid #1976D2;
             outline: none;
+            background-color: #E1F5FE;
         }
 
         button {
@@ -69,20 +72,21 @@
             width: 100%;
             border: none;
             border-radius: 8px;
-            background-color: #6a1b9a;
+            background-color: #1E88E5;
             color: white;
             font-size: 1.1em;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background-color: #4a148c;
+            background-color: #1565C0;
             transform: translateY(-2px);
         }
 
         div {
-            color: red;
+            color: #D32F2F;
             margin-bottom: 1em;
             font-weight: bold;
         }

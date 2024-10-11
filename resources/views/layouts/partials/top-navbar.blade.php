@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top Navbar</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .navbar {
-            background-color: #efaf32;
+            background-color: #03A9F4; /* Lighter blue color */
         }
 
         .navbar-brand {
@@ -20,12 +19,12 @@
         }
 
         .nav-link {
-            color: #333;
+            color: white;
             transition: color 0.3s ease;
         }
 
         .nav-link:hover {
-            color: #efaf32;
+            color: #ffdd57; /* Yellow hover color for contrast */
         }
 
         .navbar-toggler {
@@ -51,17 +50,17 @@
             height: 2px;
             left: 0;
             bottom: -5px;
-            background-color: #efaf32;
+            background-color: #ffdd57;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <button id="toggleSidebar" class="btn btn-light me-2">☰</button>
         <a class="navbar-brand" href="#">Travel-Selada</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="btn btn-light me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
