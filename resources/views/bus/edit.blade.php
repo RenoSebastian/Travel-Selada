@@ -70,6 +70,6 @@
                 </tbody>
             </table>
         @endif
-        <a href="{{ route('peserta_tour.create') }}?bus_id={{ $bus->id }}" class="btn btn-primary mt-3">Tambah Data Peserta</a>
+        <a href="{{ route('peserta_tour.create', ['bus_id' => $bus->id]) }}" class="btn btn-primary">Tambah Data Peserta</a>
     </div>
 @endsection

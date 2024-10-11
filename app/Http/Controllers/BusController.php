@@ -19,6 +19,7 @@ class BusController extends Controller
 
         // Ambil data dari tabel m_bus untuk pilihan tipe bus
         $mbuses = MBus::all();
+        $bus = Bus::findOrFail($bus_id);
         $user_travel = UserTravel::all();
         return view('bus.create', compact('mbuses', 'user_travel'));
     }
