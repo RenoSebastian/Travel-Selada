@@ -23,12 +23,12 @@
 
         <div class="form-group">
             <label for="fullname">Full Name:</label>
-            <input type="text" name="fullname" class="form-control" value="{{ old('fullname', $userTravel->fullname) }}" required>
+            <input type="text" name="fullname" class="form-control" value="{{ old('fullname', $user->fullname) }}" required>
         </div>
 
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" name="username" class="form-control" value="{{ old('username', $userTravel->username) }}" required>
+            <input type="text" name="username" class="form-control" value="{{ old('username', $user->username) }}" required>
         </div>
 
         <div class="form-group">
@@ -38,12 +38,12 @@
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email', $userTravel->email) }}" required>
+            <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
         </div>
 
         <div class="form-group">
             <label for="phone">Phone:</label>
-            <input type="text" name="phone" class="form-control" value="{{ old('phone', $userTravel->phone) }}">
+            <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
         </div>
 
         <div class="form-group">
