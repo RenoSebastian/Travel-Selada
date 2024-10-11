@@ -4,12 +4,12 @@
 <div class="container">
     <h1>Tambah Peserta Tour</h1>
 
-    <form id="peserta-form">
+    <form id="peserta-form" method="POST" action="{{ route('peserta_tour.store', $busId) }}">
         @csrf
 
         <div id="peserta-container">
             <div class="peserta-form">
-                <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Menggunakan $busId -->
+                <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Use $busId -->
 
                 <div class="form-group">
                     <label for="fullname">Nama Lengkap:</label>
@@ -29,7 +29,7 @@
 
         <button type="button" class="btn btn-primary" id="add-peserta">Tambah Peserta</button>
         <button type="submit" class="btn btn-success">Simpan</button>
-        <a href="{{ route('bus.index') }}" class="btn btn-secondary">Kembali</a> <!-- Tombol Kembali ditambahkan di sini -->
+        <a href="{{ route('bus.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 
@@ -58,7 +58,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // Fungsi untuk menambah form peserta baru
     document.getElementById('add-peserta').addEventListener('click', function() {
         const container = document.getElementById('peserta-container');
         const pesertaForm = document.createElement('div');
@@ -79,11 +78,10 @@
             </div>
             <button type="button" class="btn btn-danger remove-peserta">Hapus</button>
         `;
-        
+
         container.appendChild(pesertaForm);
     });
 
-    // Fungsi untuk menghapus form peserta
     document.getElementById('peserta-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-peserta')) {
             const pesertaForms = document.querySelectorAll('.peserta-form');
@@ -95,37 +93,34 @@
         }
     });
 
-    // Fungsi submit form peserta
     document.getElementById('peserta-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // Mencegah pengiriman form secara default
-        console.log("Form submitted"); // Tambahkan log ini untuk cek
+    e.preventDefault(); // Prevent default form submission
 
-        const formData = new FormData(this); // Ambil data form
-
-        // Kirim data menggunakan fetch dengan metode POST
-        fetch("{{ route('peserta_tour.store') }}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Tambahkan log ini untuk melihat respons
-            if (data.status === 'full') {
+    const formData = new FormData(this);
+    
+    fetch("{{ route('peserta_tour.store', $busId) }}", { // Include $busId here
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'full') {
                 document.getElementById('remaining-capacity').innerText = data.sisaKapasitas;
                 $('#capacityModal').modal('show');
             } else {
                 window.location.href = "{{ route('bus.index') }}";
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan data.');
     });
+});
 
-    // Fungsi untuk menutup modal
+
     document.getElementById('close-modal').addEventListener('click', function() {
         $('#capacityModal').modal('hide');
     });
@@ -135,7 +130,6 @@
     });
 
     document.getElementById('continue-button').addEventListener('click', function() {
-        // Tindakan untuk melanjutkan setelah pop-up
         alert('Anda memilih untuk melanjutkan.'); // Ganti dengan logika sesuai jika diperlukan
         $('#capacityModal').modal('hide'); // Menyembunyikan modal
     });

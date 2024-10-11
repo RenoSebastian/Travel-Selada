@@ -25,7 +25,7 @@ use App\Http\Controllers\PesertaTourController;
 Route::prefix('peserta-tour')->group(function () {
     Route::get('/', [PesertaTourController::class, 'index'])->name('peserta_tour.index');
     Route::get('/create/{bus_id}', [PesertaTourController::class, 'create'])->name('peserta_tour.create');
-    Route::post('/store', [PesertaTourController::class, 'store'])->name('peserta_tour.store');
+    Route::post('/store/{bus_id}', [PesertaTourController::class, 'store'])->name('peserta_tour.store');
     Route::get('/edit/{id}', [PesertaTourController::class, 'edit'])->name('peserta_tour.edit');
     Route::put('/update/{id}', [PesertaTourController::class, 'update'])->name('peserta_tour.update');
     Route::delete('/destroy/{id}', [PesertaTourController::class, 'destroy'])->name('peserta_tour.destroy');
