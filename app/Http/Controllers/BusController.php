@@ -12,7 +12,7 @@ use App\Entities\PesertaTour;
 class BusController extends Controller
 {
      // Menampilkan form input data bus
-     public function create($id)
+     public function create()
      {
          // Log saat menampilkan form
          Log::info('Menampilkan form input data bus.');
