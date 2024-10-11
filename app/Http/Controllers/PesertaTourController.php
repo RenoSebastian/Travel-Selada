@@ -16,7 +16,7 @@ class PesertaTourController extends Controller
         return view('peserta_tour.index', compact('buses', 'pesertaTours')); // Kirim $buses ke view
     }
 
-    public function create($id) // Change the parameter to $id
+    public function create($bus) // Change the parameter to $id
     {
         // Cari data bus berdasarkan ID
         $bus = Bus::findOrFail($id);
