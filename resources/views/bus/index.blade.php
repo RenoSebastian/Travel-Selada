@@ -7,6 +7,18 @@
         <h2>Data Bus</h2>
         <a href="{{ route('bus.create') }}" class="btn btn-primary mb-3">Tambah Data Bus</a>
 
+        <!-- Tampilkan SweetAlert jika ada pesan sukses -->
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+        @endif
+
         <!-- Tabel untuk data dari tabel bus -->
         <table class="table table-bordered">
             <thead>

@@ -24,40 +24,43 @@ class PesertaTourController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'fullname.*' => 'required|string|max:255',
-        'phone_number.*' => 'required|string|max:15',
-        'seat.*' => 'required|string|max:5',
-        'bus_id' => 'required|exists:bus,id' // Validasi bus_id
-    ]);
-
-    // Ambil data peserta dari request
-    $fullnames = $request->input('fullname');
-    $phoneNumbers = $request->input('phone_number');
-    $seats = $request->input('seat');
-    $busId = $request->input('bus_id'); // Ambil bus_id
-
-    // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
-    $count = 0;
-
-    // Loop untuk menyimpan maksimal 5 peserta
-    for ($i = 0; $i < count($fullnames); $i++) {
-        PesertaTour::create([
-            'fullname' => $fullnames[$i],
-            'phone_number' => $phoneNumbers[$i],
-            'seat' => $seats[$i],
-            'bus_location' => $busId, // Set bus_location dengan bus_id
-            'card_number' => null, // Set card_number menjadi null
-            'status' => 0 // Status default 0
+    {
+        // Validasi input
+        $request->validate([
+            'fullname.*' => 'required|string|max:255',
+            'phone_number.*' => 'required|string|max:15',
+            'seat.*' => 'required|string|max:5',
+            'bus_id' => 'required|exists:bus,id'
         ]);
-        $count++; // Increment counter
-    }
-
-    // Kirim pesan sukses dengan jumlah peserta yang ditambahkan
-    return redirect()->route('bus.index', ['bus_id' => $busId])->with('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
-}
+    
+        // Ambil data peserta dari request
+        $fullnames = $request->input('fullname');
+        $phoneNumbers = $request->input('phone_number');
+        $seats = $request->input('seat');
+        $busId = $request->input('bus_id');
+    
+        // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
+        $count = 0;
+    
+        // Loop untuk menyimpan peserta
+        foreach ($fullnames as $i => $fullname) {
+            PesertaTour::create([
+                'fullname' => $fullname,
+                'phone_number' => $phoneNumbers[$i],
+                'seat' => $seats[$i],
+                'bus_location' => $busId,
+                'card_number' => null,
+                'status' => 0
+            ]);
+            $count++;
+        }
+    
+        // Kirim pesan sukses ke session
+        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
+    
+        // Redirect ke halaman Data Bus
+        return redirect()->route('bus.index'); // Pastikan ada rute 'bus.index' yang mengarah ke halaman Data Bus
+    }    
 
     public function edit($id)
     {
