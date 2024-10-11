@@ -3,8 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Create New User Travel</h2>
-
-    <!-- Menampilkan flash message untuk berhasil atau gagal -->
+    
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
