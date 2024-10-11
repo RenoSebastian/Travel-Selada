@@ -17,7 +17,7 @@ class BusController extends Controller
          // Log saat menampilkan form
          Log::info('Menampilkan form input data bus.');
          // Ambil data bus terkait
-         $bus = Bus::findOrFail($bus_id);
+         $bus = Bus::findOrFail($id);
          $mbuses = MBus::all();
          $user_travel = UserTravel::all();
  
