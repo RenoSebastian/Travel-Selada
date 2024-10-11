@@ -8,6 +8,7 @@ use App\Entities\MLocation;
 use App\Entities\MemberData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use App\Entities\PesertaTour;
 
 
 class LocationController extends Controller
@@ -22,40 +23,41 @@ class LocationController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|string',
         ]);
-
+    
         $userId = $validatedData['user_id'];
-
-        // Ambil location_id berdasarkan user_id
-        $userLocation = UserLocation::where('user_id', $userId)->first();
-
-        if ($userLocation) {
-            $locationId = $userLocation->location_id;
-
-            // Ambil semua member data yang memiliki location_id yang sama
-            $matchingMembers = MemberData::where('location_id', $locationId)->get();
-
-            // Ubah ke format JSON
-            $membersData = $matchingMembers->map(function ($member) {
+    
+        // Ambil user berdasarkan user_id
+        $user = User::find($userId);
+    
+        if ($user) {
+            $busId = $user->id_bus;
+    
+            // Ambil semua peserta tour yang memiliki bus_location sama dengan id_bus dari pengguna
+            $matchingParticipants = PesertaTour::where('bus_location', $busId)->get();
+    
+            // Format data ke dalam JSON
+            $participantsData = $matchingParticipants->map(function ($participant) {
                 return [
-                    'fullname' => $member->fullname,
-                    'phone' => $member->phone,
-                    'seat' => $member->name,
+                    'fullname' => $participant->fullname,
+                    'phone' => $participant->phone_number,
+                    'seat' => $participant->seat,
                 ];
             });
-
+    
             return response()->json([
                 'user_id' => $userId,
-                'location_id' => $locationId,
-                'members' => $membersData,
+                'bus_id' => $busId,
+                'participants' => $participantsData,
             ]);
         }
-
+    
         return response()->json([
             'user_id' => $userId,
-            'location_id' => null,
-            'members' => [], // Kembalikan koleksi kosong
+            'bus_id' => null,
+            'participants' => [], // Kembalikan koleksi kosong jika pengguna tidak ditemukan
         ]);
     }
+    
 
     public function create()
     {

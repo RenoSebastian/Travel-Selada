@@ -42,7 +42,11 @@ class User extends Model implements AuthenticatableContract
         }
         return null; 
     }
-
+    public function pesertaTours()
+    {
+        return $this->hasMany(PesertaTour::class, 'bus_location', 'id_bus');
+    }
+    
     public function locations()
     {
         return $this->hasMany(UserLocation::class, 'user_id', 'id');
