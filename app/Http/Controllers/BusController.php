@@ -12,18 +12,17 @@ use App\Entities\PesertaTour;
 class BusController extends Controller
 {
      // Menampilkan form input data bus
-     public function create()
-     {
-         // Log saat menampilkan form
-         Log::info('Menampilkan form input data bus.');
-         // Ambil data bus terkait
-         $bus_id = Bus::findOrFail($id);
-         $mbuses = MBus::all();
-         $bus = Bus::all();
-         $user_travel = UserTravel::all();
- 
-         return view('peserta_tour.create', compact('bus_id','bus', 'mbuses', 'user_travel'));
-     }
+    public function create()
+    {
+        // Log saat menampilkan form
+        Log::info('Menampilkan form input data bus.');
+    // Ambil data bus terkait
+    $bus = Bus::findOrFail($bus_id);
+    $mbuses = MBus::all();
+    $user_travel = UserTravel::all();
+
+    return view('peserta_tour.create', compact('bus', 'mbuses', 'user_travel'));
+    }
     
     public function store(Request $request)
     {
