@@ -25,24 +25,28 @@ class PesertaTourController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'fullname.*' => 'required|string|max:255',
             'phone_number.*' => 'required|string|max:15',
             'seat.*' => 'required|string|max:5',
             'bus_id' => 'required|exists:bus,id'
         ]);
-    
-        // Ambil data peserta dari request
+
+        $busId = $request->input('bus_id');
+        $bus = Bus::with('mbus')->findOrFail($busId);
+        $kapasitasBus = $bus->mbus->kapasitas;
+        $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
+        $jumlahPesertaBaru = count($request->input('fullname'));
+
+        if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
+            return back()->withErrors(['error' => 'Jumlah peserta melebihi kapasitas bus.'])->withInput();
+        }
+
+        $count = 0;
         $fullnames = $request->input('fullname');
         $phoneNumbers = $request->input('phone_number');
         $seats = $request->input('seat');
-        $busId = $request->input('bus_id');
-    
-        // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
-        $count = 0;
-    
-        // Loop untuk menyimpan peserta
+
         foreach ($fullnames as $i => $fullname) {
             PesertaTour::create([
                 'fullname' => $fullname,
@@ -54,13 +58,11 @@ class PesertaTourController extends Controller
             ]);
             $count++;
         }
+
+        session()->flash('success', "Anda berhasil menambah {$count} peserta baru!");
+        return redirect()->route('bus.index');
+    }
     
-        // Kirim pesan sukses ke session
-        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
-    
-        // Redirect ke halaman Data Bus
-        return redirect()->route('bus.index'); // Pastikan ada rute 'bus.index' yang mengarah ke halaman Data Bus
-    }    
 
     public function edit($id)
     {
