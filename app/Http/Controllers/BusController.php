@@ -16,11 +16,12 @@ class BusController extends Controller
     {
         // Log saat menampilkan form
         Log::info('Menampilkan form input data bus.');
-
-        // Ambil data dari tabel m_bus untuk pilihan tipe bus
+        // Ambil data bus terkait
+        $bus = Bus::findOrFail($bus_id);
         $mbuses = MBus::all();
         $user_travel = UserTravel::all();
-        return view('bus.create', compact('mbuses', 'user_travel'));
+
+        return view('peserta_tour.create', compact('bus', 'mbuses', 'user_travel'));
     }
     
     public function store(Request $request)
