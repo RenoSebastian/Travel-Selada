@@ -107,10 +107,8 @@
                 <td><input type="text" name="fullname[]" class="form-control" required></td>
                 <td><input type="text" name="phone_number[]" class="form-control" required></td>
                 <td><input type="text" name="seat[]" class="form-control" required></td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
-                    <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
-                </td>
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
+                <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
             `;
             tableBody.appendChild(newRow);
         } else {
