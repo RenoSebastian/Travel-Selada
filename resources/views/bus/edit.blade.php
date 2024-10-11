@@ -56,7 +56,7 @@
                         <form action="{{ route('peserta_tour.destroy', $pesertaTour->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Hapus</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus peserta ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>
@@ -107,8 +107,10 @@
                 <td><input type="text" name="fullname[]" class="form-control" required></td>
                 <td><input type="text" name="phone_number[]" class="form-control" required></td>
                 <td><input type="text" name="seat[]" class="form-control" required></td>
-                <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
-                <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Hapus</button>
+                    <button type="button" class="btn btn-success" onclick="addPesertaRow(this)">Tambah Peserta</button>
+                </td>
             `;
             tableBody.appendChild(newRow);
         } else {
@@ -118,7 +120,12 @@
 
     function removeRow(button) {
         const row = button.parentElement.parentElement;
-        row.remove();
+        const rows = document.querySelectorAll('#pesertaTable tbody tr');
+        if (rows.length > 1) { // Pastikan lebih dari satu peserta
+            row.remove();
+        } else {
+            alert('Minimal satu peserta harus ada!');
+        }
     }
 </script>
 @endsection

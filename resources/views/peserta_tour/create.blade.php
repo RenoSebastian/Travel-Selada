@@ -22,9 +22,10 @@
                     <label for="seat">Seat:</label>
                     <input type="text" name="seat[]" class="form-control" required>
                 </div>
+                <button type="button" class="btn btn-danger remove-peserta">Hapus</button> <!-- Tombol Hapus -->
             </div>
         </div>
-        <button type="button" class="btn btn-danger remove-peserta" style="display:none;">Hapus</button>
+
         <button type="button" class="btn btn-primary" id="add-peserta">Tambah Peserta</button>
         <button type="submit" class="btn btn-success">Simpan</button>
     </form>
@@ -49,7 +50,7 @@
                 <label for="seat">Seat:</label>
                 <input type="text" name="seat[]" class="form-control" required>
             </div>
-            <button type="button" class="btn btn-danger remove-peserta">Hapus</button>
+            <button type="button" class="btn btn-danger remove-peserta">Hapus</button> <!-- Tombol Hapus -->
         `;
         
         container.appendChild(pesertaForm);
