@@ -17,26 +17,12 @@ class PesertaTourController extends Controller
     }
 
     public function create($bus_id)
-{
-    // Log saat menampilkan form
-    Log::info('Menampilkan form input data bus.');
-
-    // Ambil data bus terkait berdasarkan bus_id
-    $bus = Bus::findOrFail($bus_id);
+    {
+        // Cari data bus berdasarkan ID
+        $bus = Bus::findOrFail($bus_id);
     
-    // Ambil data MBus dan UserTravel jika diperlukan
-    $mbuses = MBus::all();
-    $user_travel = UserTravel::all();
-
-    // Kembalikan view dengan data yang diperlukan
-    return view('peserta_tour.create', [
-        'bus_id' => $bus->id,
-        'bus' => $bus,
-        'mbuses' => $mbuses,
-        'user_travel' => $user_travel
-    ]);
-}
-
+        return view('peserta_tour.create', compact( 'bus','bus_id'));
+    }
 
     public function store(Request $request)
 {
