@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <form action="{{ route('user_travel.update', $userTravel->id) }}" method="POST">
+    <form action="{{ route('user_travel.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT') <!-- Menggunakan PUT untuk update data -->
 
@@ -51,7 +51,7 @@
             <select name="role_id" class="form-control">
                 <option value="">Select Role</option>
                 @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" {{ $userTravel->role_id == $role->id ? 'selected' : '' }}>
+                    <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
                         {{ $role->name }}
                     </option>
                 @endforeach
