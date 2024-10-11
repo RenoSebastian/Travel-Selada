@@ -171,7 +171,11 @@ class LoginController extends Controller
 
         Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
 
-        return redirect()->route('register_peserta')->with('status', 'Peserta Tour registered successfully!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Peserta Tour registered successfully!',
+            'data' => $pesertaTour
+        ]);
     }
 
     public function logout()
