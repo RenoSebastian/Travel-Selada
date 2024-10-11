@@ -37,7 +37,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="capacityModalLabel">Bus Penuh</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -45,7 +45,7 @@
                 <p>Bus telah penuh. Sisa kapasitas adalah <span id="remaining-capacity"></span> peserta.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="back-button">Kembali</button>
                 <button type="button" class="btn btn-primary" id="continue-button">Lanjutkan</button>
             </div>
         </div>
@@ -117,6 +117,15 @@
         .catch(error => {
             console.error('Error:', error);
         });
+    });
+
+    // Fungsi untuk menutup modal
+    document.getElementById('close-modal').addEventListener('click', function() {
+        $('#capacityModal').modal('hide');
+    });
+
+    document.getElementById('back-button').addEventListener('click', function() {
+        $('#capacityModal').modal('hide');
     });
 
     document.getElementById('continue-button').addEventListener('click', function() {
