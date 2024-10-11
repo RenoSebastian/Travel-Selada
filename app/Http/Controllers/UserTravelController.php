@@ -100,4 +100,39 @@ class UserTravelController extends Controller
 
         return redirect()->route('user_travel.index')->with('success', 'User deleted successfully.');
     }
+
+    public function createTourLeader()
+    {
+        return view('user_travel.create_tour_leader'); // Menampilkan view untuk input tour leader
+    }
+
+    public function storeTourLeader(Request $request)
+    {
+        $validatedData = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:user_travel',
+            'email' => 'required|email|max:255|unique:user_travel',
+            'phone' => 'nullable|string|max:15',
+            // role_id sudah default ke 3, jadi tidak perlu divalidasi dari input
+            'password' => 'required|string|min:8',
+        ]);
+
+        try {
+            // Buat user baru untuk tour leader
+            $userTravel = new UserTravel();
+            $userTravel->id = (string) Str::uuid(); // Menetapkan UUID sebagai ID
+            $userTravel->fullname = $validatedData['fullname'];
+            $userTravel->username = $validatedData['username'];
+            $userTravel->email = $validatedData['email'];
+            $userTravel->phone = $validatedData['phone'];
+            $userTravel->role_id = 3; // Role ID untuk tour leader
+            $userTravel->password = bcrypt($validatedData['password']);
+            $userTravel->save();
+
+            return redirect()->route('user_travel.index')->with('success', 'Tour leader created successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to create tour leader: ' . $e->getMessage());
+        }
+    }
+
 }

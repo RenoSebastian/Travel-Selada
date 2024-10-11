@@ -48,7 +48,10 @@ Route::prefix('user_travel')->group(function () {
     Route::get('/{id}', [UserTravelController::class, 'edit'])->name('user_travel.edit');
     Route::put('/{id}', [UserTravelController::class, 'update'])->name('user_travel.update');
     Route::delete('/{id}', [UserTravelController::class, 'destroy'])->name('user_travel.destroy');
+    Route::get('create_tour_leader', [UserTravelController::class, 'createTourLeader'])->name('user_travel.create_tour_leader');
+    Route::post('store_tour_leader', [UserTravelController::class, 'storeTourLeader'])->name('user_travel.store_tour_leader');
 });
+
 
 // Route untuk m_bus
 Route::prefix('m_bus')->group(function () {
