@@ -23,12 +23,26 @@
 
         <div class="mb-3">
             <label for="tipe_bus" class="form-label">Tipe Bus</label>
-            <input type="text" class="form-control" id="tipe_bus" name="tipe_bus" value="{{ $bus->tipe_bus }}" required>
+            <select class="form-control" id="tipe_bus" name="tipe_bus" required>
+                <option value="">Pilih Tipe Bus</option>
+                @foreach($mbuses as $mbus)
+                    <option value="{{ $mbus->id }}" {{ $bus->tipe_bus == $mbus->id ? 'selected' : '' }}>
+                        {{ $mbus->kapasitas_bus }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">
             <label for="tour_leader" class="form-label">Tour Leader</label>
-            <input type="text" class="form-control" id="tour_leader" name="tour_leader" value="{{ $bus->tour_leader }}" required>
+            <select class="form-control" id="tour_leader" name="tour_leader" required>
+                <option value="">Pilih Tour Leader</option>
+                @foreach($user_travel as $tourlead)
+                    <option value="{{ $tourlead->id }}" {{ $bus->tl_id == $tourlead->id ? 'selected' : '' }}>
+                        {{ $tourlead->fullname }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Update Data Bus</button>
