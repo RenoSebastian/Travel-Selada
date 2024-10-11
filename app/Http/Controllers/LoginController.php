@@ -148,6 +148,30 @@ class LoginController extends Controller
         ], 401);
     }
     
+    public function registerApk(Request $request)
+    {
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'card_number' => 'required|string|max:255',
+            'bus_location' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+            'seat' => 'nullable|string|max:10',
+        ]);
+
+        $pesertaTour = PesertaTour::create([
+            'fullname' => $request->fullname,
+            'phone_number' => $request->phone_number,
+            'card_number' => $request->card_number,
+            'bus_location' => $request->bus_location,
+            'status' => $request->status,
+            'seat' => $request->seat,
+        ]);
+
+        Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
+
+        return redirect()->route('register_peserta')->with('status', 'Peserta Tour registered successfully!');
+    }
 
     public function logout()
     {
