@@ -131,4 +131,3 @@ class BusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
     }
 }
-
