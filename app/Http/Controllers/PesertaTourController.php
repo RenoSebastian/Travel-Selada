@@ -29,19 +29,25 @@ class PesertaTourController extends Controller
         $request->validate([
             'fullname' => 'required',
             'phone_number' => 'required',
-            'card_number' => 'required',
             'bus_location' => 'required',
-            'status' => 'required|integer',
-            'seat' => 'required|string', 
-            'clock_in' => 'nullable|date', 
-            'clock_out' => 'nullable|date', 
+            'seat' => 'required|string',
+            'clock_in' => 'nullable|date',
+            'clock_out' => 'nullable|date',
         ]);
 
-        // Simpan data peserta tour
-        PesertaTour::create($request->all());
+        // Siapkan data peserta tour
+        $data = $request->all();
 
-        return redirect()->route('bus.index')->with('success', 'Peserta tour berhasil ditambahkan.');
+        // Set card_number dan status default
+        $data['card_number'] = null; // Set card_number menjadi null
+        $data['status'] = 0; // Set status menjadi 0
+
+        // Simpan data peserta tour
+        PesertaTour::create($data);
+
+        return redirect()->route('peserta_tour.index')->with('success', 'Peserta tour berhasil ditambahkan.');
     }
+
 
     public function edit($id)
     {
