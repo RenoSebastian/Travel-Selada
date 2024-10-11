@@ -131,6 +131,8 @@ class LoginController extends Controller
                         'email' => $user->email,
                         'phone' => $user->phone,
                         'fullname' => $user->fullname,
+                        'role_id' => $user->role_id,
+                        'id_bus' => $user->id_bus,
                     ],
                 ]);
             } else {

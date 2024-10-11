@@ -24,7 +24,6 @@ class PesertaTour extends Model
 
     public $timestamps = true;
 
-    // Relasi manual ke Bus Entity
     public function bus()
     {
         return $this->belongsTo(Bus::class, 'bus_location', 'id');
