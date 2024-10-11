@@ -28,12 +28,8 @@
                     <input type="text" name="phone_number[]" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="seat">Kursi:</label>
-                    <input type="text" name="seat[]" class="form-control" required>
-                </div>
-                <div class="form-group">
                     <label for="seat">Seat:</label>
-                    <input type="text" class="form-control" name="seat" required>
+                    <input type="text" name="seat[]" class="form-control" required>
                 </div>
             </div>
         </div>
@@ -57,7 +53,7 @@
                     <input type="text" name="phone_number[]" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="seat">Kursi:</label>
+                    <label for="seat">seat:</label>
                     <input type="text" name="seat[]" class="form-control" required>
                 </div>
             </div>
