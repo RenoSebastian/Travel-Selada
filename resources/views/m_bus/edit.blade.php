@@ -28,7 +28,6 @@
         </form>
     </div>
 
-    <!-- Script untuk SweetAlert -->
     <script>
         @if(session('success'))
             Swal.fire({
@@ -48,5 +47,6 @@
             });
         @endif
     </script>
+
 </body>
 </html>

@@ -78,42 +78,28 @@ class MBusController extends Controller
       }
   
       // Mengupdate data m_bus
-      public function update(Request $request, $id)
-      {
-          // Log request data yang diterima
-          Log::info('Menerima data request untuk mengupdate m_bus dengan ID: ' . $id, ['request' => $request->all()]);
-  
-          // Validasi data yang diinput
-          $request->validate([
-              'tipe_bus' => 'required|string|max:255',
-              'kapasitas_bus' => 'required|integer',
-          ]);
-  
-          try {
-              // Log data sebelum diperbarui
-              Log::info('Mengupdate data m_bus dengan ID: ' . $id, [
-                  'kapasitas_bus' => $request->kapasitas_bus,
-              ]);
-  
-              // Mencari data m_bus berdasarkan ID
-              $mbus = MBus::findOrFail($id);
-              $mbus->update([
-                  'kapasitas_bus' => $request->kapasitas_bus,
-              ]);
-  
-              // Log setelah data berhasil diperbarui
-              Log::info('Data m_bus dengan ID ' . $id . ' berhasil diperbarui.');
-  
-              // Flash message sukses
-              return redirect()->route('m_bus.index')->with('success', 'Berhasil memperbarui data bus');
-          } catch (\Exception $e) {
-              // Log error
-              Log::error('Terjadi kesalahan saat mengupdate data m_bus: ' . $e->getMessage());
-  
-              // Flash message error
-              return back()->with('error', 'Terjadi kesalahan saat mengupdate data');
-          }
-      }
+    public function update(Request $request, $id)
+    {
+        Log::info('Menerima data request untuk mengupdate m_bus dengan ID: ' . $id, ['request' => $request->all()]);
+
+        $request->validate([
+            'kapasitas_bus' => 'required|integer',
+        ]);
+
+        try {
+            $mbus = MBus::findOrFail($id);
+            $mbus->update([
+                'kapasitas_bus' => $request->kapasitas_bus,
+            ]);
+
+            Log::info('Data m_bus dengan ID ' . $id . ' berhasil diperbarui.');
+            return redirect()->route('m_bus.index')->with('success', 'Berhasil memperbarui data bus');
+        } catch (\Exception $e) {
+            Log::error('Terjadi kesalahan saat mengupdate data m_bus: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat mengupdate data');
+        }
+    }
+
   
       // Menghapus data m_bus
       public function destroy($id)
@@ -127,7 +113,7 @@ class MBusController extends Controller
               Log::info('Data m_bus dengan ID ' . $id . ' berhasil dihapus.');
   
               // Flash message sukses
-              return redirect()->route('m_bus.index')->with('success', 'Data m_bus berhasil dihapus');
+              return redirect()->route('m_bus.index')->with('success', 'Berhasil memperbarui data bus');
           } catch (\Exception $e) {
               // Log error
               Log::error('Terjadi kesalahan saat menghapus data m_bus: ' . $e->getMessage());
