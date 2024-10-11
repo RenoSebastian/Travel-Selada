@@ -15,13 +15,6 @@
         <form action="{{ route('m_bus.update', $mbus->id) }}" method="POST">
             @csrf
             @method('PUT') <!-- Method spoofing untuk PUT -->
-            <div class="mb-3">
-                <label for="tipe_bus" class="form-label">Tipe Bus</label>
-                <input type="text" class="form-control" id="tipe_bus" name="tipe_bus" value="{{ old('tipe_bus', $mbus->tipe_bus) }}" required>
-                @error('tipe_bus')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
 
             <div class="mb-3">
                 <label for="kapasitas_bus" class="form-label">Kapasitas Bus</label>

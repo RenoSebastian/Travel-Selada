@@ -23,26 +23,30 @@ class UserTravelController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'fullname' => 'required',
-            'username' => 'required|unique:user_travel',
-            'password' => 'required',
-            'email' => 'required|email|unique:user_travel',
-            'phone' => 'nullable',
-            'role_id' => 'nullable|exists:roles,id',
+        $validatedData = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:user_travel',
+            'email' => 'required|email|max:255|unique:user_travel',
+            'phone' => 'nullable|string|max:15',
+            'role_id' => 'required|integer',
+            'password' => 'required|string|min:8',
         ]);
 
-        UserTravel::create([
-            'id' => \Illuminate\Support\Str::uuid(),
-            'fullname' => $request->fullname,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'role_id' => $request->role_id,
-        ]);
+        try {
+            // Buat user baru
+            $userTravel = new UserTravel();
+            $userTravel->fullname = $validatedData['fullname'];
+            $userTravel->username = $validatedData['username'];
+            $userTravel->email = $validatedData['email'];
+            $userTravel->phone = $validatedData['phone'];
+            $userTravel->role_id = $validatedData['role_id'];
+            $userTravel->password = bcrypt($validatedData['password']);
+            $userTravel->save();
 
-        return redirect()->route('user_travel.index')->with('success', 'User created successfully.');
+            return redirect()->route('user_travel.index')->with('success', 'User travel created successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to create user travel: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -54,30 +58,37 @@ class UserTravelController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = UserTravel::findOrFail($id);
-
-        $request->validate([
-            'fullname' => 'required',
-            'username' => 'required|unique:user_travel,username,' . $user->id,
-            'password' => 'nullable',
-            'email' => 'required|email|unique:user_travel,email,' . $user->id,
-            'phone' => 'nullable',
-            'role_id' => 'nullable|exists:roles,id',
+        $validatedData = $request->validate([
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:15',
+            'role_id' => 'required|integer',
+            'password' => 'nullable|string|min:8', // Password bisa dikosongkan
         ]);
 
-        $user->fullname = $request->fullname;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->role_id = $request->role_id;
+        try {
+            // Temukan user berdasarkan id
+            $userTravel = UserTravel::findOrFail($id);
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            // Update data yang diisi
+            $userTravel->fullname = $validatedData['fullname'];
+            $userTravel->username = $validatedData['username'];
+            $userTravel->email = $validatedData['email'];
+            $userTravel->phone = $validatedData['phone'];
+            $userTravel->role_id = $validatedData['role_id'];
+
+            // Jika password diisi, maka update
+            if (!empty($validatedData['password'])) {
+                $userTravel->password = bcrypt($validatedData['password']);
+            }
+
+            $userTravel->save();
+
+            return redirect()->route('user_travel.index')->with('success', 'User travel updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update user travel: ' . $e->getMessage());
         }
-
-        $user->save();
-
-        return redirect()->route('user_travel.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)

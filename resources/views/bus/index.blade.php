@@ -27,7 +27,7 @@
                                 <td>{{ $bus->id }}</td>
                                 <td>{{ $bus->nama_bus }}</td>
                                 <td>{{ $bus->alamat_penjemputan }}</td>
-                                <td>{{ $mbus->tipe_bus }} / {{ $mbus->kapasitas_bus }}</td>
+                                <td>{{ $mbus->kapasitas_bus }}</td>
                                 <td>{{ $tourlead->fullname }}</td>
                             </tr>
                         @endif

@@ -36,7 +36,7 @@ Route::prefix('roles')->group(function () {
     Route::get('/', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('/', [RoleController::class, 'store'])->name('roles.store');
-    Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::get('/{id}', [RoleController::class, 'edit'])->name('roles.edit');
     Route::put('/{id}', [RoleController::class, 'update'])->name('roles.update');
     Route::delete('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 });
@@ -45,7 +45,7 @@ Route::prefix('user_travel')->group(function () {
     Route::get('/', [UserTravelController::class, 'index'])->name('user_travel.index');
     Route::get('create', [UserTravelController::class, 'create'])->name('user_travel.create');
     Route::post('store', [UserTravelController::class, 'store'])->name('user_travel.store');
-    Route::get('/{id}/edit', [UserTravelController::class, 'edit'])->name('user_travel.edit');
+    Route::get('/{id}', [UserTravelController::class, 'edit'])->name('user_travel.edit');
     Route::put('/{id}', [UserTravelController::class, 'update'])->name('user_travel.update');
     Route::delete('/{id}', [UserTravelController::class, 'destroy'])->name('user_travel.destroy');
 });
