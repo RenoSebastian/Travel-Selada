@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Entities\Members;
 use App\Entities\Absensi;
 use App\Entities\UserLocation;
+use App\Entities\PesertaTour;
+use App\Entities\Bus;
+use Illuminate\Support\Facades\Auth;
+
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -14,142 +18,108 @@ class NfcController extends Controller
 {
     public function checkin(Request $request)
     {
-        // Log request untuk debugging
         \Log::info('Request checkin received for tag_nfc: ' . $request->tag_nfc);
-
-        // Validasi input
         $request->validate([
             'tag_nfc' => 'required|string',
         ]);
-
-        // Cari member berdasarkan card_number yang cocok dengan tag_nfc
-        $member = Members::where('card_number', $request->tag_nfc)->first();
-
-        if (!$member) {
-            \Log::warning('Member not found for tag_nfc: ' . $request->tag_nfc);
+        $pesertaTour = PesertaTour::where('card_number', $request->tag_nfc)->first();
+    
+        if (!$pesertaTour) {
+            \Log::warning('Participant not found for tag_nfc: ' . $request->tag_nfc);
             return response()->json([
-                'message' => 'Member not found.',
+                'message' => 'Participant not found.',
             ], 404);
         }
-
-        // Validasi lokasi
-    $userLocation = UserLocation::where('location_id', $member->opt_1)->first(); // Ambil user location berdasarkan opt_1
-        if (!$userLocation) {
+    
+        \Log::info('Participant found:', [
+            'participant_id' => $pesertaTour->id,
+            'fullname' => $pesertaTour->fullname,
+            'bus_location' => $pesertaTour->bus_location,
+            'status' => $pesertaTour->status,
+        ]);
+    
+        if ($pesertaTour->status == 1) {
+            \Log::info('Participant already checked in with tag_nfc: ' . $request->tag_nfc);
             return response()->json([
-                'message' => 'Location not found.',
-            ], 404);
-        }
-
-        // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
-        if ($userLocation->location_id != $member->opt_1) {
-            return response()->json([
-                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt_1,
-            ], 403); // HTTP 403 Forbidden
-        }
-
-        // Jika status sudah 1 (sudah checkin), return response
-        if ($member->status == 1) {
-            \Log::info('Member already checked in with tag_nfc: ' . $request->tag_nfc);
-            return response()->json([
-                'message' => 'KAMU SUDAH HADIR GAUSAH CAPER',
+                'message' => 'Sudah hadir',
             ], 200);
         }
-
-        // Ubah status menjadi 1 (HADIR) dan simpan waktu checkin
-        $member->status = 1;
+    
+        $pesertaTour->status = 1;
         $currentTimestamp = Carbon::now();
-        $member->updated_at = $currentTimestamp;
-        $member->save();
-
-        // Buat entri baru di tabel absensi dengan clock_in
+        $pesertaTour->updated_at = $currentTimestamp;
+        $pesertaTour->save();
+    
         Absensi::create([
-            'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => $member->id, // Gunakan id dari tabel members
+            'id' => Str::uuid(),
+            'participant_id' => $pesertaTour->id,
             'clock_in' => $currentTimestamp,
-            'created_by' => NULL, // Masukkan UUID user jika ada, atau NULL
-            'updated_by' => NULL, // Masukkan UUID user jika ada, atau NULL
+            'created_by' => null,
+            'updated_by' => null, 
         ]);
-
-        Log::info("Checkin successful for member: " . $member->fullname);
-
+    
+        Log::info("Check-in successful for participant: " . $pesertaTour->fullname);
+    
         return response()->json([
-            'fullname' => $member->fullname,
-            'email' => $member->email,
-            'phone' => $member->phone,
-            'balance' => $member->balance,
+            'fullname' => $pesertaTour->fullname,
+            'phone' => $pesertaTour->phone_number,
+            'seat' => $pesertaTour->seat,
             'status' => 'HADIR',
-            'card_number' => $member->card_number,
+            'card_number' => $pesertaTour->card_number,
             'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
 
     public function checkout(Request $request)
     {
-        // Log request untuk debugging
-        \Log::info('Request checkout received for tag_nfc: ' . $request->tag_nfc);
-
-        // Validasi input
+        \Log::info('Request checkin received for tag_nfc: ' . $request->tag_nfc);
         $request->validate([
             'tag_nfc' => 'required|string',
         ]);
-
-        // Cari member berdasarkan card_number yang cocok dengan tag_nfc
-        $member = Members::where('card_number', $request->tag_nfc)->first();
-
-        if (!$member) {
-            \Log::warning('Member not found for tag_nfc: ' . $request->tag_nfc);
+        $pesertaTour = PesertaTour::where('card_number', $request->tag_nfc)->first();
+    
+        if (!$pesertaTour) {
+            \Log::warning('Participant not found for tag_nfc: ' . $request->tag_nfc);
             return response()->json([
-                'message' => 'Member not found.',
+                'message' => 'Participant not found.',
             ], 404);
         }
-        
-        // Validasi lokasi
-        $userLocation = UserLocation::where('location_id', $member->opt_1)->first(); // Ambil user location berdasarkan opt_1
-        if (!$userLocation) {
+    
+        \Log::info('Participant found:', [
+            'participant_id' => $pesertaTour->id,
+            'fullname' => $pesertaTour->fullname,
+            'bus_location' => $pesertaTour->bus_location,
+            'status' => $pesertaTour->status,
+        ]);
+    
+        if ($pesertaTour->status == 0) {
+            \Log::info('Participant already checked out with tag_nfc: ' . $request->tag_nfc);
             return response()->json([
-                'message' => 'Location not found.',
-            ], 404);
-        }
-
-        // Cek jika lokasi member sesuai dengan lokasi yang diizinkan
-        if ($userLocation->location_id != $member->opt_1) {
-            return response()->json([
-                'message' => 'Bis kamu bukan disini, tapi di: ' . $member->opt_1,
-            ], 403); // HTTP 403 Forbidden
-        }
-
-
-        // Jika status sudah 0 (sudah checkout), return response
-        if ($member->status == 0) {
-            \Log::info('Member already checked out with tag_nfc: ' . $request->tag_nfc);
-            return response()->json([
-                'message' => 'KAMU SUDAH CHECKOUT GAUSAH CAPER',
+                'message' => 'Sudah Keluar',
             ], 200);
         }
-
-        // Ubah status menjadi 0 (CHECKOUT) dan simpan waktu checkout
-        $member->status = 0;
+    
+        $pesertaTour->status = 0;
         $currentTimestamp = Carbon::now();
-        $member->updated_at = $currentTimestamp;
-        $member->save();
-
-        // Buat entri baru di tabel absensi dengan clock_out
+        $pesertaTour->updated_at = $currentTimestamp;
+        $pesertaTour->save();
+    
         Absensi::create([
-            'id' => Str::uuid(), // Generate UUID untuk ID
-            'member_id' => $member->id, // Gunakan id dari tabel members
-            'clock_out' => $currentTimestamp,
-            'created_by' => NULL, // Masukkan UUID user jika ada, atau NULL
-            'updated_by' => NULL, // Masukkan UUID user jika ada, atau NULL
+            'id' => Str::uuid(),
+            'participant_id' => $pesertaTour->id,
+            'clock_in' => $currentTimestamp,
+            'created_by' => null,
+            'updated_by' => null, 
         ]);
-
-        // Kembalikan data member dan waktu checkout
+    
+        Log::info("Check-out successful for participant: " . $pesertaTour->fullname);
+    
         return response()->json([
-            'fullname' => $member->fullname,
-            'email' => $member->email,
-            'phone' => $member->phone,
-            'balance' => $member->balance,
-            'status' => 'CHECKOUT',
-            'card_number' => $member->card_number,
+            'fullname' => $pesertaTour->fullname,
+            'phone' => $pesertaTour->phone_number,
+            'seat' => $pesertaTour->seat,
+            'status' => 'Keluar',
+            'card_number' => $pesertaTour->card_number,
             'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }

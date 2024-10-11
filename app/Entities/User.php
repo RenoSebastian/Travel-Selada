@@ -25,7 +25,8 @@ class User extends Model implements AuthenticatableContract
         'phone',
         'role_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'id_bus'
     ];
     
     protected $casts = [
