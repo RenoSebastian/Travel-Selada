@@ -102,9 +102,10 @@ class BusController extends Controller
         $bus = Bus::findOrFail($id);
          // Ambil data peserta tour yang terdaftar di bus ini
         $pesertaTours = PesertaTour::where('bus_location', $id)->get();
+        $mbuses = MBus::all();
     
          // Kirim data bus dan peserta tour ke view
-         return view('bus.edit', compact('bus', 'pesertaTours'));
+         return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses'));
     }
 
     public function update(Request $request, $id)
