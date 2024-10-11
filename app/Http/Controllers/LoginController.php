@@ -34,25 +34,74 @@ class LoginController extends Controller
         ]);
     
         $user = User::where('username', $username)->first();
+        if ($user) {
+            Log::info('User found:', ['user_id' => $user->id, 'role_id' => $user->role_id]);
+        } else {
+            Log::warning('User not found:', ['username' => $username]);
+            return back()->withErrors([
+                'login' => 'Invalid username or password.',
+            ])->withInput();
+        }
     
-        if ($user && Hash::check($password, $user->password)) {
-            Log::info('Login successful for user:', ['user_id' => $user->id]);
-        
+        if (Hash::check($password, $user->password)) {
+            Log::info('Password check passed for user:', ['user_id' => $user->id]);
+            
             session([
                 'user_id' => $user->id,
                 'username' => $user->username,
-                'role' => $user->role,
+                'role_id' => $user->role_id,
             ]);
-        
-            if ($username === 'kantin_rsij_1') {
+    
+            $roleId = (int) $user->role_id;
+            Log::info('Redirecting user based on role_id:', ['role_id' => $roleId]);
+    
+            if ($roleId === 2) {
+                Log::info('User is admin, redirecting to admin dashboard.');
                 return redirect()->route('admin.dashboard')->with('status', 'Welcome, you have access to the admin dashboard.');
             } else {
+                Log::info('User is not admin, redirecting to user dashboard.');
                 return redirect()->route('user.dashboard')->with('status', 'Welcome, you have limited access.');
             }
+        } else {
+            Log::info('Failed login attempt - invalid password:', ['user_id' => $user->id]);
+            return back()->withErrors([
+                'login' => 'Invalid username or password.',
+            ])->withInput();
         }
-        
-    }    
+    }
     
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|email|unique:users,email|max:255',
+            'phone' => 'required|string|max:20',
+            'fullname' => 'required|string|max:255',
+            'role_id' => 'required|in:1,2,3',
+        ]);
+
+        $user = User::create([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'fullname' => $request->fullname,
+            'role_id' => $request->role_id,
+        ]);
+
+        Log::info('New user registered:', ['user_id' => $user->id, 'username' => $user->username]);
+
+        Auth::login($user);
+
+        return view('auth.login');
+    }
+
 
     public function loginApk(Request $request)
     {
@@ -80,6 +129,7 @@ class LoginController extends Controller
                         'id' => (string)$user->id,
                         'username' => $user->username,
                         'email' => $user->email,
+                        'phone' => $user->phone,
                         'fullname' => $user->fullname,
                     ],
                 ]);

@@ -85,6 +85,26 @@
             transform: translateY(-2px);
         }
 
+        .register-button {
+            margin-top: 1em;
+            padding: 12px;
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #64B5F6;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .register-button:hover {
+            background-color: #42A5F5;
+            transform: translateY(-2px);
+        }
+
         div {
             color: #D32F2F;
             margin-bottom: 1em;
@@ -119,11 +139,11 @@
 
         <label for="username">Username:</label>
         <input type="text" name="username" required>
-
         <label for="password">Password:</label>
         <input type="password" name="password" required>
-
         <button type="submit">Login</button>
+
+        <a href="{{ route('register.form') }}" class="register-button">Register</a>
     </form>
 </body>
 </html>

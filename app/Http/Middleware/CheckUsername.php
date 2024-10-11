@@ -19,9 +19,10 @@ class CheckUsername
     {
         $userId = session('user_id');
         $username = session('username');
+        $roleId = session('role_id');
 
-        if (!$username || $username !== 'kantin_rsij_1') {
-            Log::warning('Access denied due to invalid username.', [
+        if (!$roleId || $roleId !== 2) {
+            Log::warning('Access denied due to invalid role.', [
                 'user_id' => $userId,
                 'username' => $username,
                 'ip_address' => $request->ip(),
@@ -34,6 +35,7 @@ class CheckUsername
         Log::info('Access granted to user.', [
             'user_id' => $userId,
             'username' => $username,
+            'role_id' => $roleId,
             'ip_address' => $request->ip(),
             'timestamp' => now(),
         ]);

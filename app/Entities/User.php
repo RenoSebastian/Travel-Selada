@@ -5,64 +5,41 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Auth\Authenticatable; // Import trait
+use Illuminate\Auth\Authenticatable;
 
 class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable; // Gunakan trait Authenticatable
+    use Authenticatable, HasUuids;
 
     protected $connection = 'pgsql_mireta';
-    protected $table = 'users';
+    protected $table = 'user_travel';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id',
         'fullname',
         'username',
-        'email',
         'password',
-        'is_active',
-        'is_block',
-        'is_pristine',
-        'change_password',
-        'change_password',
-        'last_login',
-        'remember_token',
-        'created_by',
-        'updated_by',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-        'ref_ardi',
-        'version',
+        'email',
+        'phone',
         'role_id',
-        'group_id'
+        'created_at',
+        'updated_at'
     ];
     
     protected $casts = [
-        'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
+        'id' => 'uuid',
     ];
-
-    public function hasFullAccess()
-    {
-        // Define the usernames that have full access
-        $fullAccessUsernames = ['kantin_rsij_1', 'admin2']; // Adjust this list as necessary
-
-        return in_array($this->username, $fullAccessUsernames);
-    }
     
      public static function attemptLogin($username, $password)
     {
-        // Retrieve the user based on username
         $user = static::where('username', $username)->first();
 
-        // Check if user exists and if the password matches
         if ($user && Hash::check($password, $user->password)) {
-            return $user; // Return the user object if credentials are correct
+            return $user;
         }
-
-        return null; // Return null if authentication fails
+        return null; 
     }
 
     public function locations()
