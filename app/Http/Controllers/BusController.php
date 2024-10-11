@@ -17,11 +17,10 @@ class BusController extends Controller
         // Log saat menampilkan form
         Log::info('Menampilkan form input data bus.');
         // Ambil data bus terkait
-        $bus = Bus::findOrFail($id);
         $mbuses = MBus::all();
         $user_travel = UserTravel::all();
 
-        return view('peserta_tour.create', compact('bus', 'mbuses', 'user_travel'));
+        return view('peserta_tour.create', compact('mbuses', 'user_travel'));
     }
     
     public function store(Request $request)
@@ -102,7 +101,7 @@ class BusController extends Controller
     {
         $bus = Bus::findOrFail($id);
          // Ambil data peserta tour yang terdaftar di bus ini
-         $pesertaTours = PesertaTour::where('bus_location', $id)->get();
+        $pesertaTours = PesertaTour::where('bus_location', $id)->get();
     
          // Kirim data bus dan peserta tour ke view
          return view('bus.edit', compact('bus', 'pesertaTours'));
