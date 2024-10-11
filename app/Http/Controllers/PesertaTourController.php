@@ -16,10 +16,10 @@ class PesertaTourController extends Controller
         return view('peserta_tour.index', compact('buses', 'pesertaTours')); // Kirim $buses ke view
     }
 
-    public function create($bus_id)
+    public function create($id)
 {
     // Cari data bus berdasarkan ID
-    $bus = Bus::findOrFail($bus_id);
+    $bus = Bus::findOrFail($id);
     
     // Pass the bus_id variable to the view
     return view('peserta_tour.create', compact('bus_id', 'bus'));
