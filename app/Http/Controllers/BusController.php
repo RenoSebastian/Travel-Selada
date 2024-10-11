@@ -22,45 +22,62 @@ class BusController extends Controller
         $user_travel = UserTravel::all();
         return view('bus.create', compact('mbuses', 'user_travel'));
     }
-
-    // Menyimpan data bus baru
+    
     public function store(Request $request)
     {
-        Log::info('Menerima data request untuk menyimpan bus.', ['request' => $request->all()]);
-
-        // Validasi data yang diinput
+        // Validasi input
         $request->validate([
-            'nama_bus' => 'required|string|max:255',
-            'alamat_penjemputan' => 'required|string|max:255',
-            'tl_id' => 'required|exists:user_travel,id',
-            'tipe_bus' => 'required|exists:m_bus,id',
+            'fullname.*' => 'required|string|max:255',
+            'phone_number.*' => 'required|string|max:15',
+            'seat.*' => 'required|string|max:5',
+            'bus_id' => 'required|exists:bus,id'
         ]);
-
-        Log::info('Validasi berhasil.');
-
-        try {
-            // Log data sebelum disimpan
-            Log::info('Menyimpan data bus ke database.', [
-                'nama_bus' => $request->nama_bus,
-                'alamat' => $request->alamat,
-                'tipe_bus' => $request->tipe_bus
+    
+        // Ambil ID bus
+        $busId = $request->input('bus_id');
+    
+        // Ambil data bus
+        $bus = Bus::with('mbus')->findOrFail($busId); // Include relasi ke MBus
+    
+        // Kapasitas bus
+        $kapasitasBus = $bus->mbus->kapasitas;
+    
+        // Hitung jumlah peserta yang sudah ada di bus tersebut
+        $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
+    
+        // Hitung jumlah peserta yang ingin ditambahkan
+        $jumlahPesertaBaru = count($request->input('fullname'));
+    
+        // Cek apakah penambahan peserta melebihi kapasitas
+        if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
+            // Jika melebihi kapasitas, kembalikan dengan error
+            return back()->with('error', 'Jumlah peserta melebihi kapasitas bus.');
+        }
+    
+        // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
+        $count = 0;
+    
+        // Ambil data peserta dari request
+        $fullnames = $request->input('fullname');
+        $phoneNumbers = $request->input('phone_number');
+        $seats = $request->input('seat');
+    
+        // Loop untuk menyimpan peserta
+        foreach ($fullnames as $i => $fullname) {
+            PesertaTour::create([
+                'fullname' => $fullname,
+                'phone_number' => $phoneNumbers[$i],
+                'seat' => $seats[$i],
+                'bus_location' => $busId,
+                'card_number' => null,
+                'status' => 0
             ]);
-
-            // Simpan data ke tabel bus
-            Bus::create([
-                'nama_bus' => $request->nama_bus,
-                'alamat_penjemputan' => $request->alamat_penjemputan,
-                'tl_id' => $request->tl_id,
-                'tipe_bus' => $request->tipe_bus,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            // Log setelah data berhasil disimpan
-            Log::info('Data bus berhasil disimpan.');
-
-            // Flash message sukses
-            return redirect()->route('bus.index')->with('success', 'Data bus berhasil disimpan.');
+            $count++;
+        }
+    
+        // Kirim pesan sukses ke session
+        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
+    
         } catch (\Exception $e) {
             // Log kesalahan
             Log::error('Terjadi kesalahan saat menyimpan data bus: ' . $e->getMessage());
