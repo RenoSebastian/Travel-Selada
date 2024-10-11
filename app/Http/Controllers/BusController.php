@@ -76,11 +76,11 @@ class BusController extends Controller
         }
     
          // Kirim pesan sukses ke session
-    session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
+        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
 
-    // Redirect ke halaman Data Bus
-    return redirect()->route('bus.index');
-        }
+        // Redirect ke halaman Data Bus
+        return redirect()->route('bus.index');
+        
     }
 
     public function index()
@@ -121,3 +121,4 @@ class BusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
     }
 }
+
