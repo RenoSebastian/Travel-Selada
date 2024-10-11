@@ -7,6 +7,7 @@ use App\Http\Controllers\NfcController;
 use App\Http\Controllers\LocationController;
 
 Route::post('auth/login', [LoginController::class, 'loginApk']);
+Route::post('auth/register/member', [LoginController::class, 'registerApk']);
 
 Route::post('/members/checkin', [NfcController::class, 'checkin']);
 Route::post('/members/checkout', [NfcController::class, 'checkout']);
