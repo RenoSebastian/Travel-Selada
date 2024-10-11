@@ -38,6 +38,8 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register.form');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
 
 // Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 Route::group(['middleware' => ['check.username']], function () {
