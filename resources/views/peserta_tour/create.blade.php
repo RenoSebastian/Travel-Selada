@@ -31,6 +31,7 @@
                     <label for="seat">Seat:</label>
                     <input type="text" name="seat[]" class="form-control" required>
                 </div>
+                <input type="hidden" name="bus_id" value="{{ $bus_id }}">
             </div>
         </div>
 
