@@ -40,7 +40,7 @@ class PesertaTourController extends Controller
         // Simpan data peserta tour
         PesertaTour::create($request->all());
 
-        return redirect()->route('peserta_tour.index')->with('success', 'Peserta tour berhasil ditambahkan.');
+        return redirect()->route('bus.index')->with('success', 'Peserta tour berhasil ditambahkan.');
     }
 
     public function edit($id)
