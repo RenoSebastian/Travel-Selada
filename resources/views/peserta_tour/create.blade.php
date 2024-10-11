@@ -4,13 +4,19 @@
 <div class="container">
     <h1>Tambah Peserta Tour</h1>
 
+    {{-- Flash message --}}
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @elseif (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
     <form id="peserta-form" method="POST" action="{{ route('peserta_tour.store', $busId) }}">
         @csrf
 
         <div id="peserta-container">
             <div class="peserta-form">
-                <input type="hidden" name="bus_id" value="{{ $busId ?? '' }}"> <!-- Use $busId -->
-
+                <input type="hidden" name="bus_id" value="{{ $busId }}">
                 <div class="form-group">
                     <label for="fullname">Nama Lengkap:</label>
                     <input type="text" name="fullname[]" class="form-control" required>
