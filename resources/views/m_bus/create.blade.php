@@ -13,7 +13,7 @@
 
         <!-- Form input data m_bus -->
         <form action="{{ route('m_bus.store') }}" method="POST">
-            @csrf
+            @csrf <!-- Mengaktifkan CSRF token -->
             <div class="mb-3">
                 <label for="kapasitas_bus" class="form-label">Kapasitas Bus</label>
                 <input type="number" class="form-control" id="kapasitas_bus" name="kapasitas_bus" value="{{ old('kapasitas_bus') }}" required>
@@ -28,6 +28,7 @@
 
     <!-- Script untuk SweetAlert -->
     <script>
+        // Cek jika ada session success
         @if(session('success'))
             Swal.fire({
                 title: 'Berhasil!',
@@ -37,6 +38,7 @@
             });
         @endif
 
+        // Cek jika ada session error
         @if(session('error'))
             Swal.fire({
                 title: 'Gagal!',

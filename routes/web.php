@@ -16,6 +16,40 @@ use App\Http\Controllers\BusController;
 
 use App\Http\Controllers\MBusController;
 
+use App\Http\Controllers\UserTravelController;
+
+use App\Http\Controllers\RoleController;
+
+use App\Http\Controllers\PesertaTourController;
+
+Route::prefix('peserta-tour')->group(function () {
+    Route::get('/', [PesertaTourController::class, 'index'])->name('peserta_tour.index');
+    Route::get('/create', [PesertaTourController::class, 'create'])->name('peserta_tour.create');
+    Route::post('/store', [PesertaTourController::class, 'store'])->name('peserta_tour.store');
+    Route::get('/edit/{id}', [PesertaTourController::class, 'edit'])->name('peserta_tour.edit');
+    Route::put('/update/{id}', [PesertaTourController::class, 'update'])->name('peserta_tour.update');
+    Route::delete('/destroy/{id}', [PesertaTourController::class, 'destroy'])->name('peserta_tour.destroy');
+});
+
+
+Route::prefix('roles')->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('/', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('/{id}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+});
+
+Route::prefix('user_travel')->group(function () {
+    Route::get('/', [UserTravelController::class, 'index'])->name('user_travel.index');
+    Route::get('create', [UserTravelController::class, 'create'])->name('user_travel.create');
+    Route::post('store', [UserTravelController::class, 'store'])->name('user_travel.store');
+    Route::get('/{id}/edit', [UserTravelController::class, 'edit'])->name('user_travel.edit');
+    Route::put('/{id}', [UserTravelController::class, 'update'])->name('user_travel.update');
+    Route::delete('/{id}', [UserTravelController::class, 'destroy'])->name('user_travel.destroy');
+});
+
 // Route untuk m_bus
 Route::prefix('m_bus')->group(function () {
     Route::get('create', [MBusController::class, 'create'])->name('m_bus.create');
@@ -48,7 +82,7 @@ Route::group(['middleware' => ['check.username']], function () {
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
-Route::post('/locations', [LocationController::class, 'getLocations'])->name('locations.index');
+Route::post('/locations', [LocationController::class, 'getLocations'])->name('peserta.index');
 
 Route::get('/locations/list/Bus', [LocationController::class, 'index'])->name('location.index');
 Route::get('/locations/create', [LocationController::class, 'create'])->name('location.create');
