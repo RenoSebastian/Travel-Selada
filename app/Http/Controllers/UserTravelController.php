@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Entities\UserTravel;
 use App\Entities\Role;
+use Illuminate\Support\Str;
 
 class UserTravelController extends Controller
 {
