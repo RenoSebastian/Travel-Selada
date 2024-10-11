@@ -20,7 +20,7 @@ class BusController extends Controller
         $mbuses = MBus::all();
         $user_travel = UserTravel::all();
 
-        return view('peserta_tour.create', compact('mbuses', 'user_travel'));
+        return view('bus.create', compact('mbuses', 'user_travel'));
     }
     
     public function store(Request $request)
