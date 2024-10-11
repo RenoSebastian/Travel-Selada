@@ -7,6 +7,7 @@ use App\Entities\MBus;
 use App\Entities\UserTravel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Entities\PesertaTour; 
 
 class BusController extends Controller
 {
