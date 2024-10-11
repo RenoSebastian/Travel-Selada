@@ -31,6 +31,10 @@
                     <label for="seat">Kursi:</label>
                     <input type="text" name="seat[]" class="form-control" required>
                 </div>
+                <div class="form-group">
+                    <label for="seat">Seat:</label>
+                    <input type="text" class="form-control" name="seat" required>
+                </div>
             </div>
         </div>
 

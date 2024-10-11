@@ -31,33 +31,32 @@ class PesertaTourController extends Controller
             'phone_number.*' => 'required|string|max:15',
             'seat.*' => 'required|string|max:5',
         ]);
-
+    
         // Ambil data peserta dari request
         $fullnames = $request->input('fullname');
         $phoneNumbers = $request->input('phone_number');
         $seats = $request->input('seat');
-
+    
         // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
         $count = 0;
-
-        // Loop untuk menyimpan maksimal 5 peserta
-        for ($i = 0; $i < count($fullnames); $i++) {
-            if ($i < 5) { // Batasi sampai 5 peserta
+    
+        // Loop untuk menyimpan peserta yang diinput
+        foreach ($fullnames as $key => $fullname) {
+            if ($key < 5) { // Batasi sampai 5 peserta
                 PesertaTour::create([
-                    'fullname' => $fullnames[$i],
-                    'phone_number' => $phoneNumbers[$i],
-                    'seat' => $seats[$i],
+                    'fullname' => $fullname,
+                    'phone_number' => $phoneNumbers[$key],
+                    'seat' => $seats[$key], // Menggunakan input seat dari admin
                     'card_number' => null, // Set card_number menjadi null
                     'status' => 0 // Status default 0
                 ]);
                 $count++; // Increment counter
             }
         }
-
+    
         // Kirim pesan sukses dengan jumlah peserta yang ditambahkan
         return redirect()->route('peserta_tour.create')->with('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
-    }
-
+    }    
 
     public function edit($id)
     {
