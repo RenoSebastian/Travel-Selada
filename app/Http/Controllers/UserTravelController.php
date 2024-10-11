@@ -103,7 +103,7 @@ class UserTravelController extends Controller
 
     public function createTourLeader()
     {
-        return view('user_travel.create_tour_leader'); // Menampilkan view untuk input tour leader
+        return view('user_travel.create_tour_leader'); // Pastikan view ini ada
     }
 
     public function storeTourLeader(Request $request)
@@ -113,26 +113,23 @@ class UserTravelController extends Controller
             'username' => 'required|string|max:255|unique:user_travel',
             'email' => 'required|email|max:255|unique:user_travel',
             'phone' => 'nullable|string|max:15',
-            // role_id sudah default ke 3, jadi tidak perlu divalidasi dari input
             'password' => 'required|string|min:8',
         ]);
 
         try {
-            // Buat user baru untuk tour leader
             $userTravel = new UserTravel();
             $userTravel->id = (string) Str::uuid(); // Menetapkan UUID sebagai ID
             $userTravel->fullname = $validatedData['fullname'];
             $userTravel->username = $validatedData['username'];
             $userTravel->email = $validatedData['email'];
             $userTravel->phone = $validatedData['phone'];
-            $userTravel->role_id = 3; // Role ID untuk tour leader
+            $userTravel->role_id = 3; // Role ID default untuk tour leader
             $userTravel->password = bcrypt($validatedData['password']);
             $userTravel->save();
 
-            return redirect()->route('user_travel.index')->with('success', 'Tour leader created successfully');
+            return redirect()->route('user_travel.index')->with('success', 'Tour Leader created successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to create tour leader: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create Tour Leader: ' . $e->getMessage());
         }
     }
-
 }
