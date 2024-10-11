@@ -24,6 +24,7 @@ class VerifyCsrfToken extends Middleware
         'middleware/admin/dashboard',
         '/peserta-tour/store',
         '/locations',
+        'peserta_tour/create/{bus_id}',
         '/peserta-tour/update/e61cf71c-2e97-46ad-a1db-51e7c27d6b09',
         //
     ];

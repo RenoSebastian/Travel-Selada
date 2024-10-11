@@ -16,11 +16,11 @@ class BusController extends Controller
     {
         // Log saat menampilkan form
         Log::info('Menampilkan form input data bus.');
-
-        // Ambil data dari tabel m_bus untuk pilihan tipe bus
+        // Ambil data bus terkait
         $mbuses = MBus::all();
         $user_travel = UserTravel::all();
-        return view('bus.create', compact('mbuses', 'user_travel'));
+
+        return view('peserta_tour.create', compact('mbuses', 'user_travel'));
     }
     
     public function store(Request $request)
@@ -76,11 +76,11 @@ class BusController extends Controller
         }
     
          // Kirim pesan sukses ke session
-    session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
+        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
 
-    // Redirect ke halaman Data Bus
-    return redirect()->route('bus.index');
-        }
+        // Redirect ke halaman Data Bus
+        return redirect()->route('bus.index');
+        
     }
 
     public function index()
@@ -101,18 +101,27 @@ class BusController extends Controller
     {
         $bus = Bus::findOrFail($id);
          // Ambil data peserta tour yang terdaftar di bus ini
-         $pesertaTours = PesertaTour::where('bus_location', $id)->get();
+        $pesertaTours = PesertaTour::where('bus_location', $id)->get();
+        $mbuses = MBus::all();
+        $user_travel = UserTravel::all();
     
          // Kirim data bus dan peserta tour ke view
-         return view('bus.edit', compact('bus', 'pesertaTours'));
+         return view('bus.edit', compact('bus', 'pesertaTours', 'mbuses', 'user_travel',));
     }
 
     public function update(Request $request, $id)
     {
         $bus = Bus::findOrFail($id);
-        $bus->update($request->all());
+        // Update data, termasuk tour leader
+        $bus->update([
+            'nama_bus' => $request->input('nama_bus'),
+            'alamat_penjemputan' => $request->input('alamat_penjemputan'),
+            'tipe_bus' => $request->input('tipe_bus'),
+            'tl_id' => $request->input('tour_leader') // Pastikan ini
+        ]);
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil diperbarui');
     }
+
 
     public function destroy($id)
     {
@@ -121,3 +130,4 @@ class BusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Data bus berhasil dihapus');
     }
 }
+

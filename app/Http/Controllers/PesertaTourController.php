@@ -10,9 +10,10 @@ class PesertaTourController extends Controller
 {
     public function index()
     {
-        // Ambil semua peserta tour dan relasi ke bus
-        $pesertaTours = PesertaTour::with('bus')->get();
-        return view('peserta_tour.index', compact('pesertaTours'));
+        $buses = Bus::all(); // Ambil semua bus
+        $pesertaTours = PesertaTour::with('bus')->get(); // Ambil peserta dengan relasi bus
+
+        return view('peserta_tour.index', compact('buses', 'pesertaTours')); // Kirim $buses ke view
     }
 
     public function create($bus_id)
@@ -20,47 +21,55 @@ class PesertaTourController extends Controller
         // Cari data bus berdasarkan ID
         $bus = Bus::findOrFail($bus_id);
     
-        return view('peserta_tour.create', compact('bus_id'));
+        return view('peserta_tour.create', compact( 'bus','bus_id'));
     }
 
     public function store(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'fullname.*' => 'required|string|max:255',
-            'phone_number.*' => 'required|string|max:15',
-            'seat.*' => 'required|string|max:5',
-            'bus_id' => 'required|exists:bus,id'
+{
+    $request->validate([
+        'fullname.*' => 'required|string|max:255',
+        'phone_number.*' => 'required|string|max:15',
+        'seat.*' => 'required|string|max:5',
+        'bus' => 'required|exists:bus,id' // Pastikan ini valid
+    ]);
+
+    $busId = $request->input('bus');
+    $bus = Bus::with('mbus')->findOrFail($busId);
+    $kapasitasBus = $bus->mbus->kapasitas_bus; // Ubah ini jika kolomnya berbeda
+    $jumlahPesertaSekarang = PesertaTour::where('bus_location', $busId)->count();
+    $jumlahPesertaBaru = count($request->input('fullname'));
+
+    // Cek apakah jumlah peserta melebihi kapasitas
+    if (($jumlahPesertaSekarang + $jumlahPesertaBaru) > $kapasitasBus) {
+        $sisaKapasitas = $kapasitasBus - $jumlahPesertaSekarang; // Hitung sisa kapasitas
+        return response()->json([
+            'status' => 'full',
+            'sisaKapasitas' => $sisaKapasitas
+        ]); // Respons JSON jika bus sudah penuh
+    }
+
+    $count = 0;
+    $fullnames = $request->input('fullname');
+    $phoneNumbers = $request->input('phone_number');
+    $seats = $request->input('seat');
+
+    foreach ($fullnames as $i => $fullname) {
+        PesertaTour::create([
+            'fullname' => $fullname,
+            'phone_number' => $phoneNumbers[$i],
+            'seat' => $seats[$i],
+            'bus_location' => $busId,
+            'card_number' => null,
+            'status' => 0
         ]);
+        $count++;
+    }
+
+    session()->flash('success', "Anda berhasil menambah {$count} peserta baru!");
+    return redirect()->route('bus.index');
+}
+
     
-        // Ambil data peserta dari request
-        $fullnames = $request->input('fullname');
-        $phoneNumbers = $request->input('phone_number');
-        $seats = $request->input('seat');
-        $busId = $request->input('bus_id');
-    
-        // Inisialisasi counter untuk menghitung jumlah peserta yang berhasil ditambahkan
-        $count = 0;
-    
-        // Loop untuk menyimpan peserta
-        foreach ($fullnames as $i => $fullname) {
-            PesertaTour::create([
-                'fullname' => $fullname,
-                'phone_number' => $phoneNumbers[$i],
-                'seat' => $seats[$i],
-                'bus_location' => $busId,
-                'card_number' => null,
-                'status' => 0
-            ]);
-            $count++;
-        }
-    
-        // Kirim pesan sukses ke session
-        session()->flash('success', 'Anda berhasil menambah ' . $count . ' peserta baru!');
-    
-        // Redirect ke halaman Data Bus
-        return redirect()->route('bus.index'); // Pastikan ada rute 'bus.index' yang mengarah ke halaman Data Bus
-    }    
 
     public function edit($id)
     {
@@ -71,7 +80,9 @@ class PesertaTourController extends Controller
         $pesertaTours = PesertaTour::where('bus_location', $id)->get();
     
         // Kirim data bus dan peserta tour ke view
-        return view('bus.edit', compact('bus', 'pesertaTours'));
+        $pesertaTour = PesertaTour::findOrFail($id); // Ambil peserta berdasarkan ID
+        return view('peserta_tour.edit', compact('bus', 'pesertaTour', 'pesertaTours'));
+
     }
     
     public function update(Request $request, $id)

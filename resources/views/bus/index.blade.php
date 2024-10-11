@@ -49,7 +49,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Hapus</button>
                                     </form>
-                                    <a href="{{ route('peserta_tour.create', $bus->id) }}" class="btn btn-info">Registrasi</a>
+                                    <a href="{{ route('peserta_tour.create', ['bus_id' => $bus->id]) }}" class="btn btn-info">Registrasi</a>
                                 </td>
                             </tr>
                         @endif
