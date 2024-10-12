@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Entities\UserLocation;
 use App\Entities\MLocation;
@@ -9,6 +8,7 @@ use App\Entities\MemberData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use App\Entities\PesertaTour;
+use App\Entities\User;
 
 
 class LocationController extends Controller
