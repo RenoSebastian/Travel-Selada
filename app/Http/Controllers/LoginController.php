@@ -156,7 +156,6 @@ class LoginController extends Controller
             'phone_number' => 'required|string|max:20',
             'card_number' => 'required|string|max:255',
             'bus_location' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
             'seat' => 'nullable|string|max:10',
         ]);
 
@@ -165,7 +164,6 @@ class LoginController extends Controller
             'phone_number' => $request->phone_number,
             'card_number' => $request->card_number,
             'bus_location' => $request->bus_location,
-            'status' => $request->status,
             'seat' => $request->seat,
         ]);
 
