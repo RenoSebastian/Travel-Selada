@@ -41,6 +41,7 @@ class LocationController extends Controller
                     'fullname' => $participant->fullname,
                     'phone' => $participant->phone_number,
                     'seat' => $participant->seat,
+                    'status' => $participant->status,
                 ];
             });
     
