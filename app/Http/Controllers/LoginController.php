@@ -151,6 +151,16 @@ class LoginController extends Controller
     
     public function registerApk(Request $request)
     {
+        // Logging the incoming request data
+        Log::info('Incoming registration request', [
+            'fullname' => $request->fullname,
+            'phone_number' => $request->phone_number,
+            'card_number' => $request->card_number,
+            'bus_location' => $request->bus_location,
+            'seat' => $request->seat,
+        ]);
+
+        // Validation
         $request->validate([
             'fullname' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
@@ -159,31 +169,43 @@ class LoginController extends Controller
             'seat' => 'nullable|string|max:10',
         ]);
 
+        // Check for existing participant
         $existingPeserta = PesertaTour::where('card_number', $request->card_number)->first();
 
         if ($existingPeserta) {
+            Log::warning('Card number already exists', ['card_number' => $request->card_number]);
             return response()->json([
                 'status' => 'error',
                 'message' => 'Card number already exists in the database.',
             ], 409);
         }
 
-        $pesertaTour = PesertaTour::create([
-            'fullname' => $request->fullname,
-            'phone_number' => $request->phone_number,
-            'card_number' => $request->card_number,
-            'bus_location' => $request->bus_location,
-            'seat' => $request->seat,
-        ]);
+        // Create new participant
+        try {
+            $pesertaTour = PesertaTour::create([
+                'fullname' => $request->fullname,
+                'phone_number' => $request->phone_number,
+                'card_number' => $request->card_number,
+                'bus_location' => $request->bus_location,
+                'seat' => $request->seat,
+            ]);
+            
+            Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
 
-        Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Peserta Tour registered successfully!',
-            'data' => $pesertaTour
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Peserta Tour registered successfully!',
+                'data' => $pesertaTour
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error during registration', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Registration failed due to a server error.',
+            ], 500);
+        }
     }
+
 
 
     public function logout()
