@@ -159,6 +159,15 @@ class LoginController extends Controller
             'seat' => 'nullable|string|max:10',
         ]);
 
+        $existingPeserta = PesertaTour::where('card_number', $request->card_number)->first();
+
+        if ($existingPeserta) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Card number already exists in the database.',
+            ], 409);
+        }
+
         $pesertaTour = PesertaTour::create([
             'fullname' => $request->fullname,
             'phone_number' => $request->phone_number,
@@ -175,6 +184,7 @@ class LoginController extends Controller
             'data' => $pesertaTour
         ]);
     }
+
 
     public function logout()
     {
