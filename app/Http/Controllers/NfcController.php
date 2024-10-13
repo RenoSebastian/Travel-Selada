@@ -111,8 +111,8 @@ class NfcController extends Controller
         Absensi::create([
             'id' => Str::uuid(),
             'participant_id' => $pesertaTour->id,
-            'clock_in' => $pesertaTour->clock_in, // Assuming clock_in is stored from check-in
-            'clock_out' => $currentTimestamp, // Now we save the clock_out time
+            'clock_in' => $pesertaTour->clock_in,
+            'clock_out' => $currentTimestamp,
             'created_by' => null,
             'updated_by' => null, 
         ]);
