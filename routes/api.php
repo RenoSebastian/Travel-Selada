@@ -10,6 +10,7 @@ Route::post('auth/login', [LoginController::class, 'loginApk']);
 Route::post('auth/register/member', [LoginController::class, 'registerApk']);
 Route::post('/members/checkin', [NfcController::class, 'checkin']);
 Route::post('/members/checkout', [NfcController::class, 'checkout']);
+Route::post('/members/checkoutAll', [NfcController::class, 'checkoutAll']);
 Route::post('member/locations', [LocationController::class, 'getLocations'])->name('locations.index');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
