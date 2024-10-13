@@ -128,5 +128,58 @@ class NfcController extends Controller
             'updated_at' => $currentTimestamp->toDateTimeString(),
         ], 200);
     }
-
+    
+    public function checkoutAll(Request $request)
+    {
+        \Log::info('Request checkout all received for user_id: ' . $request->user_id);
+        
+        $request->validate([
+            'user_id' => 'required|string',
+            'bus_id' => 'required|string',
+        ]);
+        
+        $pesertaTours = PesertaTour::where('bus_id', $request->bus_id)
+            ->where('status', 1)
+            ->get();
+        
+        if ($pesertaTours->isEmpty()) {
+            \Log::warning('No participants found for bus_id: ' . $request->bus_id);
+            return response()->json([
+                'message' => 'No participants found for this bus.',
+            ], 404);
+        }
+        
+        $currentTimestamp = Carbon::now();
+        
+        foreach ($pesertaTours as $pesertaTour) {
+            \Log::info('Checking out participant:', [
+                'participant_id' => $pesertaTour->id,
+                'fullname' => $pesertaTour->fullname,
+                'bus_location' => $pesertaTour->bus_location,
+            ]);
+            
+            $pesertaTour->status = 0;
+            $pesertaTour->updated_at = $currentTimestamp;
+            $pesertaTour->clock_out = $currentTimestamp;
+            $pesertaTour->save();
+    
+            Absensi::create([
+                'id' => Str::uuid(),
+                'participant_id' => $pesertaTour->id,
+                'clock_in' => $pesertaTour->clock_in,
+                'clock_out' => $currentTimestamp,
+                'created_by' => null,
+                'updated_by' => null, 
+            ]);
+            
+            Log::info("Check-out successful for participant: " . $pesertaTour->fullname);
+        }
+        
+        return response()->json([
+            'message' => 'All participants checked out successfully.',
+            'checked_out_count' => $pesertaTours->count(),
+            'timestamp' => $currentTimestamp->toDateTimeString(),
+        ], 200);
+    }
+    
 }
