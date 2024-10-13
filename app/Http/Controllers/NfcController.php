@@ -100,17 +100,14 @@ class NfcController extends Controller
             ], 200);
         }
         
-        // Update status to checked out
         $pesertaTour->status = 0;
         $currentTimestamp = Carbon::now();
         $pesertaTour->updated_at = $currentTimestamp;
 
-        // Set clock_out timestamp
         $pesertaTour->clock_out = $currentTimestamp;
 
         $pesertaTour->save();
 
-        // Create an Absensi record for check-out
         Absensi::create([
             'id' => Str::uuid(),
             'participant_id' => $pesertaTour->id,
