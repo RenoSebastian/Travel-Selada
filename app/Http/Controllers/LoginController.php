@@ -175,7 +175,6 @@ class LoginController extends Controller
         if ($existingPeserta) {
             Log::warning('Card number already exists', ['card_number' => $request->card_number]);
             return response()->json([
-                'status' => 'error',
                 'message' => 'Card number already exists in the database.',
             ], 409);
         }
