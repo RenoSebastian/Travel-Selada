@@ -13,6 +13,7 @@ class Bus extends Model{
     public $timestamps = true;
 
     protected $fillable = [
+        'id',
         'nama_bus',
         'alamat_penjemputan',
         'tl_id',
