@@ -19,7 +19,7 @@ class TourLeaderController extends Controller
 
         // Jika tidak ada bus, beri notifikasi bahwa TL belum memiliki bus
         if ($buses->isEmpty()) {
-            return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki bus yang terdaftar.');
+            return redirect()->route('user.dashboard')->with('error', 'Anda tidak memiliki bus yang terdaftar.');
         }
 
         // Ambil daftar peserta untuk bus-bus tersebut
