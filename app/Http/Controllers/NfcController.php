@@ -9,7 +9,7 @@ use App\Entities\UserLocation;
 use App\Entities\PesertaTour;
 use App\Entities\Bus;
 use Illuminate\Support\Facades\Auth;
-
+use App\Entities\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
