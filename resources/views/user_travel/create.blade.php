@@ -62,11 +62,12 @@
                 <option value="">Select Bus</option>
                 @foreach ($buses as $bus)
                     <option value="{{ $bus->id }}" {{ old('id_bus') == $bus->id ? 'selected' : '' }}>
-                        {{ $bus->id }}
+                        {{ $bus->mbus->tipe_bus }} (Kapasitas: {{ $bus->mbus->kapasitas_bus }})
                     </option>
                 @endforeach
             </select>
         </div>
+
 
 
 
