@@ -83,9 +83,10 @@ Route::post('/register', [LoginController::class, 'register'])->name('register')
 
 // Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 Route::group(['middleware' => ['check.username']], function () {
-    Route::get('/admin/dashboard', 'AdminDashboardController@index')->name('admin.dashboard');
+    
 });
 
+Route::get('/admin/dashboard', 'AdminDashboardController@index')->name('admin.dashboard');
 
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 

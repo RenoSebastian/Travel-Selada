@@ -127,35 +127,36 @@ $(document).ready(function() {
         const formData = $('#addPesertaForm').serialize(); // Mengambil data form
 
         $.ajax({
-            url: "{{ route('peserta_tour.store') }}",
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                // Menutup modal
-                $('#addPesertaModal').modal('hide');
+    url: "{{ route('peserta_tour.store', ['bus_id' => $bus->id]) }}",
+    method: 'POST',
+    data: formData,
+    success: function(response) {
+        // Menutup modal
+        $('#addPesertaModal').modal('hide');
 
-                // Menambahkan baris baru ke tabel peserta
-                $('tbody').append(`
-                    <tr>
-                        <td>${response.id}</td>
-                        <td>${response.fullname}</td>
-                        <td>${response.phone_number}</td>
-                        <td>${response.seat}</td>
-                        <td>
-                            <form action="{{ route('peserta_tour.destroy', '') }}/${response.id}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus peserta ini?')">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                `);
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText); // Log kesalahan ke konsol
-                alert('Gagal menambahkan peserta. Silakan coba lagi.');
-            }
-        });
+        // Menambahkan baris baru ke tabel peserta
+        $('tbody').append(`
+            <tr>
+                <td>${response.id}</td>
+                <td>${response.fullname}</td>
+                <td>${response.phone_number}</td>
+                <td>${response.seat}</td>
+                <td>
+                    <form action="{{ route('peserta_tour.destroy', '') }}/${response.id}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus peserta ini?')">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        `);
+    },
+    error: function(xhr) {
+        console.error(xhr.responseText); // Log kesalahan ke konsol
+        alert('Gagal menambahkan peserta. Silakan coba lagi.');
+    }
+});
+
     });
 });
 </script>

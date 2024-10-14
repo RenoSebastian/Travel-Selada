@@ -11,21 +11,77 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = 
-    [ 
-        "/bus/store", 
-        '/login', 
-        'm_bus/store',
-        'user_travel/store',
-        'user_travel/{id}/edit',
-        'user_travel/{id}',
-        'user_travel/store',
+    protected $except = [
+        // Peserta Tour
+        'peserta-tour',
+        'peserta-tour/create/*',
+        'peserta-tour/store/*',
+        'peserta-tour/edit/*',
+        'peserta-tour/update/*',
+        'peserta-tour/destroy/*',
+        
+        // Roles
+        'roles',
+        'roles/create',
+        'roles/store',
+        'roles/edit/*',
+        'roles/update/*',
+        'roles/destroy/*',
+        
+        // User Travel
+        'user_travel',
         'user_travel/create',
-        'middleware/admin/dashboard',
-        '/peserta-tour/store',
-        '/locations',
-        'peserta_tour/create/{bus_id}',
-        '/peserta-tour/update/e61cf71c-2e97-46ad-a1db-51e7c27d6b09',
-        //
+        'user_travel/store',
+        'user_travel/edit/*',
+        'user_travel/update/*',
+        'user_travel/destroy/*',
+        'user_travel/create_tour_leader',
+        'user_travel/store_tour_leader',
+        
+        // m_bus
+        'm_bus/create',
+        'm_bus/store',
+        'm_bus',
+        'm_bus/edit/{$id}',
+        'm_bus/update/*',
+        'm_bus/destroy/*',
+        'm_bus/13',
+        
+        // Bus
+        'bus',
+        'bus/create',
+        'bus/store',
+        'bus/edit/*',
+        'bus/update/*',
+        'bus/destroy/*',
+        
+        // Login
+        '/',
+        '/login',
+        '/logout',
+        '/register',
+        
+        // Dashboard Admin & User
+        'admin/dashboard',
+        'user/dashboard',
+        
+        // Locations
+        'locations',
+        'locations/list/Bus',
+        'locations/create',
+        'locations/store',
+        
+        // Users
+        'users/create',
+        'users/store',
+        'users/list_user',
+        'users/edit/*',
+        'users/update/*',
+        'users/destroy/*',
+        
+        // User Locations
+        'user-locations/create',
+        'user-locations/store',
+        'user-locations/list_user-locations',
     ];
 }
