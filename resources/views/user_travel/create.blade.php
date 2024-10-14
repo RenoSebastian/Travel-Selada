@@ -58,7 +58,7 @@
             <label for="id_bus">Bus:</label>
             <select name="id_bus" class="form-control" required>
                 <option value="">Select Bus</option>
-                @foreach ($buses as $bus)
+                @foreach ($buses ?? [] as $bus)
                     <option value="{{ $bus->id }}" {{ old('id_bus') == $bus->id ? 'selected' : '' }}>
                         {{ $bus->name }}
                     </option>
