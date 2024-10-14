@@ -20,10 +20,16 @@ class UserTravel extends Model{
         'email',
         'phone',
         'role_id',
+        'id_bus',
     ];
 
     // Menambahkan casting untuk id agar dipastikan selalu diperlakukan sebagai UUID
     protected $casts = [
         'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
     ];
+
+    public function pesertaTours()
+    {
+        return $this->hasMany(PesertaTour::class, 'bus_location', 'id_bus');
+    }
 }

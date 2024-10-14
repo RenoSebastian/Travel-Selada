@@ -31,25 +31,28 @@ class UserTravelController extends Controller
             'phone' => 'nullable|string|max:15',
             'role_id' => 'required|integer',
             'password' => 'required|string|min:8',
+            'id_bus' => 'required|exists:buses,id', // Ensure id_bus is valid
         ]);
-    
+
         try {
-            // Buat user baru
+            // Create a new user travel record
             $userTravel = new UserTravel();
-            $userTravel->id = (string) Str::uuid(); // Menetapkan UUID sebagai ID
+            $userTravel->id = (string) Str::uuid(); // Set UUID as the ID
             $userTravel->fullname = $validatedData['fullname'];
             $userTravel->username = $validatedData['username'];
             $userTravel->email = $validatedData['email'];
             $userTravel->phone = $validatedData['phone'];
             $userTravel->role_id = $validatedData['role_id'];
             $userTravel->password = bcrypt($validatedData['password']);
+            $userTravel->id_bus = $validatedData['id_bus'];
             $userTravel->save();
-    
+
             return redirect()->route('user_travel.index')->with('success', 'User travel created successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create user travel: ' . $e->getMessage());
         }
     }
+
 
     public function edit($id)
     {
