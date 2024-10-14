@@ -48,8 +48,9 @@ class NfcController extends Controller
         $pesertaTour->status = 1;
         $currentTimestamp = Carbon::now();
         $pesertaTour->updated_at = $currentTimestamp;
+        $pesertaTour->clock_in = $currentTimestamp;
+
         $pesertaTour->save();
-    
         Absensi::create([
             'id' => Str::uuid(),
             'participant_id' => $pesertaTour->id,
