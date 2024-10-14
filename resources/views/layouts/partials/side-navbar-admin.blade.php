@@ -70,18 +70,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('user_travel.index') }}" class="btn btn-custom">Data User</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('m_bus.index') }}" class="btn btn-custom">MasterData BUS</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('bus.index') }}" class="btn btn-custom">Data Bus</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('roles.index') }}" class="btn btn-custom">MasterData User</a>
-            </li>
-            <li class="nav-item">
                     <a class="nav-link" href="#">
                         <span data-feather="user"></span> Profile
                     </a>

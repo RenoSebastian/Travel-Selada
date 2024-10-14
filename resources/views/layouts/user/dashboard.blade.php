@@ -1,8 +1,8 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard-tourlead')
 
 @section('title', 'User Dashboard')
 
 @section('content')
-    <h1>User Dashboard</h1>
-    <p>Welcome to your dashboard, where you can view your transactions and agent details.</p>
+    <h1>Tour Leader Dashboard</h1>
+    <p>selamat datang Tour leader.</p>
 @endsection

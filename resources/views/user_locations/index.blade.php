@@ -1,6 +1,6 @@
 <!-- resources/views/user_locations/index.blade.php -->
 
-@extends('layouts.dashboard')
+@extends('layouts.dashboard-admin')
 
 @section('content')
 <div class="container">

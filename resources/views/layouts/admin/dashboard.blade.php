@@ -3,8 +3,8 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the Admin dashboard, where you can manage transactions, terminals, and agents.</p>
+    <h1>Admin Tour Dashboard</h1>
+    <p>Welcome to the Admin Tour dashboard, where you can manage transactions, terminals, and agents.</p>
     <li class="nav-item">
                 <a href="{{ route('user_travel.index') }}" class="btn btn-custom">Data User</a>
             </li>
