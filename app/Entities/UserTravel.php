@@ -28,8 +28,8 @@ class UserTravel extends Model{
         'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
     ];
 
-    public function pesertaTours()
+    public function buses()
     {
-        return $this->hasMany(PesertaTour::class, 'bus_location', 'id_bus');
+        return $this->belongsTo(Bus::class, 'id_bus', 'id'); // id_bus di UserTravel mengacu pada id di Bus
     }
 }
