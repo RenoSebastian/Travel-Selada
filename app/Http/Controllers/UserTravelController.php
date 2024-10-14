@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Entities\UserTravel;
 use App\Entities\Role;
 use Illuminate\Support\Str;
+use App\Entities\Bus;
 
 class UserTravelController extends Controller
 {
