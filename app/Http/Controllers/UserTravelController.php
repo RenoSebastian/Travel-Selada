@@ -60,7 +60,8 @@ class UserTravelController extends Controller
     {
         $user = UserTravel::find($id); // Temukan pengguna berdasarkan ID
         $roles = Role::all();
-        return view('user_travel.edit', compact('user', 'roles')); // Kirim data pengguna ke view edit
+        $buses = Bus::all();
+        return view('user_travel.edit', compact('user', 'roles', 'buses')); // Kirim data pengguna ke view edit
     }
 
     public function update(Request $request, $id)
