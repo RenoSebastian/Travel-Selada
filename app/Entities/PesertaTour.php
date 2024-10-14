@@ -17,7 +17,9 @@ class PesertaTour extends Model
         'card_number',
         'bus_location',
         'status',
-        'seat',         
+        'seat',
+        'id_user',
+        'class',         
         'clock_in',     
         'clock_out'     
     ];

@@ -155,23 +155,23 @@ class LoginController extends Controller
             'fullname' => $request->fullname,
             'phone_number' => $request->phone_number,
             'card_number' => $request->card_number,
-            'bus_location' => $request->bus_location,
-            'seat' => $request->seat,
+            'id_user' => $request->id_user,
+            'class' => $request->class,
         ]);
 
         $request->validate([
             'fullname' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
             'card_number' => 'required|string|max:255',
-            'bus_location' => 'required|string|max:255',
-            'seat' => 'nullable|string|max:10',
+            'id_user' => 'required|string|max:255',
+            'class' => 'nullable|string|max:10',
         ]);
 
-        if (empty($request->bus_location)) {
-            Log::warning('Bus location is empty. Prompt user to create a bus first.');
+        if (empty($request->id_user)) {
+            Log::warning('User belum memiliki id');
             return response()->json([
                 'status' => 'error',
-                'message' => 'Bus location is required. Please create a bus first.',
+                'message' => 'User tidak memiliki id.',
             ], 400);
         }
 
@@ -190,8 +190,8 @@ class LoginController extends Controller
                 'fullname' => $request->fullname,
                 'phone_number' => $request->phone_number,
                 'card_number' => $request->card_number,
-                'bus_location' => $request->bus_location,
-                'seat' => $request->seat,
+                'id_user' => $request->id_user,
+                'class' => $request->seat,
             ]);
             
             Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
