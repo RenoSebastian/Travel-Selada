@@ -70,15 +70,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('location.index') }}" class="btn btn-custom">Input Data BUS</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('users.index') }}" class="btn btn-custom">Input Tour guide</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('user_locations.index') }}" class="btn btn-custom">Input Lokasi Tour guide</a>
-            </li>
-            <li class="nav-item">
                 <a href="{{ route('user_travel.index') }}" class="btn btn-custom">Data User</a>
             </li>
             <li class="nav-item">
@@ -90,6 +81,16 @@
             <li class="nav-item">
                 <a href="{{ route('roles.index') }}" class="btn btn-custom">MasterData User</a>
             </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="user"></span> Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}">
+                        <span data-feather="log-out"></span> Logout
+                    </a>
+                </li>
         </ul>
     </div>
 </nav>

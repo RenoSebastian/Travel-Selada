@@ -66,16 +66,7 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="user"></span> Profile
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}">
-                        <span data-feather="log-out"></span> Logout
-                    </a>
-                </li>
+                
             </ul>
         </div>
     </div>

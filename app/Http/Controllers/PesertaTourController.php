@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\PesertaTour;
 use App\Entities\Bus;
+use App\Entities\MBus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -27,47 +28,47 @@ class PesertaTourController extends Controller
     }
 
     public function store(Request $request, $busId)
-{
-    try {
-        // Log request
-        Log::info('Request data untuk store peserta tour:', $request->all());
-
-        // Validasi
-        $validatedData = $request->validate([
-            'fullname' => 'required|array',
-            'fullname.*' => 'required|string',
-            'phone_number' => 'required|array',
-            'phone_number.*' => 'required|string',
-            'seat' => 'required|array',
-            'seat.*' => 'required|string',
-            'bus_id' => 'required|exists:pgsql_mireta.bus,id', 
-        ]);
-
-        // Loop untuk menyimpan data
-        foreach ($validatedData['fullname'] as $index => $fullname) {
-            PesertaTour::create([
-                'fullname' => $fullname,
-                'phone_number' => $validatedData['phone_number'][$index],
-                'seat' => $validatedData['seat'][$index],
-                'bus_location' => $busId,
-                'status' => 0, 
+    {
+        try {
+            // Validasi input untuk satu peserta
+            $validatedData = $request->validate([
+                'fullname' => 'required|string',
+                'phone_number' => 'required|string',
+                'seat' => 'required|string',
+                'bus_id' => 'required|exists:pgsql_mireta.bus,id',
             ]);
+    
+            // Ambil bus dan tipe bus untuk mengecek kapasitas
+            $bus = Bus::findOrFail($busId);
+            $tipeBus = $bus->tipe_bus;
+    
+            // Ambil kapasitas bus dari m_bus
+            $kapasitasBus = MBus::where('id', $tipeBus)->value('kapasitas_bus');
+    
+            // Hitung jumlah peserta yang sudah terdaftar di bus ini
+            $jumlahPeserta = PesertaTour::where('bus_location', $busId)->count();
+    
+            // Cek apakah kapasitas bus sudah penuh
+            if ($jumlahPeserta >= $kapasitasBus) {
+                return redirect()->route('bus.index')->with('error', 'Bus sudah penuh, kapasitas maksimal adalah ' . $kapasitasBus . ' peserta.');
+            }
+    
+            // Simpan data peserta tour
+            PesertaTour::create([
+                'fullname' => $validatedData['fullname'],
+                'phone_number' => $validatedData['phone_number'],
+                'seat' => $validatedData['seat'],
+                'bus_location' => $busId,
+                'status' => 0, // Set default status ke 0
+            ]);
+    
+            return redirect()->route('bus.index')->with('success', 'Peserta berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            Log::error('Error menyimpan peserta:', ['error' => $e->getMessage()]);
+            return redirect()->route('bus.index')->with('error', 'Terjadi kesalahan saat menyimpan peserta.');
         }
-
-        // Cek kapasitas bus
-        $remainingCapacity = Bus::where('id', $busId)->value('capacity') - PesertaTour::where('bus_location', $busId)->count();
-
-        if ($remainingCapacity < 0) {
-            return redirect()->route('bus.index')->with('error', 'Bus penuh, sisa kapasitas: ' . abs($remainingCapacity));
-        }
-
-        return redirect()->route('bus.index')->with('success', 'Peserta berhasil ditambahkan!');
-    } catch (\Exception $e) {
-        Log::error('Error menyimpan peserta:', ['error' => $e->getMessage()]);
-        return redirect()->route('bus.index')->with('error', 'Terjadi kesalahan saat menyimpan peserta.');
     }
-}
-
+    
 
     public function edit($id)
     {
