@@ -151,7 +151,6 @@ class LoginController extends Controller
     
     public function registerApk(Request $request)
     {
-        // Logging the incoming request data
         Log::info('Incoming registration request', [
             'fullname' => $request->fullname,
             'phone_number' => $request->phone_number,
@@ -160,7 +159,6 @@ class LoginController extends Controller
             'seat' => $request->seat,
         ]);
 
-        // Validation
         $request->validate([
             'fullname' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
@@ -169,17 +167,24 @@ class LoginController extends Controller
             'seat' => 'nullable|string|max:10',
         ]);
 
-        // Check for existing participant
+        if (empty($request->bus_location)) {
+            Log::warning('Bus location is empty. Prompt user to create a bus first.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Bus location is required. Please create a bus first.',
+            ], 400);
+        }
+
         $existingPeserta = PesertaTour::where('card_number', $request->card_number)->first();
 
         if ($existingPeserta) {
             Log::warning('Card number already exists', ['card_number' => $request->card_number]);
             return response()->json([
-                'Card number already exists in the database.',
+                'status' => 'error',
+                'message' => 'Card number already exists in the database.',
             ], 409);
         }
 
-        // Create new participant
         try {
             $pesertaTour = PesertaTour::create([
                 'fullname' => $request->fullname,
@@ -204,7 +209,6 @@ class LoginController extends Controller
             ], 500);
         }
     }
-
 
 
     public function logout()
