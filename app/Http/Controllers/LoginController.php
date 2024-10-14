@@ -205,7 +205,7 @@ class LoginController extends Controller
             Log::error('Error during registration', ['error' => $e->getMessage()]);
             return response()->json([
                 'status' => 'error',
-                'message' => 'Registration failed due to a server error.',
+                'message' => 'Bus location is empty. Prompt user to create a bus firstr.',
             ], 500);
         }
     }
