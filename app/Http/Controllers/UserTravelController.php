@@ -19,7 +19,8 @@ class UserTravelController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('user_travel.create', compact( 'roles'));
+        $buses = Bus::all(); 
+        return view('user_travel.create', compact('roles', 'buses'));
     }
 
     public function store(Request $request)
@@ -31,7 +32,7 @@ class UserTravelController extends Controller
             'phone' => 'nullable|string|max:15',
             'role_id' => 'required|integer',
             'password' => 'required|string|min:8',
-            'id_bus' => 'required|exists:buses,id', // Ensure id_bus is valid
+            'id_bus' => 'required|exists:buses,id',
         ]);
 
         try {
