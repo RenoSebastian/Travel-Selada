@@ -14,27 +14,27 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         // Peserta Tour
         'peserta-tour',
-        'peserta-tour/create/*',
-        'peserta-tour/store/*',
-        'peserta-tour/edit/*',
-        'peserta-tour/update/*',
-        'peserta-tour/destroy/*',
+        'peserta-tour/create/{$id}',
+        'peserta-tour/store/{$id}',
+        'peserta-tour/edit/{$id}',
+        'peserta-tour/update/{$id}',
+        'peserta-tour/destroy/{$id}',
         
         // Roles
         'roles',
         'roles/create',
         'roles/store',
-        'roles/edit/*',
-        'roles/update/*',
-        'roles/destroy/*',
+        'roles/edit/{$id}',
+        'roles/update/{$id}',
+        'roles/destroy/{$id}',
         
         // User Travel
         'user_travel',
         'user_travel/create',
         'user_travel/store',
-        'user_travel/edit/*',
-        'user_travel/update/*',
-        'user_travel/destroy/*',
+        'user_travel/edit/{$id}',
+        'user_travel/update/{$id}',
+        'user_travel/destroy/{$id}',
         'user_travel/create_tour_leader',
         'user_travel/store_tour_leader',
         
@@ -43,17 +43,17 @@ class VerifyCsrfToken extends Middleware
         'm_bus/store',
         'm_bus',
         'm_bus/edit/{$id}',
-        'm_bus/update/*',
-        'm_bus/destroy/*',
+        'm_bus/update/{$id}',
+        'm_bus/destroy/{$id}',
         'm_bus/13',
         
         // Bus
         'bus',
         'bus/create',
         'bus/store',
-        'bus/edit/*',
-        'bus/update/*',
-        'bus/destroy/*',
+        'bus/edit/{$id}',
+        'bus/update/{$id}',
+        'bus/destroy/{$id}',
         
         // Login
         '/',
@@ -75,9 +75,9 @@ class VerifyCsrfToken extends Middleware
         'users/create',
         'users/store',
         'users/list_user',
-        'users/edit/*',
-        'users/update/*',
-        'users/destroy/*',
+        'users/edit/{$id}',
+        'users/update/{$id}',
+        'users/destroy/{$id}',
         
         // User Locations
         'user-locations/create',

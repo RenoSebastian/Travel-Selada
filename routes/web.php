@@ -22,6 +22,13 @@ use App\Http\Controllers\RoleController;
 
 use App\Http\Controllers\PesertaTourController;
 
+use App\Http\Controllers\TourLeaderController;
+
+// Route::middleware(['auth'])->group(function () {
+    Route::get('/tour_leader', [TourLeaderController::class, 'index'])->name('tour_leader.index');
+    Route::get('/tour_leader/{bus}', [TourLeaderController::class, 'show'])->name('tour_leader.show');
+// });
+
 Route::prefix('peserta-tour')->group(function () {
     Route::get('/', [PesertaTourController::class, 'index'])->name('peserta_tour.index');
     Route::get('/create/{bus_id}', [PesertaTourController::class, 'create'])->name('peserta_tour.create');
@@ -49,8 +56,6 @@ Route::prefix('user_travel')->group(function () {
     Route::put('/{id}', [UserTravelController::class, 'update'])->name('user_travel.update');
     Route::delete('/{id}', [UserTravelController::class, 'destroy'])->name('user_travel.destroy');
 });
-Route::get('/user_travel/create_tour_leader', [UserTravelController::class, 'createTourLeader'])->name('user_travel.create_tour_leader');
-Route::post('/user_travel/store_tour_leader', [UserTravelController::class, 'storeTourLeader'])->name('user_travel.store_tour_leader');
 
 // Route untuk m_bus
 Route::prefix('m_bus')->group(function () {
@@ -86,9 +91,9 @@ Route::group(['middleware' => ['check.username']], function () {
     
 });
 
-Route::get('/admin/dashboard', 'AdminDashboardController@index')->name('admin.dashboard');
+Route::get('/admin-tour/dashboard', 'AdminDashboardController@index')->name('admin.dashboard');
 
-Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+Route::get('/tourlead/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
 Route::get('/locations', [LocationController::class, 'showForm'])->name('locations.form');
 Route::post('/locations', [LocationController::class, 'getLocations'])->name('peserta.index');
