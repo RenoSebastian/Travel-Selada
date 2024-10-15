@@ -40,7 +40,7 @@ class LocationController extends Controller
                 return [
                     'fullname' => $participant->fullname,
                     'phone' => $participant->phone_number,
-                    'seat' => $participant->seat,
+                    'class' => $participant->class,
                     'status' => $participant->status,
                 ];
             });
