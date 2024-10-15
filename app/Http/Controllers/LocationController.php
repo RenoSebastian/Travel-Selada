@@ -23,42 +23,35 @@ class LocationController extends Controller
         $validatedData = $request->validate([
             'user_id' => 'required|string',
         ]);
-    
+
         $userId = $validatedData['user_id'];
-    
-        // Ambil user berdasarkan user_id
+
         $user = User::find($userId);
-    
+
         if ($user) {
-            $busId = $user->id_bus;
-    
-            // Ambil semua peserta tour yang memiliki bus_location sama dengan id_bus dari pengguna
-            $matchingParticipants = PesertaTour::where('bus_location', $busId)->get();
-    
-            // Format data ke dalam JSON
+            $matchingParticipants = PesertaTour::where('id_user', $user->id)->get();
+
             $participantsData = $matchingParticipants->map(function ($participant) {
                 return [
                     'fullname' => $participant->fullname,
                     'phone' => $participant->phone_number,
                     'seat' => $participant->seat,
-                    'status' => $participant->status,
+                    'class' => $participant->class,
                 ];
             });
-    
+
             return response()->json([
                 'user_id' => $userId,
-                'bus_id' => $busId,
                 'participants' => $participantsData,
             ]);
         }
-    
+
         return response()->json([
             'user_id' => $userId,
-            'bus_id' => null,
-            'participants' => [], // Kembalikan koleksi kosong jika pengguna tidak ditemukan
+            'participants' => [],
         ]);
     }
-    
+
 
     public function create()
     {
