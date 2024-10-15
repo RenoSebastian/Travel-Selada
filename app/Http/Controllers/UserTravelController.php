@@ -33,7 +33,7 @@ class UserTravelController extends Controller
             'phone' => 'nullable|string|max:15',
             'role_id' => 'required|integer',
             'password' => 'required|string|min:8',
-            'id_bus' => 'required|exists:buses,id',
+            'id_bus' => 'required|exists:buses,id', // Validate that id_bus exists in buses table
         ]);
 
         try {
@@ -46,7 +46,7 @@ class UserTravelController extends Controller
             $userTravel->phone = $validatedData['phone'];
             $userTravel->role_id = $validatedData['role_id'];
             $userTravel->password = bcrypt($validatedData['password']);
-            $userTravel->id_bus = $validatedData['id_bus'];
+            $userTravel->id_bus = $validatedData['id_bus']; // Store the id of the bus
             $userTravel->save();
 
             return redirect()->route('user_travel.index')->with('success', 'User travel created successfully');
@@ -54,6 +54,7 @@ class UserTravelController extends Controller
             return redirect()->back()->with('error', 'Failed to create user travel: ' . $e->getMessage());
         }
     }
+
 
 
     public function edit($id)
