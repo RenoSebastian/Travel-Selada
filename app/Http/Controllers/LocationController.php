@@ -30,7 +30,7 @@ class LocationController extends Controller
         $user = User::find($userId);
     
         if ($user) {
-            $user_id = $user->user_id;
+            $busId = $user->id_bus;
     
             // Ambil semua peserta tour yang memiliki bus_location sama dengan id_bus dari pengguna
             $matchingParticipants = PesertaTour::where('bus_location', $busId)->get();
