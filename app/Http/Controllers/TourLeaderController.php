@@ -16,7 +16,7 @@ class TourLeaderController extends Controller
         $userId = Auth::id();
 
         // Ambil user travel yang login dan id_bus yang mereka handle
-        $userTravel = UserTravel::where('id', $userId)->first();
+        $userTravel = UserTravel::find($userId);
 
         // Jika user travel tidak memiliki bus, beri notifikasi
         if (!$userTravel || !$userTravel->id_bus) {
@@ -24,7 +24,7 @@ class TourLeaderController extends Controller
         }
 
         // Cari bus yang dihandle oleh user travel
-        $bus = Bus::where('id', $userTravel->id_bus)->first();
+        $bus = Bus::find($userTravel->id_bus);
 
         // Jika tidak ada bus, beri notifikasi bahwa user belum memiliki bus
         if (!$bus) {
@@ -32,16 +32,28 @@ class TourLeaderController extends Controller
         }
 
         // Ambil daftar peserta tour berdasarkan bus_location (id bus)
-        $pesertaTours = PesertaTour::where('bus_location', $bus->id)->with('bus')->get();
+        $pesertaTours = PesertaTour::where('bus_location', $bus->id)->get();
 
-        return view('tour_leader.index', compact('bus', 'pesertaTours'));
+        // Format data peserta
+        $pesertaData = $pesertaTours->map(function ($peserta) {
+            return [
+                'fullname' => $peserta->fullname,
+                'phone' => $peserta->phone_number,
+                'class' => $peserta->class,
+                'status' => $peserta->status,
+            ];
+        });
+
+        return view('tour_leader.index', compact('bus', 'pesertaData'));
     }
 
     public function show($busId)
     {
-        // Pastikan bus yang dipilih sesuai dengan bus yang dihandle oleh user travel yang login
+        // Ambil ID user yang login (Tour Leader)
         $userId = Auth::id();
-        $userTravel = UserTravel::where('id', $userId)->first();
+
+        // Ambil user travel yang login
+        $userTravel = UserTravel::find($userId);
 
         // Verifikasi bahwa bus tersebut adalah bus yang dimiliki oleh user travel
         if ($userTravel->id_bus != $busId) {
@@ -49,11 +61,21 @@ class TourLeaderController extends Controller
         }
 
         // Ambil bus yang dipilih
-        $bus = Bus::where('id', $busId)->firstOrFail();
+        $bus = Bus::findOrFail($busId);
 
         // Ambil daftar peserta yang ada di bus tersebut
-        $pesertaTours = PesertaTour::where('bus_location', $busId)->with('bus')->get();
+        $pesertaTours = PesertaTour::where('bus_location', $busId)->get();
 
-        return view('tour_leader.show', compact('bus', 'pesertaTours'));
+        // Format data peserta
+        $pesertaData = $pesertaTours->map(function ($peserta) {
+            return [
+                'fullname' => $peserta->fullname,
+                'phone' => $peserta->phone_number,
+                'class' => $peserta->class,
+                'status' => $peserta->status,
+            ];
+        });
+
+        return view('tour_leader.show', compact('bus', 'pesertaData'));
     }
 }
