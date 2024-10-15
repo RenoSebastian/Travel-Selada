@@ -155,7 +155,7 @@ class LoginController extends Controller
             'fullname' => $request->fullname,
             'phone_number' => $request->phone_number,
             'card_number' => $request->card_number,
-            'id_user' => $request->id_user,
+            'bus_location' => $request->bus_location,
             'class' => $request->class,
             'seat' => $request->seat,
         ]);
@@ -164,13 +164,13 @@ class LoginController extends Controller
             'fullname' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
             'card_number' => 'required|string|max:255',
-            'id_user' => 'required|string|max:255',
+            'bus_location' => 'required|string|max:255',
             'class' => 'nullable|string|max:10',
             'seat' => 'nullable|string|max:10',
         ]);
 
-        if (empty($request->id_user)) {
-            Log::warning('User belum memiliki id');
+        if (empty($request->bus_location)) {
+            Log::warning('User belum memiliki bis');
             return response()->json([
                 'status' => 'error',
                 'message' => 'User tidak memiliki id.',
@@ -192,7 +192,7 @@ class LoginController extends Controller
                 'fullname' => $request->fullname,
                 'phone_number' => $request->phone_number,
                 'card_number' => $request->card_number,
-                'id_user' => $request->id_user,
+                'bus_location' => $request->bus_location,
                 'class' => $request->class,
                 'seat' => $request->seat,
             ]);
@@ -208,7 +208,7 @@ class LoginController extends Controller
             Log::error('Error during registration', ['error' => $e->getMessage()]);
             return response()->json([
                 'status' => 'error',
-                'message' => 'Bus location is empty.',
+                'message' => 'Error.',
             ], 500);
         }
     }
