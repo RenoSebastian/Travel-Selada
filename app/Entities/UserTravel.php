@@ -28,7 +28,7 @@ class UserTravel extends Model{
         'id' => 'uuid',  // Pastikan id dicasting sebagai UUID
     ];
 
-    public function buses()
+    public function bus()
     {
         return $this->belongsTo(Bus::class, 'id_bus', 'id'); // id_bus di UserTravel mengacu pada id di Bus
     }
