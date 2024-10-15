@@ -157,6 +157,7 @@ class LoginController extends Controller
             'card_number' => $request->card_number,
             'id_user' => $request->id_user,
             'class' => $request->class,
+            'seat' => $request->seat,
         ]);
 
         $request->validate([
@@ -165,6 +166,7 @@ class LoginController extends Controller
             'card_number' => 'required|string|max:255',
             'id_user' => 'required|string|max:255',
             'class' => 'nullable|string|max:10',
+            'seat' => 'nullable|string|max:10',
         ]);
 
         if (empty($request->id_user)) {
@@ -191,7 +193,8 @@ class LoginController extends Controller
                 'phone_number' => $request->phone_number,
                 'card_number' => $request->card_number,
                 'id_user' => $request->id_user,
-                'class' => $request->seat,
+                'class' => $request->class,
+                'seat' => $request->seat,
             ]);
             
             Log::info('New Peserta Tour registered:', ['id' => $pesertaTour->id]);
